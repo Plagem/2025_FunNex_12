@@ -1,84 +1,94 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
     private Vector3 startMousePos;
     private Vector3 endMousePos;
-    private Rigidbody rb;
+    private Rigidbody2D rb;
     private bool isDragging = false;
     private bool isMoving = false;
 
-    public TrajectoryLine tl;
+    private BaseStatComponent _statComponent;
 
+    public TrajectoryLine tl;
     public float forceMultiplier = 5f;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
+        _statComponent = GetComponent<BaseStatComponent>();
+        rb = GetComponent<Rigidbody2D>();
         tl = GetComponent<TrajectoryLine>();
     }
 
     void Update()
     {
-        if (isMoving) return;
+        // 이동 중일 땐 멈췄는지만 체크하고, 아래 코드는 실행 안 함
+        if (isMoving)
+        {
+            if (rb.linearVelocity.magnitude < 0.05f)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+                isMoving = false;
+            }
+            return;
+        }
 
+        // ↓ 발사 입력 처리 부분
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.z);  // Z가 깊이니까
             startMousePos = Camera.main.ScreenToWorldPoint(mouse);
+            startMousePos.z = 0f;
             isDragging = true;
         }
 
         if (isDragging)
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.z);
             Vector3 currentPoint = Camera.main.ScreenToWorldPoint(mouse);
-
-            // 라인 실시간 표시 (XY 평면)
-            currentPoint.z = 0.1f;
-            startMousePos.z = 0.1f;
+            currentPoint.z = 0f;
+            startMousePos.z = 0f;
             tl.RenderLine(startMousePos, currentPoint);
         }
 
         if (isDragging && Input.GetMouseButtonUp(0))
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.z);
             endMousePos = Camera.main.ScreenToWorldPoint(mouse);
+            endMousePos.z = 0f;
 
-            Vector3 direction = (startMousePos - endMousePos).normalized;
-            float distance = Vector3.Distance(startMousePos, endMousePos);
+            Vector2 direction = (startMousePos - endMousePos);
+            float distance = direction.magnitude;
+            direction.Normalize();
 
-            rb.linearVelocity = Vector3.zero;
-            rb.AddForce(direction * distance * forceMultiplier, ForceMode.Impulse);
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(direction * distance * forceMultiplier, ForceMode2D.Impulse);
 
-            // 회전: Z축 기준 (XY 평면에서 회전)
-            Vector3 torqueAxis = Vector3.forward;
-            rb.AddTorque(torqueAxis * distance * 100 * forceMultiplier, ForceMode.Impulse);
+            float torque = distance * 100 * forceMultiplier;
+            rb.AddTorque(torque, ForceMode2D.Impulse);
 
             tl.EndLine();
             isDragging = false;
             isMoving = true;
         }
-
-        if (isMoving && rb.linearVelocity.magnitude < 0.05f)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            isMoving = false;
-        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("플레이어와 적이 부딪혔다! (플레이어가 감지함)");
+            BaseStatComponent enemyStatComponent = collision.gameObject.GetComponent<BaseStatComponent>();
+            if (enemyStatComponent)
+            {
+                DamageEffect damageEffect = new DamageEffect();
+                damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower));
+                enemyStatComponent.ApplyEffect(damageEffect);
+                Debug.Log($"적 남은 체력: {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
+            }
         }
     }
 }

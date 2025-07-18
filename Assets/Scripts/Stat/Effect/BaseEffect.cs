@@ -28,7 +28,7 @@ public class BaseEffect : MonoBehaviour
     public string EffectName;
     public bool CanStack;
     public DurationType DurationType;
-    public List<ModifyInfo> ModifyInfos =  new List<ModifyInfo>();
+    public List<ModifyInfo> ModifyInfos;
     public BaseStatComponent _statComponent;
     public float EffectDuration;
 
