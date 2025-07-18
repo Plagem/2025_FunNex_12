@@ -29,6 +29,17 @@ public class BaseStatComponent : MonoBehaviour
     {
         return _attributes[statType].CurrentValue;
     }
+    
+    public float GetBaseValue(StatType statType)
+    {
+        return _attributes[statType].BaseValue;
+    }
+
+    public void BestowAugment(AugmentType augmentType)
+    {
+        BaseEffect augment = EffectFactory.CreateEffect(augmentType, this);
+        ApplyEffect(augment);
+    }
 
     public void InitializeStatComponent(StatDataSO statData)
     {

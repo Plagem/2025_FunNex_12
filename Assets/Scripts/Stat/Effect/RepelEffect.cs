@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class RepelEffect : BaseEffect
@@ -7,7 +6,7 @@ public class RepelEffect : BaseEffect
     private float _repelRange;
     private int _repelLevel;
     
-    public void Initialize(float damage, float repelRange, int repelLevel = 1)
+    public RepelEffect(float damage, float repelRange, int repelLevel = 1)
     {
         EffectName = "Repel Effect";
         CanStack = false;
@@ -48,11 +47,9 @@ public class RepelEffect : BaseEffect
             if (enemyStatComponent)
             {
                 DamageEffect damageEffect = new DamageEffect();
-                damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower));
+                damageEffect.Initialize(_repelDamage);
                 enemyStatComponent.ApplyEffect(damageEffect);
             }
         }
-
-        Debug.Log($"[RepelEffect] {_repelRange} 범위 내 적 밀침 + {_repelDamage} 데미지 적용 + 적의 수 : {hitColliders.Length}");
     }
 }

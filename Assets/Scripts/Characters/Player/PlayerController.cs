@@ -35,9 +35,7 @@ public class PlayerController : MonoBehaviour
         tl = GetComponent<TrajectoryLine>();
         
         //test
-        KaisaQPassive kqp = new KaisaQPassive();
-        kqp.Initialize(this);
-        _statComponent.ApplyEffect(kqp);
+        _statComponent.BestowAugment(AugmentType.Trigger_KaisaQ);
     }
 
     void Update()

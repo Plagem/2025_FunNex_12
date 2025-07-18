@@ -3,17 +3,13 @@ using UnityEngine;
 
 public class KaisaQPassive : BasePassive
 {
-    private PlayerController _playerController;
-
-    public void Initialize(PlayerController Instigator)
+    public KaisaQPassive(BaseStatComponent statComponent)
     {
-        ModifyInfos = new List<ModifyInfo>();
-
         EffectName = "KaisaQPassive";
         DurationType = DurationType.Infinite;
         CanStack = true;
 
-        _playerController = Instigator;
+        _playerController = statComponent.GetComponent<PlayerController>();
         _playerController.OnAttackStarted += OnAttackStarted;
     }
 

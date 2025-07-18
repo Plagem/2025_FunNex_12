@@ -1,31 +1,21 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class RepelPassive : BasePassive
 {
-    private PlayerController _playerController;
-    
-    public void Initialize(PlayerController Instigator)
+    public RepelPassive(BaseStatComponent statComponent)
     {
-        ModifyInfos = new List<ModifyInfo>();
-        
         EffectName = "RepelPassive";
         DurationType = DurationType.Infinite;
-        CanStack = false;
+        CanStack = true;
 
-        _playerController = Instigator;
+        _playerController = statComponent.GetComponent<PlayerController>();
         _playerController.OnComboTriggered += OnFirstCombo;
     }
 
     private void OnFirstCombo(int combo)
     {
-        Debug.Log($"Combo : {combo}");
         if (combo == 1)
         {
-            RepelEffect repelEffect = new RepelEffect();
-            repelEffect.Initialize(_playerController.GetStatComponent().GetCurrentValue(StatType.AttackPower), 3f, SkillLevel);
-            _playerController.GetStatComponent().ApplyEffect(repelEffect);
+            RepelEffect repelEffect = new RepelEffect(_playerController.GetStatComponent().GetCurrentValue(StatType.AttackPower), 3f, SkillLevel);
+            _statComponent.ApplyEffect(repelEffect);
         }
     }
 }
