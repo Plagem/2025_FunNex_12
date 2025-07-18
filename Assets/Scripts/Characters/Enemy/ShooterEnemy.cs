@@ -10,7 +10,8 @@ public class EnemyShooter : EnemyBase
     public float recoilForce = 2f;
 
     [Header("Movement Settings")]
-    public float moveSpeed = 0.7f;
+    public float moveForce = 5f;
+    public float maxSpeed = 1.2f;
 
     private Animator animator;
     private float timer = 0f;
@@ -35,16 +36,18 @@ public class EnemyShooter : EnemyBase
             StartCoroutine(ShootSequence());
             timer = 0f;
         }
+    }
 
-        if (!isShooting)
-        {
-            Walk();
-        }
-        else
+    private void FixedUpdate()
+    {
+        if (isDead || isShooting)
         {
             rb.linearVelocity = Vector2.zero;
             SetWalking(false);
+            return;
         }
+
+        Walk();
     }
 
     void Walk()
@@ -54,7 +57,9 @@ public class EnemyShooter : EnemyBase
         FaceTarget();
 
         Vector2 direction = (target.position - transform.position).normalized;
-        rb.linearVelocity = direction * moveSpeed;
+
+        // 힘을 통해 이동
+        rb.AddForce(direction * moveForce, ForceMode2D.Force);
 
         SetWalking(true);
     }
@@ -63,10 +68,9 @@ public class EnemyShooter : EnemyBase
     {
         isShooting = true;
         rb.linearVelocity = Vector2.zero;
+        SetWalking(false);
 
-        SetWalking(false); // 애니메이션 파라미터 false로 설정
-
-        yield return new WaitForSeconds(1.0f); // 발사 전 딜레이
+        yield return new WaitForSeconds(1.0f);
 
         if (target == null)
         {
@@ -79,8 +83,8 @@ public class EnemyShooter : EnemyBase
 
         if (animator && !animator.GetCurrentAnimatorStateInfo(0).IsName("OctoShoot"))
         {
-            animator.ResetTrigger("ShootTrigger");  // 중복 방지
-            animator.SetTrigger("ShootTrigger");    // Shoot 애니메이션 단발 트리거
+            animator.ResetTrigger("ShootTrigger");
+            animator.SetTrigger("ShootTrigger");
         }
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
@@ -90,10 +94,9 @@ public class EnemyShooter : EnemyBase
 
         yield return new WaitForSeconds(1.0f);
 
-        SetWalking(true);  // Walk로 전환 조건 설정
         isShooting = false;
+        SetWalking(true);
     }
-
 
     void SetWalking(bool value)
     {
