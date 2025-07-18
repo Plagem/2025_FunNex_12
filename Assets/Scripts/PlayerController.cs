@@ -1,19 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
     private Vector3 startMousePos;
     private Vector3 endMousePos;
-    private Rigidbody rb;
+    private Rigidbody2D rb;
     private bool isDragging = false;
     private bool isMoving = false;
 
     private BaseStatComponent _statComponent;
-    
-    public TrajectoryLine tl;
 
+    public TrajectoryLine tl;
     public float forceMultiplier = 5f;
 
     public BaseStatComponent GetStatComponent()
@@ -24,80 +23,77 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _statComponent = GetComponent<BaseStatComponent>();
-        
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
-
+        rb = GetComponent<Rigidbody2D>();
         tl = GetComponent<TrajectoryLine>();
     }
 
     void Update()
     {
-        if (isMoving) return;
+        // ÀÌµ¿ ÁßÀÏ ¶© ¸ØÃè´ÂÁö¸¸ Ã¼Å©ÇÏ°í, ¾Æ·¡ ÄÚµå´Â ½ÇÇà ¾È ÇÔ
+        if (isMoving)
+        {
+            if (rb.linearVelocity.magnitude < 0.05f)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+                isMoving = false;
+            }
+            return;
+        }
 
+        // ¡é ¹ß»ç ÀÔ·Â Ã³¸® ºÎºĞ
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.y);  // Yï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Ï±ï¿½
             startMousePos = Camera.main.ScreenToWorldPoint(mouse);
+            startMousePos.z = 0f;
             isDragging = true;
         }
 
         if (isDragging)
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.y);
             Vector3 currentPoint = Camera.main.ScreenToWorldPoint(mouse);
-
-            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ç½Ã°ï¿½ Ç¥ï¿½ï¿½ (XZ ï¿½ï¿½ï¿½)
-            currentPoint.y = 0.1f;
-            startMousePos.y = 0.1f;
+            currentPoint.z = 0f;
+            startMousePos.z = 0f;
             tl.RenderLine(startMousePos, currentPoint);
         }
 
         if (isDragging && Input.GetMouseButtonUp(0))
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.y);
             endMousePos = Camera.main.ScreenToWorldPoint(mouse);
+            endMousePos.z = 0f;
 
-            Vector3 direction = (startMousePos - endMousePos).normalized;
-            float distance = Vector3.Distance(startMousePos, endMousePos);
+            Vector2 direction = (startMousePos - endMousePos);
+            float distance = direction.magnitude;
+            direction.Normalize();
 
-            rb.linearVelocity = Vector3.zero;
-            rb.AddForce(direction * distance * forceMultiplier, ForceMode.Impulse);
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(direction * distance * forceMultiplier, ForceMode2D.Impulse);
 
-            Vector3 torqueAxis = Vector3.forward;
-            rb.AddTorque(torqueAxis * distance * 100 * forceMultiplier, ForceMode.Impulse);
+            float torque = distance * 100 * forceMultiplier;
+            rb.AddTorque(torque, ForceMode2D.Impulse);
 
             tl.EndLine();
             isDragging = false;
             isMoving = true;
         }
-
-
-        if (isMoving && rb.linearVelocity.magnitude < 0.05f)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            isMoving = false;
-        }
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            Debug.Log("ÇÃ·¹ÀÌ¾î¿Í ÀûÀÌ ºÎµúÇû´Ù! (ÇÃ·¹ÀÌ¾î°¡ °¨ÁöÇÔ)");
             BaseStatComponent enemyStatComponent = collision.gameObject.GetComponent<BaseStatComponent>();
             if (enemyStatComponent)
             {
                 DamageEffect damageEffect = new DamageEffect();
                 damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower));
                 enemyStatComponent.ApplyEffect(damageEffect);
-                Debug.Log($"í”Œë ˆì´ì–´ì™€ ì ì´ ë¶€ë”ªí˜”ë‹¤! ì  ì²´ë ¥ : {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
+                Debug.Log($"Àû ³²Àº Ã¼·Â: {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
             }
         }
     }
-
 }
