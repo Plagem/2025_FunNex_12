@@ -17,7 +17,7 @@ public class UI_PrintStat : MonoBehaviour
 
         foreach (var attribute in _StatComponent.GetAttributes())
         {
-            sb.AppendLine($"{attribute.Key} : {attribute.Value:0.0}");
+            sb.AppendLine($"{attribute.Key} : {attribute.Value.CurrentValue:0.0}");
         }
 
         _statText.text = sb.ToString();

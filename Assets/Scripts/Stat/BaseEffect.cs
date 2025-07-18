@@ -1,14 +1,42 @@
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum DurationType
+{
+    Instance,
+    Duration,
+    Infinite,
+}
+
+public enum ModifyType
+{
+    Add,
+    Multiply,
+    Override,
+}
+
+public class ModifyInfo
+{
+    public StatType TargetStat;
+    public ModifyType ModifyType;
+    public float Magnitude;
+}
 
 public class BaseEffect : MonoBehaviour
 {
-    private string _effectName;
+    public string EffectName;
+    public bool CanStack;
+    public DurationType DurationType;
+    public List<ModifyInfo> ModifyInfos;
+    
     private int _stack;
-    private bool _canStack;
+    
+    private BaseStatComponent _statComponent;
+
 
     public string GetName()
     {
-        return _effectName;
+        return EffectName;
     }
 
     public void EffectUpdate()
