@@ -14,15 +14,30 @@ public abstract class EnemyBase : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    protected void FaceTarget()
+    {
+        if (target == null) return;
+
+        Vector2 direction = (target.position - transform.position).normalized;
+
+        if (direction.sqrMagnitude < 0.0001f) return;
+
+        transform.right = direction;
+    }
+
+
     protected virtual void Update()
     {
         if (isDead) return;
+
+        FaceTarget();
 
         if (stat.GetCurrentValue(StatType.CurrentHealth) <= 0)
         {
             Die();
         }
     }
+
 
     protected virtual void Die()
     {
