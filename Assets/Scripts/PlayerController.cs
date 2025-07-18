@@ -52,4 +52,13 @@ public class PlayerController : MonoBehaviour
             isMoving = false;
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("플레이어와 적이 부딪혔다! (플레이어가 감지함)");
+        }
+    }
+
 }
