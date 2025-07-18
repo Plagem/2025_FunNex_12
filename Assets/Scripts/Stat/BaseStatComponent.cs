@@ -100,6 +100,11 @@ public class BaseStatComponent : MonoBehaviour
         OnAttributeChanged?.Invoke(statType, _attributes[statType]);
     }
 
+    public float GetFinalDamage()
+    {
+        return GetCurrentValue(StatType.AttackPower);
+    }
+    
     private void Update()
     {
         foreach (var effect in _activeEffects)
