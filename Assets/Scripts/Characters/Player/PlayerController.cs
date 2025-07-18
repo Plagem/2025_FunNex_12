@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public event Action OnPlayerStopped;
     public event Action<int> OnComboTriggered;
     public event Action OnAttackStarted;
+    public Action OnMonsterEliminated;
     
     private Vector3 startMousePos;
     private Vector3 endMousePos;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// ÀûÀ» Ã³Ä¡ÇÏ¸é ÈúÀÌ µÈ´Ù
+// ì ì„ ì²˜ì¹˜í•˜ë©´ íì´ ëœë‹¤
 public class HealPassive : BasePassive
 {
     private float HealMagnitude = 10f;
@@ -12,6 +12,7 @@ public class HealPassive : BasePassive
         CanStack = true;
 
         _playerController = statComponent.GetComponent<PlayerController>();
+        _playerController.OnMonsterEliminated += OnMonsterEliminated;
     }
 
     private void OnMonsterEliminated()

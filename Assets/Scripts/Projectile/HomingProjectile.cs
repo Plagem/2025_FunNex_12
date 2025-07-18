@@ -43,7 +43,7 @@ public class HomingProjectile : MonoBehaviour
         {
             Vector2 directionToTarget = ((Vector2)_target.position - (Vector2)transform.position).normalized;
 
-            // ÇöÀç ¹æÇâ¿¡¼­ Å¸°Ù ¹æÇâÀ¸·Î Á¡ÁøÀû È¸Àü
+            // í˜„ì¬ ë°©í–¥ì—ì„œ íƒ€ê²Ÿ ë°©í–¥ìœ¼ë¡œ ì ì§„ì  íšŒì „
             float angle = Vector3.SignedAngle(transform.right, directionToTarget, Vector3.forward);
             float maxRotation = RotateSpeed * Time.deltaTime;
             float clampedAngle = Mathf.Clamp(angle, -maxRotation, maxRotation);
@@ -55,7 +55,7 @@ public class HomingProjectile : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // ÀÌµ¿ (Ç×»ó Àü¹æÀ¸·Î)
+        // ì´ë™ (í•­ìƒ ì „ë°©ìœ¼ë¡œ)
         transform.position += transform.right * currentSpeed * Time.deltaTime;
     }
 

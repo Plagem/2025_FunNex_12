@@ -7,7 +7,7 @@ public abstract class EnemyBase : MonoBehaviour
     public Transform target;
 
     protected Rigidbody2D rb;
-    protected bool isDead = false; // »ç¸Á »óÅÂ È®ÀÎ¿ë
+    protected bool isDead = false; // ì‚¬ë§ ìƒíƒœ í™•ì¸ìš©
 
     protected virtual void Start()
     {
@@ -43,18 +43,22 @@ public abstract class EnemyBase : MonoBehaviour
     {
         isDead = true;
 
-        // ÀÌµ¿ Á¤Áö
+        // ì´ë™ ì •ì§€
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0f;
-            rb.bodyType = RigidbodyType2D.Kinematic; // ¹°¸® ¹İÀÀ ²ô±â
+            rb.bodyType = RigidbodyType2D.Kinematic; // ë¬¼ë¦¬ ë°˜ì‘ ë„ê¸°
         }
 
-        // Ä«¸Ş¶ó ¿¬Ãâ
+        // ì¹´ë©”ë¼ ì—°ì¶œ
         Camera.main.GetComponent<CameraManager>().FocusOnEnemy(transform);
 
-        // Àá½Ã ÈÄ Á¦°Å
+        // ì“°ë ˆê¸°ì½”ë“œ íˆ¬í•˜ ìš°í•˜í•˜ ã…‹ã…‹
+        PlayerController pc = FindAnyObjectByType<PlayerController>();
+        pc.OnMonsterEliminated?.Invoke();
+        
+        // ì ì‹œ í›„ ì œê±°
         Destroy(gameObject, 0.3f);
     }
 }
