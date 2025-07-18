@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public event Action OnPlayerStopped;
+    public event Action<int> OnComboTriggered;
+    public event Action OnAttackStarted;
     
     private Vector3 startMousePos;
     private Vector3 endMousePos;
@@ -14,6 +16,9 @@ public class PlayerController : MonoBehaviour
     private bool isMoving = false;
 
     private BaseStatComponent _statComponent;
+    
+    // Event 전송용 변수
+    private int _attackCombo = 0;
 
     public TrajectoryLine tl;
     public float forceMultiplier = 5f;
@@ -28,6 +33,11 @@ public class PlayerController : MonoBehaviour
         _statComponent = GetComponent<BaseStatComponent>();
         rb = GetComponent<Rigidbody2D>();
         tl = GetComponent<TrajectoryLine>();
+        
+        //test
+        KaisaQPassive kqp = new KaisaQPassive();
+        kqp.Initialize(this);
+        _statComponent.ApplyEffect(kqp);
     }
 
     void Update()
@@ -41,6 +51,7 @@ public class PlayerController : MonoBehaviour
                 rb.angularVelocity = 0f;
                 isMoving = false;
                 OnPlayerStopped?.Invoke();
+                _attackCombo = 0;
             }
             return;
         }
@@ -82,6 +93,8 @@ public class PlayerController : MonoBehaviour
             tl.EndLine();
             isDragging = false;
             isMoving = true;
+            
+            OnAttackStarted?.Invoke();
         }
     }
 
@@ -101,15 +114,18 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            Debug.Log("플레이어와 적이 부딪혔다! (플레이어가 감지함)");
+            // Apply Damage
             BaseStatComponent enemyStatComponent = collision.gameObject.GetComponent<BaseStatComponent>();
             if (enemyStatComponent)
             {
                 DamageEffect damageEffect = new DamageEffect();
                 damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower) * 5);
                 enemyStatComponent.ApplyEffect(damageEffect);
-                Debug.Log($"적 남은 체력: {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
             }
+            
+            // Combo Delegate
+            _attackCombo++;
+            OnComboTriggered?.Invoke(_attackCombo);
         }
     }
 

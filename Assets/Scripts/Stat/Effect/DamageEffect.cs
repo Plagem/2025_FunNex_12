@@ -18,18 +18,4 @@ public class DamageEffect : BaseEffect
         };
         ModifyInfos.Add(tempModify);
     }
-
-    public override void OnEffectApplied()
-    {
-        base.OnEffectApplied();
-        
-        Debug.Log("Damage Applied");
-    }
-
-    public override void OnEffectRemoved()
-    {
-        base.OnEffectRemoved();
-        
-        
-    }
 }

@@ -5,8 +5,9 @@ public class RepelEffect : BaseEffect
 {
     private float _repelDamage;
     private float _repelRange;
-  
-    public void Initialize(float damage, float repelRange)
+    private int _repelLevel;
+    
+    public void Initialize(float damage, float repelRange, int repelLevel = 1)
     {
         EffectName = "Repel Effect";
         CanStack = false;
@@ -14,6 +15,7 @@ public class RepelEffect : BaseEffect
         
         _repelDamage = damage;
         _repelRange = repelRange;
+        _repelLevel = repelLevel;
     }
 
     public override void OnEffectApplied()
@@ -34,7 +36,7 @@ public class RepelEffect : BaseEffect
             float distance = Vector2.Distance(origin.position, enemyTransform.position);
             float distanceFactor = 1f - Mathf.Clamp01(distance / _repelRange); // 1 (가까움) ~ 0 (가장자리)
 
-            float repelForce = distanceFactor * 10f; // 힘 조절
+            float repelForce = distanceFactor * _repelLevel * 20f; // 힘 조절
 
             Rigidbody2D rb = collider.attachedRigidbody;
             if (rb != null)

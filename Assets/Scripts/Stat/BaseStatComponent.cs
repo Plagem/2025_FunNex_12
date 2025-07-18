@@ -20,17 +20,6 @@ public class BaseStatComponent : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        //Test
-        if (this.GetComponent<PlayerController>())
-        {
-            RepelPassive repelPassive = new RepelPassive();
-            repelPassive.Initialize(this.GetComponent<PlayerController>());
-            ApplyEffect(repelPassive);
-        }
-    }
-
     public Dictionary<StatType, AttributeData> GetAttributes()
     {
         return _attributes;

@@ -25,6 +25,7 @@ public class ModifyInfo
 
 public class BaseEffect
 {
+    public int SkillLevel = 1;
     public string EffectName;
     public bool CanStack;
     public DurationType DurationType;

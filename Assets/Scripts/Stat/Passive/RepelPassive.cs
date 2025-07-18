@@ -15,15 +15,17 @@ public class RepelPassive : BasePassive
         CanStack = false;
 
         _playerController = Instigator;
-        _playerController.OnPlayerStopped += OnPlayerStopped;
+        _playerController.OnComboTriggered += OnFirstCombo;
     }
 
-    private void OnPlayerStopped()
+    private void OnFirstCombo(int combo)
     {
-        Debug.Log("OnPlayerStopped");
-        RepelEffect repelEffect = new RepelEffect();
-        repelEffect.Initialize(_playerController.GetStatComponent().GetCurrentValue(StatType.AttackPower), 3f);
-        _playerController.GetStatComponent().ApplyEffect(repelEffect);
+        Debug.Log($"Combo : {combo}");
+        if (combo == 1)
+        {
+            RepelEffect repelEffect = new RepelEffect();
+            repelEffect.Initialize(_playerController.GetStatComponent().GetCurrentValue(StatType.AttackPower), 3f, SkillLevel);
+            _playerController.GetStatComponent().ApplyEffect(repelEffect);
+        }
     }
-
 }
