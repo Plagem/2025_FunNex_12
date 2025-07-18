@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-
         tl = GetComponent<TrajectoryLine>();
     }
 
@@ -29,7 +28,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.y);  // Y∞° ≥Ù¿Ã¥œ±Ó
+            mouse.z = Mathf.Abs(Camera.main.transform.position.z);  // Z∞° ±Ì¿Ã¥œ±Ó
             startMousePos = Camera.main.ScreenToWorldPoint(mouse);
             isDragging = true;
         }
@@ -37,19 +36,19 @@ public class PlayerController : MonoBehaviour
         if (isDragging)
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.y);
+            mouse.z = Mathf.Abs(Camera.main.transform.position.z);
             Vector3 currentPoint = Camera.main.ScreenToWorldPoint(mouse);
 
-            // ∂Û¿Œ Ω«Ω√∞£ «•Ω√ (XZ ∆Ú∏È)
-            currentPoint.y = 0.1f;
-            startMousePos.y = 0.1f;
+            // ∂Û¿Œ Ω«Ω√∞£ «•Ω√ (XY ∆Ú∏È)
+            currentPoint.z = 0.1f;
+            startMousePos.z = 0.1f;
             tl.RenderLine(startMousePos, currentPoint);
         }
 
         if (isDragging && Input.GetMouseButtonUp(0))
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.y);
+            mouse.z = Mathf.Abs(Camera.main.transform.position.z);
             endMousePos = Camera.main.ScreenToWorldPoint(mouse);
 
             Vector3 direction = (startMousePos - endMousePos).normalized;
@@ -58,6 +57,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.AddForce(direction * distance * forceMultiplier, ForceMode.Impulse);
 
+            // »∏¿¸: Z√‡ ±‚¡ÿ (XY ∆Ú∏Èø°º≠ »∏¿¸)
             Vector3 torqueAxis = Vector3.forward;
             rb.AddTorque(torqueAxis * distance * 100 * forceMultiplier, ForceMode.Impulse);
 
@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
             isDragging = false;
             isMoving = true;
         }
-
 
         if (isMoving && rb.linearVelocity.magnitude < 0.05f)
         {
@@ -75,13 +74,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("?åÎ†à?¥Ïñ¥?Ä ?ÅÏù¥ Î∂Ä?™Ìòî?? (?åÎ†à?¥Ïñ¥Í∞Ä Í∞êÏ???");
+            Debug.Log("«√∑π¿ÃæÓøÕ ¿˚¿Ã ∫Œµ˙«˚¥Ÿ! («√∑π¿ÃæÓ∞° ∞®¡ˆ«‘)");
         }
     }
-
 }
