@@ -22,9 +22,13 @@ public class BaseStatComponent : MonoBehaviour
 
     private void Start()
     {
-        DamageEffect damageEffect = new DamageEffect();
-        damageEffect.Initialize(10f);
-        ApplyEffect(damageEffect);
+        //Test
+        if (this.GetComponent<PlayerController>())
+        {
+            RepelPassive repelPassive = new RepelPassive();
+            repelPassive.Initialize(this.GetComponent<PlayerController>());
+            ApplyEffect(repelPassive);
+        }
     }
 
     public Dictionary<StatType, AttributeData> GetAttributes()
@@ -118,6 +122,8 @@ public class BaseStatComponent : MonoBehaviour
     // Effect
     public void ApplyEffect(BaseEffect effect)
     {
+        Debug.Log($"이펙트 {effect.GetName()} 추가");
+        
         _activeEffects.Add(effect);
         
         effect._statComponent = this;
@@ -125,26 +131,28 @@ public class BaseStatComponent : MonoBehaviour
         
         if (effect.DurationType == DurationType.Instance)
         {
-            foreach(var modifyInfo in effect.ModifyInfos)
+            if (effect.ModifyInfos != null)
             {
-                switch (modifyInfo.ModifyType)
+                foreach(var modifyInfo in effect.ModifyInfos)
                 {
-                    case ModifyType.Add:
-                        _attributes[modifyInfo.TargetStat].AddValue += modifyInfo.Magnitude;
-                        break;
-                    case ModifyType.Multiply:
-                        _attributes[modifyInfo.TargetStat].MulValue += modifyInfo.Magnitude - 1;
-                        break;
-                    case ModifyType.Override:
-                        _attributes[modifyInfo.TargetStat].bOverride = true;
-                        _attributes[modifyInfo.TargetStat].OverrideValue += modifyInfo.Magnitude;
-                        break;
+                    switch (modifyInfo.ModifyType)
+                    {
+                        case ModifyType.Add:
+                            _attributes[modifyInfo.TargetStat].AddValue += modifyInfo.Magnitude;
+                            break;
+                        case ModifyType.Multiply:
+                            _attributes[modifyInfo.TargetStat].MulValue += modifyInfo.Magnitude - 1;
+                            break;
+                        case ModifyType.Override:
+                            _attributes[modifyInfo.TargetStat].bOverride = true;
+                            _attributes[modifyInfo.TargetStat].OverrideValue += modifyInfo.Magnitude;
+                            break;
+                    }
+                    UpdateFinalAttributeValue(modifyInfo.TargetStat);
                 }
-                UpdateFinalAttributeValue(modifyInfo.TargetStat);
             }
+            RemoveEffect(effect);
         }
-        
-        Debug.Log($"이펙트 {effect.GetName()} 추가");
     }
 
     public void RemoveEffect(BaseEffect effect)

@@ -1,9 +1,13 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+    // Events
+    public event Action OnPlayerStopped;
+    
     private Vector3 startMousePos;
     private Vector3 endMousePos;
     private Rigidbody2D rb;
@@ -37,6 +41,7 @@ public class PlayerController : MonoBehaviour
                 rb.linearVelocity = Vector2.zero;
                 rb.angularVelocity = 0f;
                 isMoving = false;
+                OnPlayerStopped?.Invoke();
             }
             return;
         }

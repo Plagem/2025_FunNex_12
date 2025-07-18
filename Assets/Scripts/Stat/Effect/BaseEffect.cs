@@ -23,7 +23,7 @@ public class ModifyInfo
     public float Magnitude;
 }
 
-public class BaseEffect : MonoBehaviour
+public class BaseEffect
 {
     public string EffectName;
     public bool CanStack;

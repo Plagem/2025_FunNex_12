@@ -3,15 +3,12 @@ using UnityEngine;
 
 public class DamageEffect : BaseEffect
 {
-    void Start()
+    public void Initialize(float Damage)
     {
         EffectName = "Damage Effect";
         CanStack = false;
         DurationType = DurationType.Instance;
-    }
-
-    public void Initialize(float Damage)
-    {
+        
         ModifyInfos = new List<ModifyInfo>();
         ModifyInfo tempModify = new ModifyInfo
         {
