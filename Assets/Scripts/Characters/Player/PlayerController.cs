@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    // Events
     public event Action OnPlayerStopped;
     
     private Vector3 startMousePos;
@@ -88,17 +87,30 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") && isMoving)
         {
+            float speed = rb.linearVelocity.magnitude;
+            Debug.Log($"충돌 시 속도: {speed}");
+
+            if (speed >= 5f) // 예시 기준 속도
+            {
+                CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
+                if (cameraShake != null)
+                {
+                    cameraShake.Shake();
+                }
+            }
+
             Debug.Log("플레이어와 적이 부딪혔다! (플레이어가 감지함)");
             BaseStatComponent enemyStatComponent = collision.gameObject.GetComponent<BaseStatComponent>();
             if (enemyStatComponent)
             {
                 DamageEffect damageEffect = new DamageEffect();
-                damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower));
+                damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower) * 5);
                 enemyStatComponent.ApplyEffect(damageEffect);
                 Debug.Log($"적 남은 체력: {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
             }
         }
     }
+
 }

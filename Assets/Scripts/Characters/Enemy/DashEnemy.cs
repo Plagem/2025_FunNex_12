@@ -1,25 +1,19 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class DashEnemy : MonoBehaviour
+public class DashEnemy : EnemyBase
 {
-    public Transform target;              
-    public float dashForce = 10f;         
-    public float dashInterval = 3f;       
-    public float dashDuration = 0.2f;     
+    public float dashForce = 10f;
+    public float dashInterval = 3f;
+    public float dashDuration = 0.2f;
 
-    private Rigidbody2D rb;
     private float timer = 0f;
     private bool isDashing = false;
     private Vector2 dashDirection;
 
-    void Start()
+    protected override void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
+        base.Update();
 
-    void Update()
-    {
         timer += Time.deltaTime;
 
         if (!isDashing && timer >= dashInterval)
