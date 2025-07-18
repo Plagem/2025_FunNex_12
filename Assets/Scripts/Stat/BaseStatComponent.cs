@@ -6,9 +6,23 @@ public class BaseStatComponent : MonoBehaviour
 {
     public event Action<eStatType, float> OnAttributeChanged;
     
-    [SerializeField]
     private Dictionary<eStatType, float> _attributes;
     private List<BaseEffect> _activeEffects;
+
+    public StatDataSO InitialData;
+
+    private void Awake()
+    {
+        if (InitialData)
+        {
+            InitializeStatComponent(InitialData);
+        }
+    }
+
+    public Dictionary<eStatType, float> GetAttributes()
+    {
+        return _attributes;
+    }
 
     public void InitializeStatComponent(StatDataSO statData)
     {
@@ -25,6 +39,8 @@ public class BaseStatComponent : MonoBehaviour
             _attributes[stat.eStatType] = stat.value;
             OnAttributeChanged?.Invoke(stat.eStatType, stat.value);
         }
+
+        Debug.Log("LL");
     }
 
     public void UpdateFinalAttributeValue(eStatType statType)

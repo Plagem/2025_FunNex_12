@@ -18,7 +18,7 @@ public class StatModifier
     public eStatType eStatType;
     public float value;
 }
-
+[CreateAssetMenu(fileName = "New StatData", menuName = "Stats/StatData")]
 public class StatDataSO : ScriptableObject
 {
     public List<StatModifier> stats = new List<StatModifier>();
