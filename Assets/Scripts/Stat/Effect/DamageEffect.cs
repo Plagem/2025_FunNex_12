@@ -12,6 +12,7 @@ public class DamageEffect : BaseEffect
 
     public void Initialize(float Damage)
     {
+        ModifyInfos = new List<ModifyInfo>();
         ModifyInfo tempModify = new ModifyInfo
         {
             ModifyType = ModifyType.Add,

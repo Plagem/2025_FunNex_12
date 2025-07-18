@@ -32,6 +32,11 @@ public class BaseStatComponent : MonoBehaviour
         return _attributes;
     }
 
+    public float GetCurrentValue(StatType statType)
+    {
+        return _attributes[statType].CurrentValue;
+    }
+
     public void InitializeStatComponent(StatDataSO statData)
     {
         if (statData == null)

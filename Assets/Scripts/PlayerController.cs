@@ -10,12 +10,16 @@ public class PlayerController : MonoBehaviour
     private bool isDragging = false;
     private bool isMoving = false;
 
+    private BaseStatComponent _statComponent;
+    
     public TrajectoryLine tl;
 
     public float forceMultiplier = 5f;
 
     void Start()
     {
+        _statComponent = GetComponent<BaseStatComponent>();
+        
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
 
@@ -29,7 +33,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouse = Input.mousePosition;
-            mouse.z = Mathf.Abs(Camera.main.transform.position.y);  // Y°¡ ³ôÀÌ´Ï±î
+            mouse.z = Mathf.Abs(Camera.main.transform.position.y);  // Yï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Ï±ï¿½
             startMousePos = Camera.main.ScreenToWorldPoint(mouse);
             isDragging = true;
         }
@@ -40,7 +44,7 @@ public class PlayerController : MonoBehaviour
             mouse.z = Mathf.Abs(Camera.main.transform.position.y);
             Vector3 currentPoint = Camera.main.ScreenToWorldPoint(mouse);
 
-            // ¶óÀÎ ½Ç½Ã°£ Ç¥½Ã (XZ Æò¸é)
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ç½Ã°ï¿½ Ç¥ï¿½ï¿½ (XZ ï¿½ï¿½ï¿½)
             currentPoint.y = 0.1f;
             startMousePos.y = 0.1f;
             tl.RenderLine(startMousePos, currentPoint);
@@ -58,8 +62,8 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.AddForce(direction * distance * forceMultiplier, ForceMode.Impulse);
 
-            // È¸Àü Ãß°¡ (XZ Æò¸é ±âÁØ, YÃàÀ¸·Î È¸Àü)
-            Vector3 torqueAxis = Vector3.Cross(direction, Vector3.up);  // YÃà ±âÁØ È¸Àü
+            // È¸ï¿½ï¿½ ï¿½ß°ï¿½ (XZ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, Yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½)
+            Vector3 torqueAxis = Vector3.Cross(direction, Vector3.up);  // Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
             rb.AddTorque(torqueAxis * distance * forceMultiplier, ForceMode.Impulse);
 
             tl.EndLine();
@@ -81,7 +85,14 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("í”Œë ˆì´ì–´ì™€ ì ì´ ë¶€ë”ªí˜”ë‹¤! (í”Œë ˆì´ì–´ê°€ ê°ì§€í•¨)");
+            BaseStatComponent enemyStatComponent = collision.gameObject.GetComponent<BaseStatComponent>();
+            if (enemyStatComponent)
+            {
+                DamageEffect damageEffect = new DamageEffect();
+                damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower));
+                enemyStatComponent.ApplyEffect(damageEffect);
+                Debug.Log($"í”Œë ˆì´ì–´ì™€ ì ì´ ë¶€ë”ªí˜”ë‹¤! ì  ì²´ë ¥ : {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
+            }
         }
     }
 
