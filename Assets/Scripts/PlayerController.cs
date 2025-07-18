@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    private Vector2 startMousePos;
-    private Vector2 endMousePos;
-    private Rigidbody2D rb;
+    private Vector3 startMousePos;
+    private Vector3 endMousePos;
+    private Rigidbody rb;
     private bool isDragging = false;
     private bool isMoving = false;
 
@@ -13,40 +13,42 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
     }
 
     void Update()
     {
         if (isMoving) return;
 
-        // 마우스 누름 시작
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            startMousePos = new Vector2(mouseWorld.x, mouseWorld.y);
+            Vector3 mouse = Input.mousePosition;
+            mouse.z = Mathf.Abs(Camera.main.transform.position.z);
+            startMousePos = Camera.main.ScreenToWorldPoint(mouse);
             isDragging = true;
         }
 
-        // 마우스 뗌
         if (isDragging && Input.GetMouseButtonUp(0))
         {
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            endMousePos = new Vector2(mouseWorld.x, mouseWorld.y);
+            Vector3 mouse = Input.mousePosition;
+            mouse.z = Mathf.Abs(Camera.main.transform.position.z);
+            endMousePos = Camera.main.ScreenToWorldPoint(mouse);
 
-            Vector2 direction = (startMousePos - endMousePos).normalized;
-            float power = Vector2.Distance(startMousePos, endMousePos) * forceMultiplier;
+            Vector3 direction = (startMousePos - endMousePos).normalized;
+            float distance = Vector3.Distance(startMousePos, endMousePos);
 
-            rb.AddForce(direction * power, ForceMode2D.Impulse);
+            rb.linearVelocity = Vector3.zero;
+            rb.AddForce(direction * distance * forceMultiplier, ForceMode.Impulse);
+
             isDragging = false;
             isMoving = true;
         }
 
-        // 움직임 멈췄는지 확인
-        if (isMoving && rb.velocity.magnitude < 0.05f)
+        if (isMoving && rb.linearVelocity.magnitude < 0.05f)
         {
-            rb.velocity = Vector2.zero;
-            rb.angularVelocity = 0f;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
             isMoving = false;
         }
     }
