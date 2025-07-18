@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 
     private BaseStatComponent _statComponent;
     
-    // Event Àü¼Û¿ë º¯¼ö
+    // Event ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½
     private int _attackCombo = 0;
 
     public TrajectoryLine tl;
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // ÀÌµ¿ ÁßÀÏ ¶© ¸ØÃè´ÂÁö¸¸ Ã¼Å©ÇÏ°í, ¾Æ·¡ ÄÚµå´Â ½ÇÇà ¾È ÇÔ
+        // ì´ë™ ì¤‘ì¼ ë• ë©ˆì·„ëŠ”ì§€ë§Œ ì²´í¬í•˜ê³ , ì•„ë˜ ì½”ë“œëŠ” ì‹¤í–‰ ì•ˆ í•¨
         if (isMoving)
         {
             if (rb.linearVelocity.magnitude < 0.05f)
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // ¡é ¹ß»ç ÀÔ·Â Ã³¸® ºÎºĞ
+        // â†“ ë°œì‚¬ ì…ë ¥ ì²˜ë¦¬ ë¶€ë¶„
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouse = Input.mousePosition;
@@ -103,9 +103,9 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") && isMoving)
         {
             float speed = rb.linearVelocity.magnitude;
-            Debug.Log($"Ãæµ¹ ½Ã ¼Óµµ: {speed}");
+            Debug.Log($"ì¶©ëŒ ì‹œ ì†ë„: {speed}");
 
-            if (speed >= 5f) // ¿¹½Ã ±âÁØ ¼Óµµ
+            if (speed >= 15f) // ì˜ˆì‹œ ê¸°ì¤€ ì†ë„
             {
                 CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
                 if (cameraShake != null)
@@ -115,12 +115,14 @@ public class PlayerController : MonoBehaviour
             }
 
             // Apply Damage
+            Debug.Log("í”Œë ˆì´ì–´ì™€ ì ì´ ë¶€ë”ªí˜”ë‹¤! (í”Œë ˆì´ì–´ê°€ ê°ì§€í•¨)");
             BaseStatComponent enemyStatComponent = collision.gameObject.GetComponent<BaseStatComponent>();
             if (enemyStatComponent)
             {
                 DamageEffect damageEffect = new DamageEffect();
                 damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower) * 5);
                 enemyStatComponent.ApplyEffect(damageEffect);
+                Debug.Log($"ì  ë‚¨ì€ ì²´ë ¥: {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
             }
             
             // Combo Delegate
