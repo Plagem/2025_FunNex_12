@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isMoving) return;
 
-        // ¸¶¿ì½º ´©¸§ ½ÃÀÛ
+        // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
             isDragging = true;
         }
 
-        // ¸¶¿ì½º ¶À
+        // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½
         if (isDragging && Input.GetMouseButtonUp(0))
         {
             Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -42,10 +42,10 @@ public class PlayerController : MonoBehaviour
             isMoving = true;
         }
 
-        // ¿òÁ÷ÀÓ ¸ØÃè´ÂÁö È®ÀÎ
-        if (isMoving && rb.velocity.magnitude < 0.05f)
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+        if (isMoving && rb.linearVelocity.magnitude < 0.05f)
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0f;
             isMoving = false;
         }
