@@ -36,10 +36,6 @@ public class BaseEffect : MonoBehaviour
     
     private int _stack;
 
-    private void Awake()
-    {
-    }
-
     public string GetName()
     {
         return EffectName;
@@ -50,6 +46,14 @@ public class BaseEffect : MonoBehaviour
         if (DurationType == DurationType.Duration || DurationType == DurationType.Infinite)
         {
             _effectTimePassed += Time.deltaTime;
+        }
+
+        if (DurationType == DurationType.Duration)
+        {
+            if (_effectTimePassed > EffectDuration)
+            {
+                _statComponent.RemoveEffect(this);
+            }
         }
     }
 
