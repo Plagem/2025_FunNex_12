@@ -58,9 +58,8 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.AddForce(direction * distance * forceMultiplier, ForceMode.Impulse);
 
-            // È¸Àü Ãß°¡ (XZ Æò¸é ±âÁØ, YÃàÀ¸·Î È¸Àü)
-            Vector3 torqueAxis = Vector3.Cross(direction, Vector3.up);  // YÃà ±âÁØ È¸Àü
-            rb.AddTorque(torqueAxis * distance * forceMultiplier, ForceMode.Impulse);
+            Vector3 torqueAxis = Vector3.forward;
+            rb.AddTorque(torqueAxis * distance * 100 * forceMultiplier, ForceMode.Impulse);
 
             tl.EndLine();
             isDragging = false;
@@ -81,7 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("í”Œë ˆì´ì–´ì™€ ì ì´ ë¶€ë”ªí˜”ë‹¤! (í”Œë ˆì´ì–´ê°€ ê°ì§€í•¨)");
+            Debug.Log("?Œë ˆ?´ì–´?€ ?ì´ ë¶€?ªí˜”?? (?Œë ˆ?´ì–´ê°€ ê°ì???");
         }
     }
 
