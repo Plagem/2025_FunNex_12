@@ -62,9 +62,8 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.AddForce(direction * distance * forceMultiplier, ForceMode.Impulse);
 
-            // ȸ�� �߰� (XZ ��� ����, Y������ ȸ��)
-            Vector3 torqueAxis = Vector3.Cross(direction, Vector3.up);  // Y�� ���� ȸ��
-            rb.AddTorque(torqueAxis * distance * forceMultiplier, ForceMode.Impulse);
+            Vector3 torqueAxis = Vector3.forward;
+            rb.AddTorque(torqueAxis * distance * 100 * forceMultiplier, ForceMode.Impulse);
 
             tl.EndLine();
             isDragging = false;
