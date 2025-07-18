@@ -16,7 +16,7 @@ public class EnemyBullet : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
+        transform.Translate(moveDirection * speed * Time.deltaTime);
     }
 
     public void SetDirection(Vector2 dir)
