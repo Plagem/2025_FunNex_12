@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Enemy.cs" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Stat/Passive/StatPassive.cs" charset="UTF-8" />
     <file url="PROJECT" charset="x-windows-949" />
   </component>
 </project>
