@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     public TrajectoryLine tl;
     public float forceMultiplier = 5f;
 
+    public BaseStatComponent GetStatComponent()
+    {
+        return _statComponent;
+    }
+    
     void Start()
     {
         _statComponent = GetComponent<BaseStatComponent>();
