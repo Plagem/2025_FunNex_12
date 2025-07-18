@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î¿Í ÀûÀÌ ºÎµúÇû´Ù! (ÇÃ·¹ÀÌ¾î°¡ °¨ÁöÇÔ)");
+            Debug.Log("í”Œë ˆì´ì–´ì™€ ì ì´ ë¶€ë”ªí˜”ë‹¤! (í”Œë ˆì´ì–´ê°€ ê°ì§€í•¨)");
         }
     }
 

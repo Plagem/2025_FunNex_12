@@ -20,6 +20,13 @@ public class BaseStatComponent : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        DamageEffect damageEffect = new DamageEffect();
+        damageEffect.Initialize(10f);
+        ApplyEffect(damageEffect);
+    }
+
     public Dictionary<StatType, AttributeData> GetAttributes()
     {
         return _attributes;
@@ -40,7 +47,6 @@ public class BaseStatComponent : MonoBehaviour
             _attributes[stat.eStatType] = new AttributeData();
             _attributes[stat.eStatType].BaseValue = stat.value;
             UpdateFinalAttributeValue(stat.eStatType);
-            OnAttributeChanged?.Invoke(stat.eStatType, _attributes[stat.eStatType]);
         }
     }
 
@@ -78,7 +84,9 @@ public class BaseStatComponent : MonoBehaviour
         tempAttributeData.BaseValue = _attributes[statType].BaseValue;
         tempAttributeData.AddValue += _attributes[statType].AddValue;
         tempAttributeData.MulValue += _attributes[statType].MulValue - 1;
-
+        // TODO
+        // Override 관련 문제있어요~
+        
         if (tempAttributeData.bOverride)
         {
             tempAttributeData.CurrentValue = tempAttributeData.OverrideValue;
@@ -89,11 +97,9 @@ public class BaseStatComponent : MonoBehaviour
                 tempAttributeData.BaseValue * tempAttributeData.MulValue + tempAttributeData.AddValue;
         }
         
-        Debug.Log($"{statType} base : {tempAttributeData.BaseValue}");
-        Debug.Log($"{statType} mul : {tempAttributeData.MulValue}");
-        Debug.Log($"{statType} override : {tempAttributeData.bOverride}");
-        Debug.Log($"{statType} curValue Set to {tempAttributeData.CurrentValue}");
         _attributes[statType] = tempAttributeData;
+        
+        OnAttributeChanged?.Invoke(statType, _attributes[statType]);
     }
 
     private void Update()
@@ -108,7 +114,31 @@ public class BaseStatComponent : MonoBehaviour
     public void ApplyEffect(BaseEffect effect)
     {
         _activeEffects.Add(effect);
+        
+        effect._statComponent = this;
         effect.OnEffectApplied();
+        
+        if (effect.DurationType == DurationType.Instance)
+        {
+            foreach(var modifyInfo in effect.ModifyInfos)
+            {
+                switch (modifyInfo.ModifyType)
+                {
+                    case ModifyType.Add:
+                        _attributes[modifyInfo.TargetStat].AddValue += modifyInfo.Magnitude;
+                        break;
+                    case ModifyType.Multiply:
+                        _attributes[modifyInfo.TargetStat].MulValue += modifyInfo.Magnitude - 1;
+                        break;
+                    case ModifyType.Override:
+                        _attributes[modifyInfo.TargetStat].bOverride = true;
+                        _attributes[modifyInfo.TargetStat].OverrideValue += modifyInfo.Magnitude;
+                        break;
+                }
+                UpdateFinalAttributeValue(modifyInfo.TargetStat);
+            }
+        }
+        
         Debug.Log($"이펙트 {effect.GetName()} 추가");
     }
 
