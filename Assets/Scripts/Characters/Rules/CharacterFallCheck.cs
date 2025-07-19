@@ -39,6 +39,7 @@ public class CharacterFallCheck : MonoBehaviour
         if (hit == null)
         {
             hasFallen = true;
+            SoundManager.Instance.Play(Define.SFX.Fall);
             StartCoroutine(FallRoutine());
         }
     }

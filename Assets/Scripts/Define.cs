@@ -16,6 +16,7 @@ public class Define
     public enum SFX
     {
         Dash,
+        Fall,
         Boss_Aqua,
         Big_Fire,
         Oct_Fire,
