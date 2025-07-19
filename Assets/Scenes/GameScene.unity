@@ -670,11 +670,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6674179542919843551, guid: 043df508cb6fd8f41b36e71ac631da98, type: 3}
       propertyPath: shakeDuration
-      value: 0.6
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6674179542919843551, guid: 043df508cb6fd8f41b36e71ac631da98, type: 3}
       propertyPath: shakeMagnitude
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 8052859819711038626, guid: 043df508cb6fd8f41b36e71ac631da98, type: 3}
       propertyPath: m_ClearFlags
