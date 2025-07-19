@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class CharacterFallCheck : MonoBehaviour
 {
@@ -51,7 +52,7 @@ public class CharacterFallCheck : MonoBehaviour
                     statComponent.ApplyDamage(currentHP * 0.5f);
                 }
 
-                Invoke(nameof(ResetFallState), 1.0f);
+                ResetFallState();
             }
             else
             {
@@ -63,6 +64,13 @@ public class CharacterFallCheck : MonoBehaviour
 
     private void ResetFallState()
     {
+        StartCoroutine(ResetFallNextFrame());
+    }
+
+    private IEnumerator ResetFallNextFrame()
+    {
+        yield return null; // 1프레임 대기
+
         hasFallen = false;
     }
 
