@@ -226,5 +226,20 @@ public class BaseStatComponent : MonoBehaviour
                 gm?.OnPlayerDied();
             }
         }
+
+        if (CompareTag("Boss"))
+        {
+            if (statType == StatType.CurrentHealth)
+            {
+                float current = GetCurrentValue(StatType.CurrentHealth);
+                float max = GetCurrentValue(StatType.MaxHealth);
+
+                KillerWhaleBoss boss = GetComponent<KillerWhaleBoss>();
+                if (boss != null)
+                {
+                    boss.CheckPhaseTransition(current, max);
+                }
+            }
+        }
     }
 }
