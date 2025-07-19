@@ -6,6 +6,7 @@ public class DamageTextManager : MonoBehaviour
 {
     private static DamageTextManager _instance = null;
     public static DamageTextManager Instance { get { Init(); return _instance; } }
+    DamageTextManager() { }
 
     static void Init()
     {
@@ -20,6 +21,8 @@ public class DamageTextManager : MonoBehaviour
             }
         }
     }
+
+    private readonly string _damageTextPath = "Prefabs/DamageText";
     
     private void Awake()
     {
@@ -35,12 +38,22 @@ public class DamageTextManager : MonoBehaviour
     }
     
 
-    public GameObject DamageTextPrefab;
+    private GameObject _damageTextPrefab;
+
+    private void LoadDamageTextPrefab()
+    {
+        _damageTextPrefab = Resources.Load<GameObject>(_damageTextPath);
+    }
     
     public void CreateDamageText(Vector3 hitPoint, float Damage)
     {
+        if (_damageTextPrefab == null)
+        {
+            LoadDamageTextPrefab();   
+        }
+        
         Canvas canvas = FindAnyObjectByType<Canvas>();
-        GameObject damageText = Instantiate(DamageTextPrefab, hitPoint, Quaternion.identity, canvas.transform);
+        GameObject damageText = Instantiate(_damageTextPrefab, hitPoint, Quaternion.identity, canvas.transform);
         damageText.GetComponent<DamageText>().Init($"{(int)Damage}");
     }
 }
