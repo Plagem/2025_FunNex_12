@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
 
     private void InitializeStages()
     {
+        /*
         // Stage 0
         StageData stage0 = new StageData
         {
@@ -392,7 +393,7 @@ public class GameManager : MonoBehaviour
                 new MonsterPlacement {position = new Vector2Int(6, -1), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
             }
         };
-        stages.Add(stage4);
+        stages.Add(stage4);*/
 
         StageData finalStage = new StageData()
         {

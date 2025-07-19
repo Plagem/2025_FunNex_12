@@ -236,6 +236,7 @@ public class KillerWhaleBoss : EnemyBase
 
     private IEnumerator Pattern3()
     {
+        Show();
         Debug.Log("Phase 3 발동");
         isShooting = true;
 
