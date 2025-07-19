@@ -535,7 +535,7 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 4.675792e+25
+      e00: 4.676102e+25
       e01: 0
       e02: 4.6758807e+25
       e03: 2.439459e-19
@@ -545,15 +545,15 @@ Tilemap:
       e13: 5.47e-43
       e20: 1.0426603e-15
       e21: 0
-      e22: -9.992552e+9
-      e23: -6.297909e-19
+      e22: -9.146843e+9
+      e23: -6.327241e-19
       e30: 4.5914e-41
       e31: 0
       e32: 5.5e-43
       e33: 5.47e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 6.4591e-41, g: 6.4591e-41, b: 6.4591e-41, a: 6.4591e-41}
+    m_Data: {r: 8.4353e-41, g: 8.4353e-41, b: 8.4353e-41, a: 8.4353e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
