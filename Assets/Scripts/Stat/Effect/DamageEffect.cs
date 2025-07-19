@@ -27,7 +27,7 @@ public class DamageEffect : BaseEffect
     {
         base.OnEffectApplied();
         
-        DamageTextManager.Instance.CreateDamageText(_statComponent.transform.position, _damage);
+        DamageTextManager.Instance.CreateDamageText(_statComponent.transform, _damage);
         
     }
 }

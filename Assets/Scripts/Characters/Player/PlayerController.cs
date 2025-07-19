@@ -142,6 +142,8 @@ public class PlayerController : MonoBehaviour
 
                 enemyStatComponent.ApplyEffect(damageEffect);
                 Debug.Log($"적 남은 체력: {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
+                
+                DamageTextManager.Instance.SpawnStarEffects(collision.contacts[0].point);
             }
             
             // Combo Delegate

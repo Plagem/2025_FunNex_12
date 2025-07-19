@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
                 gm.AddComponent<GameManager>();
                 DontDestroyOnLoad(gm);
             }
+            _instance = gm.GetComponent<GameManager>();
         }
     }
 
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TileBase[] TileList;
 
-    [SerializeField] private Canvas MainCanvas;
+    [SerializeField] public Canvas MainCanvas;
     
     private AugmentSelectUI _augmentSelectUI = null;
     private List<StageData> stages = new List<StageData>();
@@ -145,9 +146,7 @@ public class GameManager : MonoBehaviour
 
 
     public void StartStage(int stageIndex)
-    {
-        Debug.Log("Kexi");
-        
+    {   
         if (!_augmentSelectUI)
         {
             _augmentSelectUI = Instantiate(AugmentSelectUIPrefab, MainCanvas.transform).GetComponent<AugmentSelectUI>();
