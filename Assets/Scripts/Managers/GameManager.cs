@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
+
 public class GameManager : MonoBehaviour
 {
     static GameManager _instance = null;
@@ -32,13 +33,7 @@ public class GameManager : MonoBehaviour
         Boss // 범고래
     }
     [SerializeField] private GameObject[] monsterPrefabList;
-    enum tileType
-    {
-        MapGrid, // 기본 얼음 타일
-        IceWall, // 얼음벽
-        IceWall_High // 얼음벽 높은 버전
 
-    }
     [SerializeField] private TileBase[] TileList;
 
 
@@ -73,8 +68,8 @@ public class GameManager : MonoBehaviour
         {
             tilesToPlace = new TilePlacement[]
             {
-            new TilePlacement { position = new Vector2Int(0, 0), tile = TileList[(int)tileType.MapGrid] },
-            new TilePlacement { position = new Vector2Int(1, 1), tile = TileList[(int)tileType.MapGrid] }
+            new TilePlacement { position = new Vector2Int(0, 0), tileType = TileType.Bumper },
+            new TilePlacement { position = new Vector2Int(1, 1), tileType = TileType.IceWall }
             },
             tilesToClear = new Vector2Int[]
             {
@@ -94,9 +89,9 @@ public class GameManager : MonoBehaviour
         {
             tilesToPlace = new TilePlacement[]
             {
-            new TilePlacement { position = new Vector2Int(2, 0), tile = TileList[(int)tileType.MapGrid] },
-            new TilePlacement { position = new Vector2Int(2, 1), tile = TileList[(int)tileType.MapGrid] },
-            new TilePlacement { position = new Vector2Int(2, 2), tile = TileList[(int)tileType.MapGrid] }
+            new TilePlacement { position = new Vector2Int(2, 0), tileType = TileType.IceFloor },
+            new TilePlacement { position = new Vector2Int(2, 1), tileType = TileType.IceFloor},
+            new TilePlacement { position = new Vector2Int(2, 2), tileType = TileType.IceFloor}
             },
             tilesToClear = new Vector2Int[]
             {
@@ -115,8 +110,8 @@ public class GameManager : MonoBehaviour
         {
             tilesToPlace = new TilePlacement[]
             {
-            new TilePlacement { position = new Vector2Int(3, 0), tile = TileList[(int)tileType.MapGrid]},
-            new TilePlacement { position = new Vector2Int(4, 0), tile = TileList[(int)tileType.MapGrid] }
+            new TilePlacement { position = new Vector2Int(3, 0), tileType = TileType.IceFloor},
+            new TilePlacement { position = new Vector2Int(4, 0), tileType = TileType.IceFloor}
             },
             tilesToClear = new Vector2Int[]
             {
@@ -156,7 +151,7 @@ public class GameManager : MonoBehaviour
         // 타일 생성
         foreach (var placement in stage.tilesToPlace)
         {
-            tilemapManager.SetTileAt(placement.position.x, placement.position.y, placement.tile);
+            tilemapManager.SetTileAt(placement.position.x, placement.position.y, TileList[(int)placement.tileType], placement.tileType);
         }
 
         // 몬스터 생성
