@@ -44,8 +44,17 @@ public class CharacterFallCheck : MonoBehaviour
             {
                 Debug.Log("플레이어 낙사 → 위치 초기화 + 체력 절반 깎기");
 
+                // 위치 초기화
                 parentTransform.position = new Vector3(0, 0, -1f);
 
+                // 속도 초기화
+                Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector2.zero;
+                }
+
+                // 체력 절반 감소
                 if (statComponent != null)
                 {
                     float currentHP = statComponent.GetCurrentValue(StatType.CurrentHealth);
@@ -54,6 +63,7 @@ public class CharacterFallCheck : MonoBehaviour
 
                 ResetFallState();
             }
+
             else
             {
                 Debug.Log($"{obj.name} 낙사 → 파괴");

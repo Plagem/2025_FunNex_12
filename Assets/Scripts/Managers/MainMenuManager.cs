@@ -5,7 +5,6 @@ public class MainMenuManager : MonoBehaviour
 {
     public void StartGame()
     {
-        // 예: "GameScene"으로 전환
         SceneManager.LoadScene("GameScene");
     }
 
@@ -15,7 +14,7 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();
 
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false; // 에디터에서 실행 중이면 중지
+        UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
 }

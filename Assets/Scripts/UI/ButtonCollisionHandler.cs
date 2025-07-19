@@ -1,9 +1,26 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class ButtonCollisionHandler : MonoBehaviour
 {
-    private bool isTriggered = false; // 중복 방지
+    [SerializeField] private Sprite defaultSprite;
+    [SerializeField] private Sprite pressedSprite;
+
+    private bool isTriggered = false;
+    private Image buttonImage;
+
+    private void Start()
+    {
+        buttonImage = GetComponent<Image>();
+        if (buttonImage == null)
+        {
+            Debug.LogError("Image 컴포넌트를 찾을 수 없습니다.");
+        }
+
+        if (defaultSprite != null)
+            buttonImage.sprite = defaultSprite;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -12,6 +29,10 @@ public class ButtonCollisionHandler : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             isTriggered = true;
+
+            if (pressedSprite != null)
+                buttonImage.sprite = pressedSprite;
+
             if (gameObject.CompareTag("StartBtn"))
             {
                 StartCoroutine(TriggerStart());
