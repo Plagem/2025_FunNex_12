@@ -10,15 +10,24 @@ public class BossHealthBar : MonoBehaviour
     [SerializeField] private TMP_Text _healthText;
     [SerializeField] private Slider _healthBar;
 
-    private void Start()
+    private void OnEnable()
     {
-        GameObject Boss = GameObject.Find("KillerWhaleBoss");
-        if (Boss)
-        {
-            //_statComponent = Boss.GetComponent<BaseStatComponent>();
-            _healthText.SetText($"{_statComponent.GetCurrentValue(StatType.CurrentHealth)} / {_statComponent.GetCurrentValue(StatType.MaxHealth)}");
-            _statComponent.OnAttributeChanged += OnAttributeChanged;
-        }
+        Debug.LogWarning("보스 시작");
+        // 0.5초 뒤에 InitBoss 메서드 실행
+        Invoke(nameof(InitBoss), 0.5f);
+    }
+
+    private void InitBoss()
+    {
+        Debug.LogWarning("체력바 확인");
+
+        GameObject boss = GameObject.Find("KillerWhaleBoss");
+        if (boss == null) return;
+
+        _statComponent = boss.GetComponent<BaseStatComponent>();
+        _healthText.SetText($"{_statComponent.GetCurrentValue(StatType.CurrentHealth)} / " +
+                            $"{_statComponent.GetCurrentValue(StatType.MaxHealth)}");
+        _statComponent.OnAttributeChanged += OnAttributeChanged;
     }
     
     private void OnAttributeChanged(StatType statType, AttributeData attributeData)

@@ -459,9 +459,21 @@ public class GameManager : MonoBehaviour
         foreach (var placement in placements)
         {
             Vector3 worldPos = new Vector3((placement.position.x + 0.5f)*2.3717f, (placement.position.y + 0.5f)*2.3574f, -1f);
-            Debug.Log($"Spawning monster: {placement.monster.name} at {worldPos}");
-            Instantiate(placement.monster, worldPos, Quaternion.identity);
+            GameObject monster = Instantiate(placement.monster, worldPos, Quaternion.identity);
+            if (monster.CompareTag("Boss"))
+            {
+                StartBossCombat(monster);
+            }
         }
+    }
+
+    public BossHealthBar BossHealthBar;
+    
+    private void StartBossCombat(GameObject boss)
+    {
+        BossHealthBar.enabled = true;
+        
+        Debug.Log("가보자잇");
     }
 
     public void OnPlayerStageWin()
