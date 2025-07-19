@@ -62,7 +62,7 @@ MonoBehaviour:
   phase2: 0
   phase3: 0
   wavePrefab: {fileID: 879978666952521392, guid: ce62732d5ab4b5a4faeb0347f14c9afd, type: 3}
-  waveSpeed: 6
+  waveSpeed: 8
   urchinPrefab: {fileID: 3585996397089391815, guid: b9f823f05e14ce647b2daf1ed1680807, type: 3}
   urchinSpawnDelay: 0.5
 --- !u!114 &4610456678095549281
@@ -206,7 +206,7 @@ Animator:
   m_GameObject: {fileID: 8187992221515712992}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ff7165269e27a2349b90bd4b63bd16f2, type: 2}
+  m_Controller: {fileID: 9100000, guid: fc706cd929065f740bd11b97653d8bf6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

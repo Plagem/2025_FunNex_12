@@ -71,8 +71,23 @@ public abstract class EnemyBase : MonoBehaviour
             rb.bodyType = RigidbodyType2D.Kinematic;
         }
 
-        // 카메라 연출 후 파괴
-        StartCoroutine(DieRoutine());
+        // 남은 EnemyBase가 자기 자신뿐이라면 연출하고 죽기
+        EnemyBase[] enemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
+
+        if (enemies.Length == 1)
+        {
+            StartCoroutine(DieRoutine()); // 연출
+        }
+        else
+        {
+            // 그냥 즉시 제거
+            GetComponent<Collider2D>().enabled = false;
+
+            PlayerController pc = FindAnyObjectByType<PlayerController>();
+            pc.OnMonsterEliminated?.Invoke();
+
+            Destroy(gameObject);
+        }
     }
 
     private IEnumerator DieRoutine()
