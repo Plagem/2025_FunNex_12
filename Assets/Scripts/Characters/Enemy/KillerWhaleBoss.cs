@@ -106,6 +106,12 @@ public class KillerWhaleBoss : EnemyBase
         }
     }
 
+    private void PlayAnim(string animName)
+    {
+        if (animator != null)
+            animator.Play(animName);
+    }
+
 
     private IEnumerator Pattern1()
     {
@@ -131,14 +137,19 @@ public class KillerWhaleBoss : EnemyBase
         }
 
         transform.position = new Vector3(0f, 13.5f, -1f);
+        PlayAnim("Rise");
+        yield return new WaitForSeconds(0.5f);
         Show();
 
+        PlayAnim("Spit");
         for (float angle = 180f; angle <= 360f; angle += localAngleInterval)
         {
             ShootAtAngle(angle);
             yield return new WaitForSeconds(localShootInterval);
         }
 
+        PlayAnim("Dive");
+        yield return new WaitForSeconds(0.5f);
         Hide();
         isShooting = false;
     }
@@ -174,6 +185,12 @@ public class KillerWhaleBoss : EnemyBase
             Vector3 spawnPos = new Vector3(randomX, 15.5f, -1f);
             transform.position = spawnPos;
 
+            PlayAnim("Rise");
+            yield return new WaitForSeconds(0.5f);
+            Show();
+
+            PlayAnim("Idle");
+
             GameObject wave = Instantiate(wavePrefab, spawnPos, Quaternion.identity);
 
             Rigidbody2D rb = wave.GetComponent<Rigidbody2D>();
@@ -187,6 +204,10 @@ public class KillerWhaleBoss : EnemyBase
         }
 
         yield return new WaitForSeconds(1f); // 마지막 웨이브 보여줄 시간
+
+        PlayAnim("Dive");
+        yield return new WaitForSeconds(0.5f);
+        Hide();
 
         Hide();
         isShooting = false;
@@ -216,7 +237,6 @@ public class KillerWhaleBoss : EnemyBase
     private IEnumerator Pattern3()
     {
         Debug.Log("Phase 3 발동");
-
         isShooting = true;
 
         float waitBetweenCharges = 2f;
@@ -238,13 +258,16 @@ public class KillerWhaleBoss : EnemyBase
             {
                 Vector2 dir = (target.position - transform.position).normalized;
 
-                // Rigidbody를 이용한 돌진
+                // 돌진 시작
+                PlayAnim("Spit");
                 rb.linearVelocity = dir * dashForce;
 
                 yield return new WaitForSeconds(dashDuration);
 
-                // 돌진 멈춤
                 rb.linearVelocity = Vector2.zero;
+
+                // 대기
+                PlayAnim("Idle");
             }
 
             isCharging = false;
@@ -254,6 +277,7 @@ public class KillerWhaleBoss : EnemyBase
         yield return new WaitForSeconds(5f);
         isShooting = false;
     }
+
 
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -293,17 +317,26 @@ public class KillerWhaleBoss : EnemyBase
     private IEnumerator Pattern4()
     {
         isShooting = true;
+
+        PlayAnim("Rise");
+        yield return new WaitForSeconds(0.5f);
         Show();
 
+        PlayAnim("Spit");
         for (float angle = 0; angle < 360f; angle += angleInterval / 2f)
         {
             ShootAtAngle(angle);
         }
+
         yield return new WaitForSeconds(shootInterval * 2f);
 
+        PlayAnim("Dive");
+        yield return new WaitForSeconds(0.5f);
         Hide();
+
         isShooting = false;
     }
+
 
     private void Show()
     {

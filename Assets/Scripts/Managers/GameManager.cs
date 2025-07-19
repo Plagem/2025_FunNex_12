@@ -496,6 +496,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("축하합니다! 게임을 클리어했습니다.");
         successImg.SetActive(true);
+        exitBtn.SetActive(true);
         Time.timeScale = 0f;  // 시간 멈춤
     }
 
