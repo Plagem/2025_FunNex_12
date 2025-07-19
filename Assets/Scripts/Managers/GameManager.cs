@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
+    
     static GameManager _instance = null;
     public static GameManager instance { get { Init();  return _instance; } } 
     GameManager() {}
@@ -38,7 +39,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TileBase[] TileList;
 
-
+    [SerializeField] private Canvas MainCanvas;
+    
     private AugmentSelectUI _augmentSelectUI = null;
     private List<StageData> stages = new List<StageData>();
     private int currentStageIndex = 0;
@@ -148,8 +150,7 @@ public class GameManager : MonoBehaviour
         
         if (!_augmentSelectUI)
         {
-            Canvas canvas = FindAnyObjectByType<Canvas>();
-            _augmentSelectUI = Instantiate(AugmentSelectUIPrefab, canvas.transform).GetComponent<AugmentSelectUI>();
+            _augmentSelectUI = Instantiate(AugmentSelectUIPrefab, MainCanvas.transform).GetComponent<AugmentSelectUI>();
         }
         _augmentSelectUI.ShowOption();
         
