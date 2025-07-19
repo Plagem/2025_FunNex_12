@@ -109,6 +109,10 @@ public class BaseStatComponent : MonoBehaviour
         {
             tempAttributeData.CurrentValue =
                 tempAttributeData.BaseValue * tempAttributeData.MulValue + tempAttributeData.AddValue;
+            if (statType == StatType.CurrentHealth)
+            {
+                tempAttributeData.CurrentValue = Mathf.Clamp(tempAttributeData.CurrentValue,0f, GetCurrentValue(StatType.MaxHealth));
+            }
         }
         
         _attributes[statType] = tempAttributeData;
