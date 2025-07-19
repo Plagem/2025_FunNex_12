@@ -74,5 +74,6 @@ public abstract class EnemyBase : MonoBehaviour
         
         // 잠시 후 제거
         Destroy(gameObject, 0.3f);
+        GetComponent<Collider2D>().enabled = false;
     }
 }

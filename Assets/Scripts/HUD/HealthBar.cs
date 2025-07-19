@@ -16,6 +16,7 @@ public class HealthBar : MonoBehaviour
     private void Start()
     {
         _statComponent.OnAttributeChanged += OnAttributeChanged;
+        _healthText.SetText($"{_statComponent.GetCurrentValue(StatType.CurrentHealth)}");
     }
 
     private void LateUpdate()
@@ -32,8 +33,6 @@ public class HealthBar : MonoBehaviour
                                   _statComponent.GetCurrentValue(StatType.MaxHealth);
             _healthText.SetText($"{_statComponent.GetCurrentValue(StatType.CurrentHealth)}");
             _healthBar.value = HealthPercent;
-            
-            Debug.Log("DLKHJFIOEU");
         }
     }
 }

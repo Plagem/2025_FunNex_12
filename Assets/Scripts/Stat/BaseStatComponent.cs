@@ -115,6 +115,14 @@ public class BaseStatComponent : MonoBehaviour
     {
         return GetCurrentValue(StatType.AttackPower);
     }
+
+    public void ApplyDamage(float damage)
+    {
+        Debug.Log($"{damage}");
+        DamageEffect damageEffect = new DamageEffect();
+        damageEffect.Initialize(damage);
+        ApplyEffect(damageEffect);
+    }
     
     private void Update()
     {
