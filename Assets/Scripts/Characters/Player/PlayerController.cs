@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
             direction.Normalize();
 
             rb.linearVelocity = Vector2.zero;
-            rb.AddForce(direction * distance * forceMultiplier, ForceMode2D.Impulse);
+            rb.AddForce(direction * distance * forceMultiplier * _statComponent.GetCurrentValue(StatType.Weight), ForceMode2D.Impulse);
 
             float torque = distance * 100 * forceMultiplier;
             rb.AddTorque(torque, ForceMode2D.Impulse);
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
             if (enemyStatComponent)
             {
                 DamageEffect damageEffect = new DamageEffect();
-                damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower) * 5);
+                damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower));
                 enemyStatComponent.ApplyEffect(damageEffect);
                 Debug.Log($"적 남은 체력: {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
             }

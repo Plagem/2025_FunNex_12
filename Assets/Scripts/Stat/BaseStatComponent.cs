@@ -14,6 +14,7 @@ public class BaseStatComponent : MonoBehaviour
 
     private void Awake()
     {
+        OnAttributeChanged += AttributeChanged;
         if (InitialData)
         {
             InitializeStatComponent(InitialData);
@@ -204,5 +205,14 @@ public class BaseStatComponent : MonoBehaviour
             }
         }
         return null;
+    }
+
+    private void AttributeChanged(StatType statType, AttributeData data)
+    {
+        if (statType == StatType.Weight)
+        {
+            Debug.Log($"무게 {data.CurrentValue}로 세팅");
+            GetComponent<Rigidbody2D>().mass = data.CurrentValue;
+        }
     }
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6872342438526401371}
   - component: {fileID: 237161736459027001}
   m_Layer: 0
-  m_Name: ShooterEnemy 1
+  m_Name: ShootEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -808632801791587218, guid: 6d935b8c6ce57d34bb9e4829dab5007c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

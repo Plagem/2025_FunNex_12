@@ -9,6 +9,7 @@ public enum StatType
     AttackPower,      // 공격력
     InitialSpeed,     // 초기 이동 속도
     Weight,           // 무게
+    Barrier,
     CriticalChance,    // 크리티컬 확률
     Size,
 }

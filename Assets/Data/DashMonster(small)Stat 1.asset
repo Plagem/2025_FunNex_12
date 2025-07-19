@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eba38e8de1cbc054e856cebc3cda74d3, type: 3}
-  m_Name: PlayerStatData
+  m_Name: DashMonster(small)Stat 1
   m_EditorClassIdentifier: 
   stats:
   - eStatType: 0
-    value: 100
+    value: 70
   - eStatType: 1
-    value: 100
+    value: 70
   - eStatType: 2
-    value: 10
+    value: 5
   - eStatType: 4
-    value: 1
+    value: 0.5

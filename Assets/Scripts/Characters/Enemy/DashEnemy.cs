@@ -9,7 +9,7 @@ public class DashEnemy : EnemyBase
     private float timer = 0f;
     private bool isDashing = false;
     private Vector2 dashDirection;
-
+    
     protected override void Update()
     {
         base.Update();
