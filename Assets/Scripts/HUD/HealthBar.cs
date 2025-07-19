@@ -41,7 +41,7 @@ public class HealthBar : MonoBehaviour
     public void PrintDamage(float damage)
     {
         DamageText damageText = DamageTextManager.Instance.CreateDamageText(_healthBarCanvas);
-        damageText.transform.position = target.transform.position + offset;
+        damageText.transform.position = target.transform.position + offset + new Vector3(0, 0.3f, 0);
         damageText.transform.rotation = quaternion.identity;
         
         damageText.Init($"{(int)damage}");
