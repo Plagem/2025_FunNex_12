@@ -452,6 +452,7 @@ public class GameManager : MonoBehaviour
         foreach (var placement in placements)
         {
             Vector3 worldPos = new Vector3((placement.position.x + 0.5f)*2.3717f, (placement.position.y + 0.5f)*2.3574f, -1f);
+            Debug.Log($"Spawning monster: {placement.monster.name} at {worldPos}");
             Instantiate(placement.monster, worldPos, Quaternion.identity);
         }
     }
@@ -473,12 +474,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnGameWin()
+    public void OnGameWin()
     {
         // 게임 클리어 처리
         // 예: 클리어 UI 띄우기, 메인화면 이동 등
         Debug.Log("축하합니다! 게임을 클리어했습니다.");
         // 예: SceneManager.LoadScene("VictoryScene");
+    }
+
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene("MainMenuScene");
     }
 
     public void OnPlayerDied()
