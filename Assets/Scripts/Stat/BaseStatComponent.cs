@@ -70,23 +70,25 @@ public class BaseStatComponent : MonoBehaviour
         foreach(var effect in _activeEffects)
         {
             if (effect.DurationType == DurationType.Instance) continue;
-            
-            foreach (var modifyInfo in effect.ModifyInfos)
+            if (effect.ModifyInfos != null)
             {
-                if (modifyInfo.TargetStat != statType) continue;
-
-                switch (modifyInfo.ModifyType)
+                foreach (var modifyInfo in effect.ModifyInfos)
                 {
-                    case ModifyType.Add:
-                        tempAttributeData.AddValue += modifyInfo.Magnitude;
-                        break;
-                    case ModifyType.Multiply:
-                        tempAttributeData.MulValue += (modifyInfo.Magnitude - 1);
-                        break;
-                    case ModifyType.Override:
-                        tempAttributeData.OverrideValue = modifyInfo.Magnitude;
-                        tempAttributeData.bOverride = true;
-                        break;
+                    if (modifyInfo.TargetStat != statType) continue;
+
+                    switch (modifyInfo.ModifyType)
+                    {
+                        case ModifyType.Add:
+                            tempAttributeData.AddValue += modifyInfo.Magnitude;
+                            break;
+                        case ModifyType.Multiply:
+                            tempAttributeData.MulValue += (modifyInfo.Magnitude - 1);
+                            break;
+                        case ModifyType.Override:
+                            tempAttributeData.OverrideValue = modifyInfo.Magnitude;
+                            tempAttributeData.bOverride = true;
+                            break;
+                    }
                 }
             }
         }
