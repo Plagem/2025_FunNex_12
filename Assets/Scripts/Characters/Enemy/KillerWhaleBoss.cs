@@ -178,20 +178,47 @@ public class KillerWhaleBoss : EnemyBase
 
             GameObject wave = Instantiate(wavePrefab, spawnPos, Quaternion.identity);
 
+            // Rigidbody로 아래로 이동
             Rigidbody2D rb = wave.GetComponent<Rigidbody2D>();
             if (rb != null)
                 rb.linearVelocity = Vector2.down * waveSpeed;
 
-            // 🟣 성게 뿌리기 (wave 지나간 위치에)
-            StartCoroutine(SpawnUrchinsAlongWave(randomX, 1 + Random.Range(0, 2))); // 1 or 2개
+            // 시간이 지나면서 투명해지고 사라짐 (예: 3초)
+            StartCoroutine(FadeOutAndDestroy(wave, 3f));
 
-            yield return new WaitForSeconds(interval * 10); // 다음 웨이브까지 대기
+            // 성게 뿌리기
+            StartCoroutine(SpawnUrchinsAlongWave(randomX, 1 + Random.Range(0, 2))); // 1~2개
+
+            yield return new WaitForSeconds(interval * 10); // 다음 웨이브 대기
         }
 
         yield return new WaitForSeconds(1f); // 마지막 웨이브 보여줄 시간
 
         Hide();
         isShooting = false;
+    }
+
+
+    private IEnumerator FadeOutAndDestroy(GameObject wave, float duration)
+    {
+        SpriteRenderer sr = wave.GetComponent<SpriteRenderer>();
+        if (sr == null)
+            yield break;
+
+        Color originalColor = sr.color;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+            sr.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        sr.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+        Destroy(wave);
     }
 
 
