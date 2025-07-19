@@ -193,6 +193,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9188344304846007086}
     m_Modifications:
+    - target: {fileID: 649312240402459207, guid: 8ac82e66a8de09044a8407b17a11d769, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2916116174966450040, guid: 8ac82e66a8de09044a8407b17a11d769, type: 3}
       propertyPath: m_Name
       value: HpBar
@@ -289,6 +293,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 9188344304846007086}
+    - target: {fileID: 8046007415693063091, guid: 8ac82e66a8de09044a8407b17a11d769, type: 3}
+      propertyPath: _statComponent
+      value: 
+      objectReference: {fileID: 7436394931406600985}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

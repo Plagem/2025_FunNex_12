@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using DG.Tweening;
 
@@ -29,5 +30,22 @@ public class Satellite : MonoBehaviour
     {
         orbitTween?.Kill();
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            BaseStatComponent ownerStat = orbitCenter.GetComponent<BaseStatComponent>();
+            BaseStatComponent targetStat = other.GetComponent<BaseStatComponent>();
+            if (targetStat && ownerStat)
+            {
+                float playerDamage = ownerStat.GetFinalDamage();
+                targetStat.ApplyDamage(playerDamage * 1f);
+                Vector3 vec = (other.transform.position - orbitCenter.position).normalized;
+                other.GetComponent<Rigidbody2D>().AddForce(vec  * 5f, ForceMode2D.Impulse);
+            }
+        }
+        
     }
 }
