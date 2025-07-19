@@ -132,6 +132,7 @@ public class BaseStatComponent : MonoBehaviour
         _activeEffects.Add(effect);
         
         effect._statComponent = this;
+        
         effect.OnEffectApplied();
         
         if (effect.DurationType == DurationType.Instance)
@@ -183,5 +184,17 @@ public class BaseStatComponent : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public BaseEffect FindEffect(string effectName)
+    {
+        foreach (var effect in _activeEffects)
+        {
+            if (effect.GetName() == effectName)
+            {
+                return effect;
+            }
+        }
+        return null;
     }
 }

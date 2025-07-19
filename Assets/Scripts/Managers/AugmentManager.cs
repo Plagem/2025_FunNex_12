@@ -5,6 +5,7 @@ public enum AugmentType
 {
     Trigger_KaisaQ,
     Trigger_Repel,
+    Passive_Satellite,
     Stat_Weight,
     Stat_Health,
     Stat_Size,
@@ -73,6 +74,11 @@ public static class EffectFactory
                 };
                 effect = new StatPassive(statComp, statModify);
                 break;
+            case AugmentType.Passive_Satellite:
+                effect = new SatellitePassive(statComp);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
 
         if (effect != null)
