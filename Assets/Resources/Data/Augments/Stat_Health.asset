@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d4ba45972807a34a9588120022a6000, type: 3}
   m_Name: Stat_Health
   m_EditorClassIdentifier: 
-  augmentType: 0
-  icon: {fileID: 0}
-  displayName: 
-  description: 
+  augmentType: 4
+  icon: {fileID: -6797023146844493198, guid: b5479d058f6dc924eb9a2becbe4450f4, type: 3}
+  displayName: "\uBCF4\uC591\uC2DD"
+  description: "\uD574\uB2EC\uC774 \uC88B\uC544\uD558\uB294 \uBCF4\uC591\uC2DD\uC774\uB2E4\n\uD574\uB2EC\uC758
+    \uCD5C\uB300 \uCCB4\uB825\uC774 10%p \uC99D\uAC00\uD55C\uB2E4"

@@ -143,7 +143,8 @@ public class GameManager : MonoBehaviour
         
         if (!_augmentSelectUI)
         {
-            _augmentSelectUI = Instantiate(AugmentSelectUIPrefab).GetComponent<AugmentSelectUI>();
+            Canvas canvas = FindAnyObjectByType<Canvas>();
+            _augmentSelectUI = Instantiate(AugmentSelectUIPrefab, canvas.transform).GetComponent<AugmentSelectUI>();
         }
         _augmentSelectUI.ShowOption();
         

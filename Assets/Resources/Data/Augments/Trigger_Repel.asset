@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d4ba45972807a34a9588120022a6000, type: 3}
   m_Name: Trigger_Repel
   m_EditorClassIdentifier: 
-  augmentType: 0
-  icon: {fileID: 0}
-  displayName: 
-  description: 
+  augmentType: 1
+  icon: {fileID: 8846863339095704239, guid: ca060818fd746744e8d14efd494a8c74, type: 3}
+  displayName: "\uCDA9\uACA9\uD30C"
+  description: "\uD574\uB2EC\uC774 \uB3C4\uC57D\uC744 \uD558\uC5EC \uCCAB \uCDA9\uB3CC\uC744
+    \uD560 \uB54C\n\uCDA9\uACA9\uD30C\uB97C \uB0B4\uBCF4\uB0B4 \uC8FC\uC704\uC758
+    \uC801\uB4E4\uC744 \uBC00\uCCD0\uB0B8\uB2E4\n\uCDA9\uACA9\uD30C\uB294 \uD574\uB2EC
+    \uACF5\uACA9\uB825\uC758 SkillLevel * 50%p \n\uB370\uBBF8\uC9C0\uB97C \uAC00\uC9C4\uB2E4"

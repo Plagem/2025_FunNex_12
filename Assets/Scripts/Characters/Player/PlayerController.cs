@@ -36,12 +36,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tl = GetComponent<TrajectoryLine>();
         cameraManager = Camera.main.GetComponent<CameraManager>();
-
-        //test
-        _statComponent.BestowAugment(AugmentType.Trigger_KaisaQ);
-        _statComponent.BestowAugment(AugmentType.Passive_Satellite);
-        _statComponent.BestowAugment(AugmentType.Passive_Satellite);
-        _statComponent.BestowAugment(AugmentType.Passive_Satellite);
     }
 
     void Update()
