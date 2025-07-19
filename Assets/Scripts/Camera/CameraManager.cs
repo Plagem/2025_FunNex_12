@@ -50,7 +50,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    private IEnumerator FocusRoutine(Transform enemy)
+    public IEnumerator FocusRoutine(Transform enemy)
     {
         isFocusing = true;
 

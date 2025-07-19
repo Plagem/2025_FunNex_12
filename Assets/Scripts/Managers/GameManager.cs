@@ -6,7 +6,10 @@ using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
-    
+    [SerializeField] private GameObject successImg;
+    [SerializeField] private GameObject failImg;
+    [SerializeField] private GameObject exitBtn;
+
     static GameManager _instance = null;
     public static GameManager instance { get { Init();  return _instance; } } 
     GameManager() {}
@@ -59,6 +62,10 @@ public class GameManager : MonoBehaviour
 
         // 5초마다 자동으로 다음 스테이지로 넘어가기 (테스트용)
         //InvokeRepeating(nameof(OnPlayerStageWin), 5f, 5f);
+        successImg.SetActive(false);
+        failImg.SetActive(false);
+        exitBtn.SetActive(false);
+
     }
 
     private void Update()
@@ -476,14 +483,15 @@ public class GameManager : MonoBehaviour
 
     public void OnGameWin()
     {
-        // 게임 클리어 처리
-        // 예: 클리어 UI 띄우기, 메인화면 이동 등
         Debug.Log("축하합니다! 게임을 클리어했습니다.");
-        // 예: SceneManager.LoadScene("VictoryScene");
+        successImg.SetActive(true);
+        Time.timeScale = 0f;  // 시간 멈춤
     }
+
 
     public void GoToMenu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenuScene");
     }
 
@@ -507,6 +515,8 @@ public class GameManager : MonoBehaviour
     public void OnPlayerLose()
     {
         Debug.Log("패배!");
-        // 리트라이 처리
+        failImg.SetActive(true);
+        exitBtn.SetActive(true);
+        Time.timeScale = 0f;
     }
 }
