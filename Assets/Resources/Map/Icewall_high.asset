@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: IceMapGrid_Square
+  m_Name: Icewall_high
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: a8b76a12ce1b3cf4d936e140af3b3bd1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f67bb43261101e5469c515e634f43f2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
