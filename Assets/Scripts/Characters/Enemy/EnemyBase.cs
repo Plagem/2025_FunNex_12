@@ -9,8 +9,14 @@ public abstract class EnemyBase : MonoBehaviour
     protected Rigidbody2D rb;
     protected bool isDead = false; // 사망 상태 확인용
 
+    public BaseStatComponent GetStatComponent()
+    {
+        return stat;
+    }
+
     protected virtual void Start()
     {
+        stat = GetComponent<BaseStatComponent>();
         rb = GetComponent<Rigidbody2D>();
 
         // target이 비어 있으면 자동으로 Player 찾아 설정
