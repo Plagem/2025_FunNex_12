@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     private List<StageData> stages = new List<StageData>();
     private int currentStageIndex = 0;
+    private int playerLives = 1; // 목숨 일단 한 개
 
     private void Start()
     {
@@ -178,6 +179,22 @@ public class GameManager : MonoBehaviour
         // 예: 클리어 UI 띄우기, 메인화면 이동 등
         Debug.Log("축하합니다! 게임을 클리어했습니다.");
         // 예: SceneManager.LoadScene("VictoryScene");
+    }
+
+    public void OnPlayerDied()
+    {
+        playerLives--;
+        Debug.Log($"플레이어 사망. 남은 목숨: {playerLives}");
+
+        if (playerLives <= 0)
+        {
+            OnPlayerLose();
+        }
+        else
+        {
+            // 플레이어 리스폰 또는 UI 갱신 등
+            Debug.Log("플레이어 리스폰 준비 중...");
+        }
     }
 
 

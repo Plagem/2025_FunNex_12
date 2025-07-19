@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         // 이동 중일 땐 멈췄는지만 체크하고, 아래 코드는 실행 안 함
         if (isMoving)
         {
-            if (rb.linearVelocity.magnitude < 0.05f)
+            if (rb.linearVelocity.magnitude < 0.3f)
             {
                 rb.linearVelocity = Vector2.zero;
                 rb.angularVelocity = 0f;
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             rb.AddForce(direction * distance * forceMultiplier * _statComponent.GetCurrentValue(StatType.Weight), ForceMode2D.Impulse);
 
-            float torque = distance * 100 * forceMultiplier;
+            float torque = distance * 70 * forceMultiplier;
             rb.AddTorque(torque, ForceMode2D.Impulse);
 
             tl.EndLine();
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
             float speed = rb.linearVelocity.magnitude;
             Debug.Log($"충돌 시 속도: {speed}");
 
-            if (speed >= 15f) // 예시 기준 속도
+            if (speed >= 12f) // 예시 기준 속도
             {
                 CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
                 if (cameraShake != null)

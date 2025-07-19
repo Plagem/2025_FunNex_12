@@ -88,8 +88,14 @@ public class EnemyShooter : EnemyBase
         }
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+
         Vector2 direction = (target.position - firePoint.position).normalized;
         bullet.GetComponent<EnemyBullet>().SetDirection(direction);
+
+        // 데미지 넘기기
+        float damage = stat.GetFinalDamage(); // AttackPower 등 내부 계산 포함
+        bullet.GetComponent<EnemyBullet>().SetDamage(damage);
+
         rb.AddForce(-direction * recoilForce, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(1.0f);

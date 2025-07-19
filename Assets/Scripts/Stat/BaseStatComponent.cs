@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -213,6 +213,16 @@ public class BaseStatComponent : MonoBehaviour
         {
             Debug.Log($"무게 {data.CurrentValue}로 세팅");
             GetComponent<Rigidbody2D>().mass = data.CurrentValue;
+        }
+
+        if (statType == StatType.CurrentHealth && GetCurrentValue(StatType.CurrentHealth) <= 0)
+        {
+            if (CompareTag("Player"))
+            {
+                // 플레이어일 경우 GameManager에 보고
+                GameManager gm = FindFirstObjectByType<GameManager>();
+                gm?.OnPlayerDied();
+            }
         }
     }
 }
