@@ -698,7 +698,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bd8d70d3a6f00241a39bc5d1552ad7e, type: 2}
   - {fileID: 11400000, guid: 0481ddd1fda4b5448a5c8887e6a55c6d, type: 2}
   MainCanvas: {fileID: 1723380797}
-  BossHealthBar: {fileID: 0}
+  BossHealthBar: {fileID: 1104766135}
 --- !u!4 &701962538
 Transform:
   m_ObjectHideFlags: 0
