@@ -1,8 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
+    private void Awake()
+    {
+        SoundManager.Instance?.Init();
+    }
+
+    private void Start()
+    {
+        
+        SoundManager.Instance.Play(Define.BGM.BGM_Main);
+    }
+
     public void StartGame()
     {
         SceneManager.LoadScene("CutScene");

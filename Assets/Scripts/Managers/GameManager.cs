@@ -72,9 +72,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isSpawning && FindAnyObjectByType<EnemyBase>() == null)
+        if (SceneManager.GetActiveScene().name == "GameScene")
         {
-            OnPlayerStageWin();
+            if (!isSpawning && FindAnyObjectByType<EnemyBase>() == null)
+            {
+                OnPlayerStageWin();
+            }   
         }
     }
 
@@ -532,6 +535,8 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerStageWin()
     {
+        SoundManager.Instance.Play(Define.SFX.Success);
+        
         Debug.Log($"스테이지 {currentStageIndex} 클리어!");
 
         int nextStageIndex = currentStageIndex + 1;
@@ -551,6 +556,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("축하합니다! 게임을 클리어했습니다.");
         successImg.SetActive(true);
+        exitBtn.SetActive(true);
         Time.timeScale = 0f;  // 시간 멈춤
     }
 

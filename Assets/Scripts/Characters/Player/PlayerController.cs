@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
             isMoving = true;
 
             cameraManager?.ResetToDefaultView();
-
+            SoundManager.Instance.Play(Define.SFX.Dash);
             OnAttackStarted?.Invoke();
         }
     }
@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviour
     {
         if ((collision.gameObject.CompareTag("Boss") || collision.gameObject.CompareTag("Enemy")) && isMoving)
         {
+            SoundManager.Instance.Play(Define.SFX.Oct_Fire);
             float speed = rb.linearVelocity.magnitude;
 
             // Apply Damage

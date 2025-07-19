@@ -17,6 +17,8 @@ public class CutsceneManager : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.Play(Define.BGM.BGM_Ingame);
+        
         if (cutsceneImages.Length == 0 || displayImage == null)
         {
             Debug.LogError("컷신 이미지 또는 이미지 컴포넌트가 설정되지 않았습니다.");
@@ -24,7 +26,7 @@ public class CutsceneManager : MonoBehaviour
         }
 
         displayImage.sprite = cutsceneImages[0];
-        skipButton.onClick.AddListener(SkipCutscene);
+        // skipButton.onClick.AddListener(SkipCutscene);
     }
 
     private void Update()
@@ -57,5 +59,6 @@ public class CutsceneManager : MonoBehaviour
     private void LoadGameScene()
     {
         SceneManager.LoadScene("GameScene");
+        SoundManager.Instance.Play(Define.BGM.BGM_Story);
     }
 }

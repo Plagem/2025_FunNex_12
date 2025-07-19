@@ -8,30 +8,22 @@ public class Define
     }
     public enum BGM
     {
-        main_BGM,
-        St_1,
-        St_2,
-        St_3,
-
-
+        BGM_Main,
+        BGM_Story,
+        BGM_Ingame,
         MaxCount
     }
     public enum SFX
     {
-        Chac_roll_1,
-        Char_death_1,
-        Char_gunfire_1,
-        Char_hit_1,
-        Char_jump_1,
-        Char_land_1,
-        Enemy_death_1,
-        Enemy_gunfire_1,
-        Enemy_hit_1,
-        UI_select_1,
-        UI_title_1,
-        UI_touch_1,
-        UI_upgrade_1,
-        UI_upgrade_fail_1,
+        Dash,
+        Fall,
+        Boss_Aqua,
+        Big_Fire,
+        Oct_Fire,
+        Success,
+        Stage_Start,
+        Stage_Failed,
+        
 
 
         MaxCount
