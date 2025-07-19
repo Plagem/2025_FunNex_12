@@ -486,12 +486,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnGameWin()
+    public void OnGameWin()
     {
         // 게임 클리어 처리
         // 예: 클리어 UI 띄우기, 메인화면 이동 등
         Debug.Log("축하합니다! 게임을 클리어했습니다.");
         // 예: SceneManager.LoadScene("VictoryScene");
+    }
+
+    public void GoToMenu()
+    {
+        SceneManager.LoadScene("MainMenuScene");
     }
 
     public void OnPlayerDied()
