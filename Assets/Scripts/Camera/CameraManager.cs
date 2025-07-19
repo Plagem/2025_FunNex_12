@@ -1,9 +1,9 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 
 public class CameraManager : MonoBehaviour
 {
-    public Transform defaultTarget;          // Æò¼Ò µû¶ó°¥ Å¸°Ù (ÇÃ·¹ÀÌ¾î)
+    public Transform defaultTarget;          // í‰ì†Œ ë”°ë¼ê°ˆ íƒ€ê²Ÿ (í”Œë ˆì´ì–´)
     public float followSpeed = 5f;
     public float zoomedSize = 8f;
     public float defaultSize = 5f;
@@ -39,18 +39,18 @@ public class CameraManager : MonoBehaviour
     {
         isFocusing = true;
 
-        // 1. Ä«¸Ş¶ó Èçµé±â
+        // 1. ì¹´ë©”ë¼ í”ë“¤ê¸°
         CameraShake shake = GetComponent<CameraShake>();
         if (shake != null)
-            shake.Shake(0.15f, 0.4f);  // °­µµ, Áö¼Ó½Ã°£Àº Á¶Àı °¡´É
+            shake.Shake(0.15f, 0.4f);  // ê°•ë„, ì§€ì†ì‹œê°„ì€ ì¡°ì ˆ ê°€ëŠ¥
 
-        yield return new WaitForSecondsRealtime(0.15f);  // Èçµé¸² ´ë±â
+        yield return new WaitForSecondsRealtime(0.15f);  // í”ë“¤ë¦¼ ëŒ€ê¸°
 
-        // 2. ½Ã°£ ´À¸®°Ô
+        // 2. ì‹œê°„ ëŠë¦¬ê²Œ
         Time.timeScale = 0.2f;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;  // ¹°¸® ¾÷µ¥ÀÌÆ®µµ ¸ÂÃçÁÜ
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;  // ë¬¼ë¦¬ ì—…ë°ì´íŠ¸ë„ ë§ì¶°ì¤Œ
 
-        // 3. ÁÜÀÎ & ÀÌµ¿
+        // 3. ì¤Œì¸ & ì´ë™
         float t = 0f;
         Vector3 startPos = transform.position;
         Vector3 targetPos = enemy.position;
@@ -60,20 +60,20 @@ public class CameraManager : MonoBehaviour
 
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime / 0.5f;  // Time.timeScale ¿µÇâ ¾È ¹Ş°Ô
+            t += Time.unscaledDeltaTime / 0.5f;  // Time.timeScale ì˜í–¥ ì•ˆ ë°›ê²Œ
             transform.position = Vector3.Lerp(startPos, targetPos, t);
             cam.orthographicSize = Mathf.Lerp(startSize, zoomedSize, t);
             yield return null;
         }
 
-        // 4. ´À¸° »óÅÂ À¯Áö
+        // 4. ëŠë¦° ìƒíƒœ ìœ ì§€
         yield return new WaitForSecondsRealtime(focusDuration);
 
-        // 5. ½Ã°£ º¹±¸
+        // 5. ì‹œê°„ ë³µêµ¬
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
 
-        // 6. ÁÜ¾Æ¿ô & º¹±Í
+        // 6. ì¤Œì•„ì›ƒ & ë³µê·€
         t = 0f;
         Vector3 backPos = defaultTarget.position;
         backPos.z = startPos.z;
@@ -87,6 +87,50 @@ public class CameraManager : MonoBehaviour
         }
 
         isFocusing = false;
+    }
+
+    public void ShowDragPreview(Vector3 dragOffset)
+    {
+        if (isFocusing) return;
+
+        float distance = dragOffset.magnitude;
+
+        // ğŸ‘‡ ë” ë¶€ë“œëŸ½ê³  ìì—°ìŠ¤ëŸ¬ìš´ ì¤Œì•„ì›ƒ/ì¤Œì¸ ë²”ìœ„ ì„¤ì •
+        float targetSize = Mathf.Clamp(defaultSize - distance * 0.3f, defaultSize, zoomedSize);
+
+        // ğŸ‘‡ Time.unscaledDeltaTime ëŒ€ì‹  Time.deltaTime (ì…ë ¥ì— ë°˜ì‘í•˜ëŠ” ê²ƒì´ë¯€ë¡œ ì‹œê°„ ì¶•ì†Œ ì˜í–¥ ë°›ê²Œ)
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetSize * 1.5f, Time.deltaTime * 5f);
+
+        // ğŸ‘‡ ì´ë™ë„ ë¶€ë“œëŸ½ê²Œ ì²˜ë¦¬
+        Vector3 targetPos = defaultTarget.position - dragOffset * 0.3f;
+        targetPos.z = transform.position.z;
+        transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5f);
+    }
+
+
+    public void ResetToDefaultView()
+    {
+        if (isFocusing) return;
+
+        StartCoroutine(ResetRoutine());
+    }
+
+    private IEnumerator ResetRoutine()
+    {
+        float t = 0f;
+        float currentSize = cam.orthographicSize;
+        Vector3 currentPos = transform.position;
+
+        Vector3 targetPos = defaultTarget.position;
+        targetPos.z = currentPos.z;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * 5f;
+            cam.orthographicSize = Mathf.Lerp(currentSize, defaultSize, t);
+            transform.position = Vector3.Lerp(currentPos, targetPos, t);
+            yield return null;
+        }
     }
 
 }

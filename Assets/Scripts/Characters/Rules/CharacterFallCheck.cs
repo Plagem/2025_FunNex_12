@@ -28,10 +28,12 @@ public class CharacterFallCheck : MonoBehaviour
 
         Collider2D hit = Physics2D.OverlapBox(checkCenter, checkSize, 0f, terrainLayer);
 
+        /*
         if (hit == null)
         {
             Debug.Log("지형 벗어남 - 떨어졌다고 판단");
         }
+        */
     }
 
     // 시각화용

@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isDragging = false;
     private bool isMoving = false;
+    private CameraManager cameraManager;
 
     private BaseStatComponent _statComponent;
     
@@ -34,7 +35,8 @@ public class PlayerController : MonoBehaviour
         _statComponent = GetComponent<BaseStatComponent>();
         rb = GetComponent<Rigidbody2D>();
         tl = GetComponent<TrajectoryLine>();
-        
+        cameraManager = Camera.main.GetComponent<CameraManager>();
+
         //test
         _statComponent.BestowAugment(AugmentType.Trigger_KaisaQ);
     }
@@ -71,6 +73,9 @@ public class PlayerController : MonoBehaviour
             currentPoint.z = 0f;
             startMousePos.z = 0f;
             tl.RenderLine(startMousePos, currentPoint);
+
+            Vector3 dragOffset = startMousePos - currentPoint;
+            cameraManager?.ShowDragPreview(dragOffset);
         }
 
         if (isDragging && Input.GetMouseButtonUp(0))
@@ -92,7 +97,9 @@ public class PlayerController : MonoBehaviour
             tl.EndLine();
             isDragging = false;
             isMoving = true;
-            
+
+            cameraManager?.ResetToDefaultView();
+
             OnAttackStarted?.Invoke();
         }
     }
