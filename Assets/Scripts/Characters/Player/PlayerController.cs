@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && isMoving)
+        if ((collision.gameObject.CompareTag("Boss") || collision.gameObject.CompareTag("Enemy")) && isMoving)
         {
             float speed = rb.linearVelocity.magnitude;
             Debug.Log($"충돌 시 속도: {speed}");
