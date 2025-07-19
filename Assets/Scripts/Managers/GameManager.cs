@@ -42,10 +42,14 @@ public class GameManager : MonoBehaviour
     private AugmentSelectUI _augmentSelectUI = null;
     private List<StageData> stages = new List<StageData>();
     private int currentStageIndex = 0;
+
+    private GameObject Player;
     private int playerLives = 1; // 목숨 일단 한 개
 
     private void Start()
     {
+        Player = FindAnyObjectByType<PlayerController>().gameObject;
+
         InitializeStages();
         StartStage(currentStageIndex);
 
@@ -69,20 +73,24 @@ public class GameManager : MonoBehaviour
         // Stage 0
         StageData stage0 = new StageData
         {
+            playerPosition = new Vector2Int(0,0),
             tilesToPlace = new TilePlacement[]
             {
-            new TilePlacement { position = new Vector2Int(0, 0), tileType = TileType.Bumper },
-            new TilePlacement { position = new Vector2Int(1, 1), tileType = TileType.IceWall }
+            //new TilePlacement { position = new Vector2Int(0, 0), tileType = TileType.Bumper },
+            //new TilePlacement { position = new Vector2Int(1, 1), tileType = TileType.IceWall }
             },
             tilesToClear = new Vector2Int[]
             {
-            new Vector2Int(2, 2),
-            new Vector2Int(3, 2)
+            //new Vector2Int(2, 2),
+            //new Vector2Int(3, 2)
             },
             monsterSpawnPositions = new MonsterPlacement[]
             {
-            new MonsterPlacement {position = new Vector2Int(5, 5), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-            new MonsterPlacement {position = new Vector2Int(6, 6), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]}
+            //new MonsterPlacement {position = new Vector2Int(0, 0), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+            //new MonsterPlacement {position = new Vector2Int(1, 1), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
+            //new MonsterPlacement {position = new Vector2Int(2, 2), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
+            //new MonsterPlacement {position = new Vector2Int(3, 3), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
+            new MonsterPlacement {position = new Vector2Int(4, 4), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
             }
         };
         stages.Add(stage0);
@@ -90,20 +98,21 @@ public class GameManager : MonoBehaviour
         // Stage 1
         StageData stage1 = new StageData
         {
+            playerPosition = new Vector2Int(4,4),
             tilesToPlace = new TilePlacement[]
             {
-            new TilePlacement { position = new Vector2Int(2, 0), tileType = TileType.IceFloor },
-            new TilePlacement { position = new Vector2Int(2, 1), tileType = TileType.IceFloor},
-            new TilePlacement { position = new Vector2Int(2, 2), tileType = TileType.IceFloor}
+            //new TilePlacement { position = new Vector2Int(2, 0), tileType = TileType.IceFloor },
+            //new TilePlacement { position = new Vector2Int(2, 1), tileType = TileType.IceFloor},
+            //new TilePlacement { position = new Vector2Int(2, 2), tileType = TileType.IceFloor}
             },
             tilesToClear = new Vector2Int[]
             {
-            new Vector2Int(0, 0)
+            //new Vector2Int(0, 0)
             },
             monsterSpawnPositions = new MonsterPlacement[]
             {
-                new MonsterPlacement {position = new Vector2Int(7, 7), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-                new MonsterPlacement {position = new Vector2Int(8, 8), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                //new MonsterPlacement {position = new Vector2Int(7, 7), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                //new MonsterPlacement {position = new Vector2Int(8, 8), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
             }
         };
         stages.Add(stage1);
@@ -111,21 +120,22 @@ public class GameManager : MonoBehaviour
         // Stage 2
         StageData stage2 = new StageData
         {
+            playerPosition = new Vector2Int(0,2),
             tilesToPlace = new TilePlacement[]
             {
-            new TilePlacement { position = new Vector2Int(3, 0), tileType = TileType.IceFloor},
-            new TilePlacement { position = new Vector2Int(4, 0), tileType = TileType.IceFloor}
+            //new TilePlacement { position = new Vector2Int(3, 0), tileType = TileType.IceFloor},
+            //new TilePlacement { position = new Vector2Int(4, 0), tileType = TileType.IceFloor}
             },
             tilesToClear = new Vector2Int[]
             {
-            new Vector2Int(1, 1),
-            new Vector2Int(2, 2)
+            //new Vector2Int(1, 1),
+            //new Vector2Int(2, 2)
             },
             monsterSpawnPositions = new MonsterPlacement[]
             {
-                new MonsterPlacement {position = new Vector2Int(10, 5), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-                new MonsterPlacement {position = new Vector2Int(10, 6), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-                new MonsterPlacement {position = new Vector2Int(10, 7), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                //new MonsterPlacement {position = new Vector2Int(10, 5), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                //new MonsterPlacement {position = new Vector2Int(10, 6), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                //new MonsterPlacement {position = new Vector2Int(10, 7), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
             }
         };
         stages.Add(stage2);
@@ -154,6 +164,8 @@ public class GameManager : MonoBehaviour
 
         TilemapManager tilemapManager = FindFirstObjectByType<TilemapManager>();
 
+        Player.transform.position = new Vector3((stage.playerPosition.x + 0.5f)*2.3717f, (stage.playerPosition.y + 0.5f)*2.3574f, -1f);
+
         // 타일 제거
         foreach (var pos in stage.tilesToClear)
         {
@@ -174,7 +186,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var placement in placements)
         {
-            Vector3 worldPos = new Vector3(placement.position.x + 0.5f, placement.position.y + 0.5f, -1f);
+            Vector3 worldPos = new Vector3((placement.position.x + 0.5f)*2.3717f, (placement.position.y + 0.5f)*2.3574f, -1f);
             Instantiate(placement.monster, worldPos, Quaternion.identity);
         }
     }
