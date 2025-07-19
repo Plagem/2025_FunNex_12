@@ -18,6 +18,6 @@ MonoBehaviour:
   - eStatType: 1
     value: 50
   - eStatType: 2
-    value: 10
+    value: 7
   - eStatType: 4
     value: 0.5
