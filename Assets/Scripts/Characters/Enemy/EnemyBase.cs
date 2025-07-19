@@ -8,7 +8,8 @@ public abstract class EnemyBase : MonoBehaviour
     public Transform target;
 
     protected Rigidbody2D rb;
-    protected bool isDead = false; // 사망 상태 확인용
+    public bool isDead = false; // 사망 상태 확인용
+    public bool isFalling = false;
 
     public BaseStatComponent GetStatComponent()
     {

@@ -16,7 +16,7 @@ public class DashEnemy : EnemyBase
 
         timer += Time.deltaTime;
 
-        if (!isDashing && timer >= dashInterval)
+        if (!isDashing && timer >= dashInterval && !isFalling)
         {
             StartDash();
         }
