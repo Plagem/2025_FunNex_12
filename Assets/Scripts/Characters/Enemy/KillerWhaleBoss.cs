@@ -182,7 +182,7 @@ public class KillerWhaleBoss : EnemyBase
         for (int i = 0; i < waveCount; i++)
         {
             float randomX = Random.Range(-11f, 12.5f);
-            Vector3 spawnPos = new Vector3(randomX, 15.5f, -1f);
+            Vector3 spawnPos = new Vector3(randomX, 17.5f, -1f);
             transform.position = spawnPos;
 
             PlayAnim("Rise");
@@ -190,6 +190,8 @@ public class KillerWhaleBoss : EnemyBase
             Show();
 
             PlayAnim("Idle");
+
+            yield return new WaitForSeconds(1.0f);
 
             GameObject wave = Instantiate(wavePrefab, spawnPos, Quaternion.identity);
 

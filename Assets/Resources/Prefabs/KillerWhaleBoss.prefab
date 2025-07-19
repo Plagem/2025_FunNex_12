@@ -62,7 +62,7 @@ MonoBehaviour:
   phase2: 0
   phase3: 0
   wavePrefab: {fileID: 879978666952521392, guid: ce62732d5ab4b5a4faeb0347f14c9afd, type: 3}
-  waveSpeed: 6
+  waveSpeed: 8
   urchinPrefab: {fileID: 3585996397089391815, guid: b9f823f05e14ce647b2daf1ed1680807, type: 3}
   urchinSpawnDelay: 0.5
 --- !u!114 &4610456678095549281
