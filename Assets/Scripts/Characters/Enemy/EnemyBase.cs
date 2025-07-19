@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class EnemyBase : MonoBehaviour
@@ -12,6 +12,20 @@ public abstract class EnemyBase : MonoBehaviour
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // target이 비어 있으면 자동으로 Player 찾아 설정
+        if (target == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+            {
+                target = playerObj.transform;
+            }
+            else
+            {
+                Debug.LogWarning($"{name}: Player 태그 오브젝트를 찾을 수 없습니다.");
+            }
+        }
     }
 
     protected void FaceTarget()

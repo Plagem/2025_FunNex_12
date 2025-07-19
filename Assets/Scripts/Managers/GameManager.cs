@@ -1,18 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
-    void Awake()
+    [SerializeField] private GameObject monsterPrefab;
+    [SerializeField] private TileBase someTile;
+
+    private List<StageData> stages = new List<StageData>();
+    private int currentStageIndex = 0;
+
+    private void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+        InitializeStages();
+        StartStage(currentStageIndex);
+
+        // 5초마다 자동으로 다음 스테이지로 넘어가기 (테스트용)
+        InvokeRepeating(nameof(OnPlayerStageWin), 5f, 5f);
     }
 
-    public void StartGame()
-    {
-        // 예: "GameScene"으로 전환
-        SceneManager.LoadScene("GameScene");
-    }
 
     public void ExitGame()
     {
@@ -20,7 +27,145 @@ public class GameManager : MonoBehaviour
         Application.Quit();
 
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false; // 에디터에서 실행 중이면 중지
+        UnityEditor.EditorApplication.isPlaying = false;
 #endif
+    }
+
+    private void InitializeStages()
+    {
+        // Stage 0
+        StageData stage0 = new StageData
+        {
+            tilesToPlace = new TilePlacement[]
+            {
+            new TilePlacement { position = new Vector2Int(0, 0), tile = someTile },
+            new TilePlacement { position = new Vector2Int(1, 1), tile = someTile }
+            },
+            tilesToClear = new Vector2Int[]
+            {
+            new Vector2Int(2, 2),
+            new Vector2Int(3, 2)
+            },
+            monsterSpawnPositions = new Vector2Int[]
+            {
+            new Vector2Int(5, 5),
+            new Vector2Int(6, 6)
+            }
+        };
+        stages.Add(stage0);
+
+        // Stage 1
+        StageData stage1 = new StageData
+        {
+            tilesToPlace = new TilePlacement[]
+            {
+            new TilePlacement { position = new Vector2Int(2, 0), tile = someTile },
+            new TilePlacement { position = new Vector2Int(2, 1), tile = someTile },
+            new TilePlacement { position = new Vector2Int(2, 2), tile = someTile }
+            },
+            tilesToClear = new Vector2Int[]
+            {
+            new Vector2Int(0, 0)
+            },
+            monsterSpawnPositions = new Vector2Int[]
+            {
+            new Vector2Int(7, 7),
+            new Vector2Int(8, 8)
+            }
+        };
+        stages.Add(stage1);
+
+        // Stage 2
+        StageData stage2 = new StageData
+        {
+            tilesToPlace = new TilePlacement[]
+            {
+            new TilePlacement { position = new Vector2Int(3, 0), tile = someTile },
+            new TilePlacement { position = new Vector2Int(4, 0), tile = someTile }
+            },
+            tilesToClear = new Vector2Int[]
+            {
+            new Vector2Int(1, 1),
+            new Vector2Int(2, 2)
+            },
+            monsterSpawnPositions = new Vector2Int[]
+            {
+            new Vector2Int(10, 5),
+            new Vector2Int(10, 6),
+            new Vector2Int(10, 7)
+            }
+        };
+        stages.Add(stage2);
+    }
+
+
+    public void StartStage(int stageIndex)
+    {
+        if (stageIndex < 0 || stageIndex >= stages.Count)
+        {
+            Debug.LogWarning("스테이지 인덱스 오류");
+            return;
+        }
+
+        currentStageIndex = stageIndex;
+        StageData stage = stages[stageIndex];
+
+        TilemapManager tilemapManager = FindFirstObjectByType<TilemapManager>();
+
+        // 타일 제거
+        foreach (var pos in stage.tilesToClear)
+        {
+            tilemapManager.ClearTileAt(pos.x, pos.y);
+        }  
+
+        // 타일 생성
+        foreach (var placement in stage.tilesToPlace)
+        {
+            tilemapManager.SetTileAt(placement.position.x, placement.position.y, placement.tile);
+        }
+
+        // 몬스터 생성
+        SpawnMonsters(stage.monsterSpawnPositions);
+    }
+
+    private void SpawnMonsters(Vector2Int[] positions)
+    {
+        foreach (var pos in positions)
+        {
+            Vector3 worldPos = new Vector3(pos.x + 0.5f, pos.y + 0.5f, -1f);
+            Instantiate(monsterPrefab, worldPos, Quaternion.identity);
+        }
+    }
+
+    public void OnPlayerStageWin()
+    {
+        Debug.Log($"스테이지 {currentStageIndex} 클리어!");
+
+        int nextStageIndex = currentStageIndex + 1;
+
+        if (nextStageIndex < stages.Count)
+        {
+            Debug.Log($"다음 스테이지로 이동: {nextStageIndex}");
+            StartStage(nextStageIndex);
+        }
+        else
+        {
+            OnGameWin();
+        }
+    }
+
+    private void OnGameWin()
+    {
+        // 게임 클리어 처리
+        // 예: 클리어 UI 띄우기, 메인화면 이동 등
+        Debug.Log("축하합니다! 게임을 클리어했습니다.");
+        // 예: SceneManager.LoadScene("VictoryScene");
+    }
+
+
+    public void OnPlayerLose()
+    {
+        Debug.Log("패배!");
+        // 리트라이 처리
     }
 }
