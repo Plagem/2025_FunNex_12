@@ -7,6 +7,7 @@ public enum AugmentType
     Trigger_KaisaQ,
     Trigger_Repel,
     Passive_Satellite,
+    Passive_Heal,
     Stat_Weight,
     Stat_Health,
     Stat_Size,
@@ -27,7 +28,6 @@ public static class EffectFactory
             case AugmentType.Trigger_KaisaQ:
                 effect = new KaisaQPassive(statComp);
                 break;
-
             case AugmentType.Trigger_Repel:
                 effect = new RepelPassive(statComp);
                 break;
@@ -78,6 +78,9 @@ public static class EffectFactory
                 break;
             case AugmentType.Passive_Satellite:
                 effect = new SatellitePassive(statComp);
+                break;
+            case AugmentType.Passive_Heal:
+                effect = new HealPassive(statComp);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);

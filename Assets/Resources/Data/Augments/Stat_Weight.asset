@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d4ba45972807a34a9588120022a6000, type: 3}
   m_Name: Stat_Weight
   m_EditorClassIdentifier: 
-  augmentType: 0
-  icon: {fileID: 0}
-  displayName: 
-  description: 
+  augmentType: 3
+  icon: {fileID: 4317557464897954188, guid: e66fcefcd84a7e043b27b351ebcbcd1e, type: 3}
+  displayName: "\uB300\uC2DD\uAC00"
+  description: "\uD574\uB2EC\uC774 \uB9DB\uC788\uB294 \uC74C\uC2DD\uC744 \uBA39\uC5B4
+    \n\uC0B4\uC774 \uCC10\uB2E4\n\uD574\uB2EC\uC758 \uBB34\uAC8C\uAC00 10%p \uC99D\uAC00\uD55C\uB2E4\n"

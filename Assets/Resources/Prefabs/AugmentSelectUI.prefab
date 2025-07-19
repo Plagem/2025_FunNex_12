@@ -131,6 +131,7 @@ MonoBehaviour:
   _augmentUI2: {fileID: 8459749385734990313}
   _augmentUI3: {fileID: 1186099195121687647}
   _shellClosedImage: {fileID: -8851005131578471002, guid: 530f38ef344d5f84f841ff9225ff45c9, type: 3}
+  _shellOpenImage: {fileID: -6288323252664552193, guid: ab85d42892f7e4e46b51cadb65a68dfd, type: 3}
 --- !u!1001 &2926706116591532856
 PrefabInstance:
   m_ObjectHideFlags: 0

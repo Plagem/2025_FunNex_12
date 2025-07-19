@@ -20,16 +20,29 @@ public class AugmentUI : MonoBehaviour, IPointerClickHandler
         _augmentNameText.SetText(data.displayName);
         _augmentDescriptionText.SetText(data.description);
         _augmentType = data.augmentType;
+        _augmentImage.enabled = true;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         OnAugmentSelected?.Invoke(_augmentType);
+
+        PlayerController pc = FindAnyObjectByType<PlayerController>();
+        if (pc)
+        {
+            pc.GetStatComponent().BestowAugment(_augmentType);
+        }
     }
 
+    public void OpenShell(Sprite shellSprite)
+    {
+        _augmentBackgroundImage.sprite = shellSprite;
+        _augmentImage.enabled = true;
+    }
+    
     public void CloseShell(Sprite shellSprite)
     {
         _augmentBackgroundImage.sprite = shellSprite;
-        _augmentImage.sprite = null;
+        _augmentImage.enabled = false;
     }
 }

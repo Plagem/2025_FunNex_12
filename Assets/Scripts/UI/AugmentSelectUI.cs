@@ -10,10 +10,13 @@ public class AugmentSelectUI : MonoBehaviour
     [SerializeField] private AugmentUI _augmentUI3;
 
     [SerializeField] private Sprite _shellClosedImage;
+    [SerializeField] private Sprite _shellOpenImage;
 
     public void ShowOption()
     {
-        gameObject.SetActive(false);
+        Time.timeScale = 0f;
+        
+        gameObject.SetActive(true);
         
         int count = 3;
         // MAX 제외하고 enum 값 배열로 가져오기
@@ -30,6 +33,10 @@ public class AugmentSelectUI : MonoBehaviour
         _augmentUI2.Initialize(AugmentDataManager.GetAugmentData(selectedAugment[1]));
         _augmentUI3.Initialize(AugmentDataManager.GetAugmentData(selectedAugment[2]));
         
+        _augmentUI1.OpenShell(_shellOpenImage);
+        _augmentUI2.OpenShell(_shellOpenImage);
+        _augmentUI3.OpenShell(_shellOpenImage);
+        
         _augmentUI1.OnAugmentSelected += AugmentSelected;
         _augmentUI2.OnAugmentSelected += AugmentSelected;
         _augmentUI3.OnAugmentSelected += AugmentSelected;
@@ -37,6 +44,8 @@ public class AugmentSelectUI : MonoBehaviour
 
     private void AugmentSelected(AugmentType augmentType)
     {
+        Time.timeScale = 1f;
+        
         // 선택한 augmentType 해당하는거 말고 
         if (_augmentUI1._augmentType != augmentType)
         {
