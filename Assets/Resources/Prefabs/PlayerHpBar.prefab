@@ -489,6 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _statComponent: {fileID: 0}
+  _healthBarCanvas: {fileID: 3027130206520612870}
   _healthText: {fileID: 4715090411353393342}
   _healthBar: {fileID: 2386600430623349835}
   target: {fileID: 0}

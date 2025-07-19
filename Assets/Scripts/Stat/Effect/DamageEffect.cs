@@ -22,12 +22,4 @@ public class DamageEffect : BaseEffect
         };
         ModifyInfos.Add(tempModify);
     }
-
-    public override void OnEffectApplied()
-    {
-        base.OnEffectApplied();
-        
-        DamageTextManager.Instance.CreateDamageText(_statComponent.transform, _damage);
-        
-    }
 }

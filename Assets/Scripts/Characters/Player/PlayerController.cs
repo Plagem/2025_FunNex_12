@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public event Action OnPlayerStopped;
     public event Action<int> OnComboTriggered;
     public event Action OnAttackStarted;
+    
     public Action OnMonsterEliminated;
     
     private Vector3 startMousePos;
@@ -137,11 +138,7 @@ public class PlayerController : MonoBehaviour
                 float finalDamage = baseDamage * speedMultiplier * massMultiplier;
 
                 // 데미지 이펙트 생성
-                DamageEffect damageEffect = new DamageEffect();
-                damageEffect.Initialize(finalDamage);
-
-                enemyStatComponent.ApplyEffect(damageEffect);
-                Debug.Log($"적 남은 체력: {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
+                enemyStatComponent.ApplyDamage(finalDamage);
                 
                 DamageTextManager.Instance.SpawnStarEffects(collision.contacts[0].point);
             }

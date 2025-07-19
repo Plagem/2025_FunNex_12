@@ -20,6 +20,7 @@ public class DamageTextManager : MonoBehaviour
                 dtm.AddComponent<DamageTextManager>();
                 DontDestroyOnLoad(dtm);
             }
+            _instance = dtm.GetComponent<DamageTextManager>();
         }
     }
     
@@ -50,21 +51,16 @@ public class DamageTextManager : MonoBehaviour
         _starEffectPrefab = Resources.Load<GameObject>(_starEffectPath);
     }
     
-    public void CreateDamageText(Transform hitPoint, float Damage)
+    public DamageText CreateDamageText(Canvas canvas)
     {
         if (_damageTextPrefab == null)
         {
             LoadPrefab();   
         }
+        
+        GameObject damageText = Instantiate(_damageTextPrefab, canvas.transform);
 
-        if (GameManager.instance)
-        {
-            Debug.Log("Kex");
-        }
-
-        Canvas canvas = hitPoint.GetComponentInChildren<Canvas>();
-        GameObject damageText = Instantiate(_damageTextPrefab, hitPoint.position, Quaternion.identity, canvas.transform);
-        damageText.GetComponent<DamageText>().Init($"{(int)Damage}");
+        return damageText.GetComponent<DamageText>();
     }
 
     public void SpawnStarEffects(Vector3 center)
