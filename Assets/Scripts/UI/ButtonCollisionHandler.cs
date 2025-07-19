@@ -35,10 +35,12 @@ public class ButtonCollisionHandler : MonoBehaviour
 
             if (gameObject.CompareTag("StartBtn"))
             {
+                SoundManager.Instance.Play(Define.SFX.Big_Fire);
                 StartCoroutine(TriggerStart());
             }
             else if (gameObject.CompareTag("ExitBtn"))
             {
+                SoundManager.Instance.Play(Define.SFX.Big_Fire);
                 StartCoroutine(TriggerExit());
             }
         }
