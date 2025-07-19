@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - eStatType: 0
-    value: 70
+    value: 50
   - eStatType: 1
-    value: 70
+    value: 50
   - eStatType: 2
-    value: 5
+    value: 10
   - eStatType: 4
     value: 0.5

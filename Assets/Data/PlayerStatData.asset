@@ -21,3 +21,5 @@ MonoBehaviour:
     value: 10
   - eStatType: 4
     value: 1
+  - eStatType: 3
+    value: 1
