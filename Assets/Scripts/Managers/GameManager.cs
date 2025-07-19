@@ -23,9 +23,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField] private GameObject AugmentSelectUIPrefab;
     [SerializeField] private GameObject monsterPrefab;
     [SerializeField] private TileBase someTile;
 
+    private AugmentSelectUI _augmentSelectUI = null;
     private List<StageData> stages = new List<StageData>();
     private int currentStageIndex = 0;
     private int playerLives = 1; // 목숨 일단 한 개
@@ -120,6 +122,14 @@ public class GameManager : MonoBehaviour
 
     public void StartStage(int stageIndex)
     {
+        Debug.Log("Kexi");
+        
+        if (!_augmentSelectUI)
+        {
+            _augmentSelectUI = Instantiate(AugmentSelectUIPrefab).GetComponent<AugmentSelectUI>();
+        }
+        _augmentSelectUI.ShowOption();
+        
         if (stageIndex < 0 || stageIndex >= stages.Count)
         {
             Debug.LogWarning("스테이지 인덱스 오류");
