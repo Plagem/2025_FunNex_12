@@ -5,7 +5,22 @@ using UnityEngine;
 public class DamageTextManager : MonoBehaviour
 {
     private static DamageTextManager _instance = null;
+    public static DamageTextManager Instance { get { Init(); return _instance; } }
 
+    static void Init()
+    {
+        if (_instance == null)
+        {
+            GameObject dtm = GameObject.Find("DamageTextManager");
+            if (dtm == null)
+            {
+                dtm = new GameObject("DamageTextManager");
+                dtm.AddComponent<DamageTextManager>();
+                DontDestroyOnLoad(dtm);
+            }
+        }
+    }
+    
     private void Awake()
     {
         if (_instance == null)
@@ -18,19 +33,7 @@ public class DamageTextManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-    public static DamageTextManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                return null;
-            }
-
-            return _instance;
-        }
-    }
+    
 
     public GameObject DamageTextPrefab;
     

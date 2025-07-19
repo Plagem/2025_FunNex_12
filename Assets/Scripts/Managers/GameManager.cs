@@ -5,6 +5,24 @@ using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
+    static GameManager _instance = null;
+    public static GameManager instance { get { Init();  return _instance; } } 
+    GameManager() {}
+
+    static void Init()
+    {
+        if (_instance == null)
+        {
+            GameObject gm = GameObject.Find("GameManager");
+            if (gm == null)
+            {
+                gm = new GameObject("GameManager");
+                gm.AddComponent<GameManager>();
+                DontDestroyOnLoad(gm);
+            }
+        }
+    }
+
     [SerializeField] private GameObject monsterPrefab;
     [SerializeField] private TileBase someTile;
 
