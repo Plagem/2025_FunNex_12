@@ -406,6 +406,8 @@ MonoBehaviour:
   - {fileID: 2464057774123735027, guid: f3fe2e4c9ad63c74a8459370806e5212, type: 3}
   - {fileID: 2464057774123735027, guid: f03afae008f9abb498dc75daafb946e6, type: 3}
   - {fileID: 2935456962863156603, guid: d1113ae706550b64897ebf338e1f9bef, type: 3}
+  - {fileID: 8187992221515712992, guid: 6c61eeaa06ef1b04ea2a8e72bd637f42, type: 3}
+  - {fileID: 8187992221515712992, guid: 6c61eeaa06ef1b04ea2a8e72bd637f42, type: 3}
   TileList:
   - {fileID: 11400000, guid: 30eb1c9d8edc23447a4c63d0533d9cba, type: 2}
   - {fileID: 11400000, guid: 7bd8d70d3a6f00241a39bc5d1552ad7e, type: 2}

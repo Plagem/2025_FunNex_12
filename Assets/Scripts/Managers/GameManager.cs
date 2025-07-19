@@ -386,6 +386,23 @@ public class GameManager : MonoBehaviour
             }
         };
         stages.Add(stage4);
+
+        StageData finalStage = new StageData()
+        {
+            tilesToPlace = new TilePlacement[]
+            {
+               new TilePlacement { position = new Vector2Int(-9, 3), tileType = TileType.IceFloor}
+            },
+            tilesToClear = new Vector2Int[]
+            {
+               new Vector2Int(-9, 3)
+            },
+            monsterSpawnPositions = new MonsterPlacement[]
+            {
+            new MonsterPlacement {position = new Vector2Int(12, -1), monster = monsterPrefabList[(int)enemyType.Boss]}, 
+            }
+        };
+        stages.Add(finalStage);
     }
 
 
