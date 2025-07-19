@@ -66,8 +66,17 @@ public class CharacterFallCheck : MonoBehaviour
 
             else
             {
-                Debug.Log($"{obj.name} 낙사 → 파괴");
-                Destroy(obj);
+                // obj 는 parentCollider.gameObject
+                if (obj.TryGetComponent<EnemyBase>(out var enemy))
+                {
+                    // EnemyBase 타입이라면 Die() 호출
+                    enemy.Die();
+                }
+                else
+                {
+                    Debug.Log($"{obj.name} 낙사 → 파괴");
+                    Destroy(obj);
+                }
             }
         }
     }

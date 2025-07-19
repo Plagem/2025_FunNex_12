@@ -107,17 +107,6 @@ public class PlayerController : MonoBehaviour
         if ((collision.gameObject.CompareTag("Boss") || collision.gameObject.CompareTag("Enemy")) && isMoving)
         {
             float speed = rb.linearVelocity.magnitude;
-            Debug.Log($"충돌 시 속도: {speed}");
-
-            if (speed >= 10f) // 예시 기준 속도
-            {
-                CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
-                if (cameraShake != null)
-                {
-                    cameraShake.Shake();
-                    Debug.Log("CameraShake 발동");
-                }
-            }
 
             // Apply Damage
             Debug.Log("플레이어와 적이 부딪혔다! (플레이어가 감지함)");
@@ -136,6 +125,18 @@ public class PlayerController : MonoBehaviour
 
                 // 최종 데미지
                 float finalDamage = baseDamage * speedMultiplier * massMultiplier;
+
+                /*
+                if(finalDamage >= 20)
+                {
+                    CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
+                    if (cameraShake != null)
+                    {
+                        cameraShake.Shake();
+                        Debug.Log("CameraShake 발동");
+                    }
+                }
+                */
 
                 // 데미지 이펙트 생성
                 enemyStatComponent.ApplyDamage(finalDamage);

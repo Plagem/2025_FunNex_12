@@ -59,7 +59,7 @@ public abstract class EnemyBase : MonoBehaviour
     }
 
 
-    protected virtual void Die()
+    public virtual void Die()
     {
         isDead = true;
 
