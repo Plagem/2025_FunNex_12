@@ -44,6 +44,6 @@ public class HealthBar : MonoBehaviour
         damageText.transform.position = target.transform.position + offset + new Vector3(0, 0.3f, 0);
         damageText.transform.rotation = quaternion.identity;
         
-        damageText.Init($"{(int)damage}");
+        damageText.Init($"{(int)damage}", target);
     }
 }

@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             rb.AddForce(direction * distance * forceMultiplier * _statComponent.GetCurrentValue(StatType.Weight), ForceMode2D.Impulse);
 
-            float torque = distance * 70 * forceMultiplier;
+            float torque = distance * 0.1f * forceMultiplier;
             rb.AddTorque(torque, ForceMode2D.Impulse);
 
             tl.EndLine();
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && isMoving)
+        if ((collision.gameObject.CompareTag("Boss") || collision.gameObject.CompareTag("Enemy")) && isMoving)
         {
             float speed = rb.linearVelocity.magnitude;
 
