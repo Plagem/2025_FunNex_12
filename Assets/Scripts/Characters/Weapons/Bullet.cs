@@ -6,10 +6,10 @@ public class EnemyBullet : MonoBehaviour
     public float lifeTime = 5f;
     public float knockbackForce = 10f;
 
-    private Vector2 moveDirection;
-    private float damage;
+    protected Vector2 moveDirection;
+    public float damage;
 
-    void Start()
+    protected virtual void Start()
     {
         Destroy(gameObject, lifeTime);
     }
@@ -29,20 +29,23 @@ public class EnemyBullet : MonoBehaviour
         damage = dmg;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected float GetDamage()
+    {
+        return damage;
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("플레이어 피격됨!");
+            Debug.Log("EnemyBullet - 플레이어 피격됨!");
 
-            // 데미지 적용
             var playerStat = other.GetComponent<BaseStatComponent>();
             if (playerStat != null)
             {
                 playerStat.ApplyDamage(damage);
             }
 
-            // 넉백 처리
             Rigidbody2D playerRb = other.GetComponent<Rigidbody2D>();
             if (playerRb != null)
             {

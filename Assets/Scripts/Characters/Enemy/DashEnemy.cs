@@ -1,10 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DashEnemy : EnemyBase
 {
     public float dashForce = 10f;
     public float dashInterval = 3f;
-    public float dashDuration = 0.2f;
+    public float dashDuration = 0.5f;
 
     private float timer = 0f;
     private bool isDashing = false;
@@ -37,5 +37,28 @@ public class DashEnemy : EnemyBase
     void EndDash()
     {
         isDashing = false;
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (isDashing) 
+            { 
+                var playerStat = other.GetComponent<BaseStatComponent>();
+                if (playerStat != null)
+                {
+                    float damage = stat.GetFinalDamage();
+                    playerStat.ApplyDamage(damage);
+                }
+
+                Rigidbody2D playerRb = other.GetComponent<Rigidbody2D>();
+                if (playerRb != null)
+                {
+                    Vector3 direction = (other.transform.position - transform.position).normalized;
+                    playerRb.AddForce(-direction * 10f, ForceMode2D.Impulse);
+                }
+            }
+        }
     }
 }
