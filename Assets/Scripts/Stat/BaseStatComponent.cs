@@ -35,7 +35,12 @@ public class BaseStatComponent : MonoBehaviour
     
     public float GetBaseValue(StatType statType)
     {
-        return _attributes[statType].BaseValue;
+        if (_attributes.ContainsKey(statType))
+        {
+            return _attributes[statType].BaseValue;
+        }
+
+        return 0f;
     }
 
     public void BestowAugment(AugmentType augmentType)

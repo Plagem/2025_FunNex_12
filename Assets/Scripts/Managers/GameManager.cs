@@ -464,9 +464,8 @@ public class GameManager : MonoBehaviour
     
     private void StartBossCombat(GameObject boss)
     {
-        BossHealthBar.enabled = true;
-        
-        Debug.Log("가보자잇");
+        BossHealthBar.gameObject.SetActive(true);
+        BossHealthBar.BossCombatStart();
     }
 
     public void OnPlayerStageWin()

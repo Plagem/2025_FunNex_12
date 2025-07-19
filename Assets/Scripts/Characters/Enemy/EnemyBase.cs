@@ -79,7 +79,7 @@ public abstract class EnemyBase : MonoBehaviour
         pc.OnMonsterEliminated?.Invoke();
         
         // 잠시 후 제거
-        Destroy(gameObject, 0.3f);
+        Destroy(gameObject, 1f);
         GetComponent<Collider2D>().enabled = false;
     }
 }
