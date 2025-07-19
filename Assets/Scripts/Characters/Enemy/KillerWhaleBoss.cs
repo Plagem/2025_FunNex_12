@@ -62,8 +62,6 @@ public class KillerWhaleBoss : EnemyBase
                 yield return Pattern4();
                 yield return new WaitForSeconds(skillDelay);
             }
-            yield return Pattern3();
-            yield return new WaitForSeconds(skillDelay);
         }
     }
 
@@ -119,17 +117,17 @@ public class KillerWhaleBoss : EnemyBase
         if (phase3)
         {
             localAngleInterval = 10f;
-            localShootInterval = 0.35f;
+            localShootInterval = 0.3f;
         }
         else if (phase2)
         {
             localAngleInterval = 15f;
-            localShootInterval = 0.5f;
+            localShootInterval = 0.4f;
         }
         else
         {
-            localAngleInterval = 20f;
-            localShootInterval = 0.7f;
+            localAngleInterval = 18f;
+            localShootInterval = 0.6f;
         }
 
         transform.position = new Vector3(0f, 13.5f, -1f);
@@ -147,7 +145,7 @@ public class KillerWhaleBoss : EnemyBase
 
 
     [SerializeField] private GameObject wavePrefab; // 추가
-    [SerializeField] private float waveSpeed = 5f;   // 내려가는 속도
+    [SerializeField] private float waveSpeed = 6f;   // 내려가는 속도
     [SerializeField] private GameObject urchinPrefab;     // 성게 프리팹
     [SerializeField] private float urchinSpawnDelay = 1.0f; // 성게 간격 (초)
 
@@ -173,52 +171,25 @@ public class KillerWhaleBoss : EnemyBase
         for (int i = 0; i < waveCount; i++)
         {
             float randomX = Random.Range(-11f, 12.5f);
-            Vector3 spawnPos = new Vector3(randomX, 13.5f, -1f);
+            Vector3 spawnPos = new Vector3(randomX, 15.5f, -1f);
             transform.position = spawnPos;
 
             GameObject wave = Instantiate(wavePrefab, spawnPos, Quaternion.identity);
 
-            // Rigidbody로 아래로 이동
             Rigidbody2D rb = wave.GetComponent<Rigidbody2D>();
             if (rb != null)
                 rb.linearVelocity = Vector2.down * waveSpeed;
 
-            // 시간이 지나면서 투명해지고 사라짐 (예: 3초)
-            StartCoroutine(FadeOutAndDestroy(wave, 3f));
+            // 🟣 성게 뿌리기 (wave 지나간 위치에)
+            StartCoroutine(SpawnUrchinsAlongWave(randomX, 1 + Random.Range(0, 2))); // 1 or 2개
 
-            // 성게 뿌리기
-            StartCoroutine(SpawnUrchinsAlongWave(randomX, 1 + Random.Range(0, 2))); // 1~2개
-
-            yield return new WaitForSeconds(interval * 10); // 다음 웨이브 대기
+            yield return new WaitForSeconds(interval * 2); // 다음 웨이브까지 대기
         }
 
         yield return new WaitForSeconds(1f); // 마지막 웨이브 보여줄 시간
 
         Hide();
         isShooting = false;
-    }
-
-
-    private IEnumerator FadeOutAndDestroy(GameObject wave, float duration)
-    {
-        SpriteRenderer sr = wave.GetComponent<SpriteRenderer>();
-        if (sr == null)
-            yield break;
-
-        Color originalColor = sr.color;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-            sr.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        sr.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
-        Destroy(wave);
     }
 
 
