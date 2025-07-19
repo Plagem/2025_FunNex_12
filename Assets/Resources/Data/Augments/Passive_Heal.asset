@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d4ba45972807a34a9588120022a6000, type: 3}
   m_Name: Passive_Heal
   m_EditorClassIdentifier: 
-  augmentType: 2
-  icon: {fileID: 429578353068228903, guid: c4f878e1020582e42a3766296811e0e8, type: 3}
+  augmentType: 3
+  icon: {fileID: -2327986825157802336, guid: a1d6d405b26b15349a2ac83dd28ba9f2, type: 3}
   displayName: "\uC0AC\uB0E5 \uBCF8\uB2A5"
   description: "\uD574\uB2EC\uC740 \uBCF8\uB798 \uC721\uC2DD\uB3D9\uBB3C\uC774\uB2E4\n\uC721\uC2DD\uC5D0
     \uB208\uC744 \uB72C \uD574\uB2EC\uC774\n\uC801\uC744 \uCC98\uCE58\uD560 \uB54C\uB9C8\uB2E4

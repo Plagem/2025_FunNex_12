@@ -31,7 +31,7 @@ public class HealthBar : MonoBehaviour
         {
             float HealthPercent = _statComponent.GetCurrentValue(StatType.CurrentHealth) /
                                   _statComponent.GetCurrentValue(StatType.MaxHealth);
-            _healthText.SetText($"{_statComponent.GetCurrentValue(StatType.CurrentHealth)}");
+            _healthText.SetText($"{(int)_statComponent.GetCurrentValue(StatType.CurrentHealth)}");
             _healthBar.value = HealthPercent;
         }
     }
