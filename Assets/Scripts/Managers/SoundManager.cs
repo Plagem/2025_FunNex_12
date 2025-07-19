@@ -9,8 +9,35 @@ using UnityEngine;
 ///     (띄어쓰기,시작 숫자 혀용X, 한글도 가능한 넣지말자 (서비스 타겟 기종이 UTF_8 인코더를 지원하지 않을 수 있다. 무슨 소린지 모르겠으면 빼자) . MaxCount 가 없는건 문제없으나 MaxCount가 있는데 그 아래 어떤 enum이 있는것은 혀용하지 않는다.)
 /// 3. GameManager.Sound.Play(Define.BGM.틀고싶은노래) 또는 (Define.SFX.틀고싶은효과음); 식으로 사용하자 
 /// </summary>
-public class SoundManager
+public class SoundManager : MonoBehaviour
 {
+    private static SoundManager instance = null;
+
+    void Awake()
+    {
+        if (null == instance)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    public static SoundManager Instance
+    {
+        get
+        {
+            if (null == instance)
+            {
+                return null;
+            }
+            return instance;
+        }
+    }
+    
     AudioSource[] _audioSources = new AudioSource[(int)Define.Sounds.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
@@ -35,8 +62,8 @@ public class SoundManager
                 _audioSources[(int)s] = go.AddComponent<AudioSource>();
                 go.transform.parent = root.transform;
             }
-            _bgmvolume = PlayerPrefs.GetFloat("BGMVolume", 0.75f);
-            _sfxvolume = PlayerPrefs.GetFloat("SFXVolume", 0.75f);
+            _bgmvolume = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
+            _sfxvolume = PlayerPrefs.GetFloat("SFXVolume", 0.85f);
             _audioSources[(int)Define.Sounds.BGM].loop = true;
         }
         else

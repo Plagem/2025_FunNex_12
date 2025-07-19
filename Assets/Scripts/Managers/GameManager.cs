@@ -70,9 +70,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isSpawning && FindAnyObjectByType<EnemyBase>() == null)
+        if (SceneManager.GetActiveScene().name == "GameScene")
         {
-            OnPlayerStageWin();
+            if (!isSpawning && FindAnyObjectByType<EnemyBase>() == null)
+            {
+                OnPlayerStageWin();
+            }   
         }
     }
 
@@ -477,6 +480,8 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerStageWin()
     {
+        SoundManager.Instance.Play(Define.SFX.Success);
+        
         Debug.Log($"스테이지 {currentStageIndex} 클리어!");
 
         int nextStageIndex = currentStageIndex + 1;
