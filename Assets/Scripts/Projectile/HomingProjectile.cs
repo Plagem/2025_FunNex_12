@@ -69,9 +69,7 @@ public class HomingProjectile : MonoBehaviour
             BaseStatComponent targetStat = _target.GetComponent<BaseStatComponent>();
             if (targetStat && ownerStat)
             {
-                DamageEffect damageEffect = new DamageEffect();
-                damageEffect.Initialize(ownerStat.GetFinalDamage());
-                targetStat.ApplyEffect(damageEffect);
+                targetStat.ApplyDamage(ownerStat.GetFinalDamage() * 0.2f);
                 targetStat.GetComponent<Rigidbody2D>().AddForce(transform.right * 5f, ForceMode2D.Impulse);
             }
             Destroy(gameObject);
