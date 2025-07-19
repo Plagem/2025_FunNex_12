@@ -38,6 +38,6 @@ public class DamageTextManager : MonoBehaviour
     {
         Canvas canvas = FindAnyObjectByType<Canvas>();
         GameObject damageText = Instantiate(DamageTextPrefab, hitPoint, Quaternion.identity, canvas.transform);
-        damageText.GetComponent<TMP_Text>().SetText($"{(int)Damage}");
+        damageText.GetComponent<DamageText>().Init($"{(int)Damage}");
     }
 }

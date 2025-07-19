@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using DG.Tweening;
+using Unity.Mathematics;
 
 public class Satellite : MonoBehaviour
 {
@@ -14,13 +15,25 @@ public class Satellite : MonoBehaviour
     public void BeginOrbit()
     {
         float angle = initialAngle;
+
         orbitTween = DOVirtual.Float(0f, 360f, rotationDuration, t =>
             {
                 float totalAngle = angle + t;
                 float rad = totalAngle * Mathf.Deg2Rad;
                 Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0) * radius;
+
                 if (orbitCenter != null)
-                    transform.position = orbitCenter.position + offset;
+                {
+                    Vector3 orbitPos = orbitCenter.position + offset;
+                    transform.position = orbitPos;
+
+                    // 방향 벡터 계산 (중심 → 객체 방향)
+                    Vector3 dir = (orbitPos - orbitCenter.position).normalized;
+                    float angleDeg = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+                    // 본인 회전 (Z축 기준)
+                    transform.rotation = Quaternion.Euler(0, 0, angleDeg);
+                }
             })
             .SetLoops(-1, LoopType.Restart)
             .SetEase(Ease.Linear);
