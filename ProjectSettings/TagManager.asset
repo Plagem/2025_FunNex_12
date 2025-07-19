@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Boss
   - StartBtn
   - ExitBtn
-  - Boss
   layers:
   - Default
   - TransparentFX
