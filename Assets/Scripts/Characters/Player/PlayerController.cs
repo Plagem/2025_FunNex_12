@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             rb.AddForce(direction * distance * forceMultiplier * _statComponent.GetCurrentValue(StatType.Weight), ForceMode2D.Impulse);
 
-            float torque = distance * 70 * forceMultiplier;
+            float torque = distance * 0.1f * forceMultiplier;
             rb.AddTorque(torque, ForceMode2D.Impulse);
 
             tl.EndLine();
