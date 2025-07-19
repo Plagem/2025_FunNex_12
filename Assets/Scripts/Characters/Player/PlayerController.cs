@@ -114,12 +114,13 @@ public class PlayerController : MonoBehaviour
             float speed = rb.linearVelocity.magnitude;
             Debug.Log($"충돌 시 속도: {speed}");
 
-            if (speed >= 12f) // 예시 기준 속도
+            if (speed >= 10f) // 예시 기준 속도
             {
                 CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
                 if (cameraShake != null)
                 {
                     cameraShake.Shake();
+                    Debug.Log("CameraShake 발동");
                 }
             }
 
@@ -128,8 +129,23 @@ public class PlayerController : MonoBehaviour
             BaseStatComponent enemyStatComponent = collision.gameObject.GetComponent<BaseStatComponent>();
             if (enemyStatComponent)
             {
+                Rigidbody2D rb = GetComponent<Rigidbody2D>();
+                float baseDamage = _statComponent.GetCurrentValue(StatType.AttackPower);
+
+                // 1. 속도 기반 배수 (speed: 1 → 0.5배, 10+ → 2배)
+                float speedMultiplier = Mathf.Lerp(0.5f, 2f, Mathf.InverseLerp(1f, 10f, speed));
+
+                // 2. 질량 기반 배수 (mass: 1 → 1배, 5+ → 2배)
+                float mass = rb.mass;
+                float massMultiplier = Mathf.Lerp(1f, 2f, Mathf.InverseLerp(1f, 1.5f, mass));
+
+                // 최종 데미지
+                float finalDamage = baseDamage * speedMultiplier * massMultiplier;
+
+                // 데미지 이펙트 생성
                 DamageEffect damageEffect = new DamageEffect();
-                damageEffect.Initialize(_statComponent.GetCurrentValue(StatType.AttackPower));
+                damageEffect.Initialize(finalDamage);
+
                 enemyStatComponent.ApplyEffect(damageEffect);
                 Debug.Log($"적 남은 체력: {enemyStatComponent.GetCurrentValue(StatType.CurrentHealth)}");
             }

@@ -15,7 +15,22 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
+
+        // defaultTarget이 비어 있고 씬에 Player가 있다면 자동 할당
+        if (defaultTarget == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+            {
+                defaultTarget = playerObj.transform;
+            }
+            else
+            {
+                Debug.LogWarning("CameraManager: Player 태그 오브젝트를 찾을 수 없습니다.");
+            }
+        }
     }
+
 
     void LateUpdate()
     {
