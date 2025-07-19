@@ -14,6 +14,7 @@ public class AugmentSelectUI : MonoBehaviour
 
     public void ShowOption()
     {
+        Debug.Log("Kexi");
         Time.timeScale = 0f;
         
         gameObject.SetActive(true);
@@ -44,7 +45,12 @@ public class AugmentSelectUI : MonoBehaviour
 
     private void AugmentSelected(AugmentType augmentType)
     {
+        Debug.Log("해제");
         Time.timeScale = 1f;
+
+        _augmentUI1.OnAugmentSelected -= AugmentSelected;
+        _augmentUI2.OnAugmentSelected -= AugmentSelected;
+        _augmentUI3.OnAugmentSelected -= AugmentSelected;
         
         // 선택한 augmentType 해당하는거 말고 
         if (_augmentUI1._augmentType != augmentType)
