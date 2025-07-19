@@ -9,14 +9,16 @@ public class CharacterFallCheck : MonoBehaviour
     private Collider2D parentCollider;
     private Transform parentTransform;
     private BaseStatComponent statComponent;
+    private SpriteRenderer[] renderers;
 
-    private bool hasFallen = false; // 낙사 판정 1회 처리용
+    private bool hasFallen = false;
 
     private void Start()
     {
         parentCollider = GetComponentInParent<Collider2D>();
         parentTransform = GetComponentInParent<Transform>();
         statComponent = GetComponentInParent<BaseStatComponent>();
+        renderers = parentTransform.GetComponentsInChildren<SpriteRenderer>();
 
         if (parentCollider == null)
         {
@@ -37,46 +39,73 @@ public class CharacterFallCheck : MonoBehaviour
         if (hit == null)
         {
             hasFallen = true;
+            StartCoroutine(FallRoutine());
+        }
+    }
 
-            GameObject obj = parentCollider.gameObject;
+    private IEnumerator FallRoutine()
+    {
+        GameObject obj = parentCollider.gameObject;
 
-            if (obj.CompareTag("Player"))
+        // 애니메이션 (줄어들고 회전)
+        float duration = 1.5f;
+        float elapsed = 0f;
+
+        Vector3 startScale = parentTransform.localScale;
+        Quaternion startRot = parentTransform.rotation;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            parentTransform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
+            parentTransform.Rotate(0, 0, 720f * Time.deltaTime); // 시계방향 회전
+            yield return null;
+        }
+
+        // 낙사 처리
+        if (obj.CompareTag("Player"))
+        {
+            Debug.Log("플레이어 낙사 → 위치 초기화 + 체력 절반 깎기");
+
+            // 렌더러 숨김
+            foreach (var r in renderers)
+                r.enabled = false;
+
+            // 위치 초기화
+            parentTransform.position = new Vector3(0, 0, -1f);
+
+            Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+
+            // 체력 절반 감소
+            if (statComponent != null)
             {
-                Debug.Log("플레이어 낙사 → 위치 초기화 + 체력 절반 깎기");
-
-                // 위치 초기화
-                parentTransform.position = new Vector3(0, 0, -1f);
-
-                // 속도 초기화
-                Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
-                if (rb != null)
-                {
-                    rb.linearVelocity = Vector2.zero;
-                }
-
-                // 체력 절반 감소
-                if (statComponent != null)
-                {
-                    float currentHP = statComponent.GetCurrentValue(StatType.CurrentHealth);
-                    statComponent.ApplyDamage(currentHP * 0.5f);
-                }
-
-                ResetFallState();
+                float currentHP = statComponent.GetCurrentValue(StatType.CurrentHealth);
+                statComponent.ApplyDamage(currentHP * 0.5f);
             }
 
+            // 스케일 초기화
+            parentTransform.localScale = startScale;
+            parentTransform.rotation = startRot;
+
+            // 렌더러 다시 보이기
+            foreach (var r in renderers)
+                r.enabled = true;
+
+            ResetFallState();
+        }
+        else
+        {
+            if (obj.TryGetComponent<EnemyBase>(out var enemy))
+            {
+                enemy.Die();
+            }
             else
             {
-                // obj 는 parentCollider.gameObject
-                if (obj.TryGetComponent<EnemyBase>(out var enemy))
-                {
-                    // EnemyBase 타입이라면 Die() 호출
-                    enemy.Die();
-                }
-                else
-                {
-                    Debug.Log($"{obj.name} 낙사 → 파괴");
-                    Destroy(obj);
-                }
+                Destroy(obj);
             }
         }
     }
@@ -88,8 +117,7 @@ public class CharacterFallCheck : MonoBehaviour
 
     private IEnumerator ResetFallNextFrame()
     {
-        yield return null; // 1프레임 대기
-
+        yield return null;
         hasFallen = false;
     }
 
