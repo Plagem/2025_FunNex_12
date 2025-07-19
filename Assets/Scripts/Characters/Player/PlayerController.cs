@@ -37,6 +37,9 @@ public class PlayerController : MonoBehaviour
         
         //test
         _statComponent.BestowAugment(AugmentType.Trigger_KaisaQ);
+        _statComponent.BestowAugment(AugmentType.Passive_Satellite);
+        _statComponent.BestowAugment(AugmentType.Passive_Satellite);
+        _statComponent.BestowAugment(AugmentType.Passive_Satellite);
     }
 
     void Update()

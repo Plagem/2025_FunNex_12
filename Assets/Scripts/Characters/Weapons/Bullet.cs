@@ -5,7 +5,7 @@ public class EnemyBullet : MonoBehaviour
 {
     public float speed = 5f;
     public float lifeTime = 5f;
-    public float knockbackForce = 100f;
+    public float knockbackForce = 10f;
 
     private Vector2 moveDirection;
 
