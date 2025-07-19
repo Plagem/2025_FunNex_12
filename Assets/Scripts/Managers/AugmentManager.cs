@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum AugmentType
@@ -11,6 +12,7 @@ public enum AugmentType
     Stat_Size,
     Stat_Speed,
     Stat_Power,
+    MAX,
 }
 
 public static class EffectFactory
@@ -85,6 +87,37 @@ public static class EffectFactory
             effect._statComponent = statComp;
 
         return effect;
+    }
+}
+
+public class AugmentDataManager : MonoBehaviour
+{
+    private static Dictionary<AugmentType, AugmentDataSO> _augmentDict;
+
+    public static AugmentDataSO GetAugmentData(AugmentType type)
+    {
+        if (_augmentDict == null)
+            LoadAllAugments();
+
+        if (_augmentDict.TryGetValue(type, out var data))
+            return data;
+
+        Debug.LogWarning($"AugmentData for type {type} not found.");
+        return null;
+    }
+
+    private static void LoadAllAugments()
+    {
+        _augmentDict = new Dictionary<AugmentType, AugmentDataSO>();
+
+        var all = Resources.LoadAll<AugmentDataSO>("Data/Augments");
+        foreach (var augment in all)
+        {
+            if (!_augmentDict.ContainsKey(augment.augmentType))
+                _augmentDict.Add(augment.augmentType, augment);
+            else
+                Debug.LogWarning($"Duplicate AugmentType found: {augment.augmentType}");
+        }
     }
 }
 
