@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class EnemyBase : MonoBehaviour
@@ -63,23 +64,31 @@ public abstract class EnemyBase : MonoBehaviour
     {
         isDead = true;
 
-        // 이동 정지
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0f;
-            rb.bodyType = RigidbodyType2D.Kinematic; // 물리 반응 끄기
+            rb.bodyType = RigidbodyType2D.Kinematic;
         }
 
-        // 카메라 연출
-        Camera.main.GetComponent<CameraManager>().FocusOnEnemy(transform);
+        // 카메라 연출 후 파괴
+        StartCoroutine(DieRoutine());
+    }
 
-        // 쓰레기코드 투하 우하하 ㅋㅋ
+    private IEnumerator DieRoutine()
+    {
+        // 카메라 연출 먼저 수행
+        yield return StartCoroutine(Camera.main.GetComponent<CameraManager>().FocusRoutine(transform));
+
+        // 콜라이더 비활성화
+        GetComponent<Collider2D>().enabled = false;
+
+        // 쓰레기 코드 실행
         PlayerController pc = FindAnyObjectByType<PlayerController>();
         pc.OnMonsterEliminated?.Invoke();
-        
-        // 잠시 후 제거
-        Destroy(gameObject, 1f);
-        GetComponent<Collider2D>().enabled = false;
+
+        // 오브젝트 파괴
+        Destroy(gameObject);
     }
+
 }
