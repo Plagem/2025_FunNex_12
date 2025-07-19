@@ -8,22 +8,23 @@ public class DamageText : MonoBehaviour
     [SerializeField] private TMP_Text damageText;
     private Sequence seq;
     
-    public void Init(string text)
+    public void Init(string damage)
     {
-        damageText.SetText(text);
+        damageText.SetText(damage);
 
-        // 초기 상태
+        // 초기 설정
         transform.localScale = Vector3.one;
+        RectTransform rt = GetComponent<RectTransform>();
         CanvasGroup group = gameObject.AddComponent<CanvasGroup>();
+        group.alpha = 1f;
 
-        // 애니메이션 시퀀스
-        seq = DOTween.Sequence();
+        Vector3 startPos = rt.anchoredPosition;
+        Vector3 endPos = startPos + new Vector3(0, 30f, 0); // 위로 30만큼
 
-        seq.Append(transform.DOMoveY(transform.position.y + 1f, 0.5f).SetEase(Ease.OutQuad)); // 위로 뜨기
-        seq.Join(group.DOFade(0.5f, 0.8f));                                                      // 점점 사라지기
-        seq.Join(transform.DOScale(1.2f, 0.2f).SetLoops(2, LoopType.Yoyo));                    // 튕기듯이 확대
-        
-        seq.AppendCallback(() => Destroy(gameObject));
+        Sequence seq = DOTween.Sequence();
+        seq.Append(rt.DOAnchorPos(endPos, 0.5f).SetEase(Ease.OutQuad));     // 위로 올라감
+        seq.Append(group.DOFade(0f, 0.3f));                                // 투명해짐
+        seq.OnComplete(() => Destroy(gameObject));
     }
 
     private void OnDestroy()

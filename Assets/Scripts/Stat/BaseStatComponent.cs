@@ -6,6 +6,8 @@ using UnityEngine;
 public class BaseStatComponent : MonoBehaviour
 {
     public event Action<StatType, AttributeData> OnAttributeChanged;
+
+    public event Action<float> OnDamaged;
     
     private Dictionary<StatType, AttributeData> _attributes;
     private List<BaseEffect> _activeEffects;
@@ -125,6 +127,8 @@ public class BaseStatComponent : MonoBehaviour
         DamageEffect damageEffect = new DamageEffect();
         damageEffect.Initialize(damage);
         ApplyEffect(damageEffect);
+        
+        OnDamaged?.Invoke(damage);
     }
     
     private void Update()

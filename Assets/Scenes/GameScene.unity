@@ -234,7 +234,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -503,7 +503,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -535,7 +535,7 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 4.675792e+25
+      e00: 4.676102e+25
       e01: 0
       e02: 4.6758807e+25
       e03: 2.439459e-19
@@ -545,15 +545,15 @@ Tilemap:
       e13: 5.47e-43
       e20: 1.0426603e-15
       e21: 0
-      e22: -9.992552e+9
-      e23: -6.297909e-19
+      e22: -9.146843e+9
+      e23: -6.327241e-19
       e30: 4.5914e-41
       e31: 0
       e32: 5.5e-43
       e33: 5.47e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 6.4591e-41, g: 6.4591e-41, b: 6.4591e-41, a: 6.4591e-41}
+    m_Data: {r: 8.4353e-41, g: 8.4353e-41, b: 8.4353e-41, a: 8.4353e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -630,11 +630,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3981520563916241129, guid: 043df508cb6fd8f41b36e71ac631da98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.12009
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3981520563916241129, guid: 043df508cb6fd8f41b36e71ac631da98, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.11698
+      value: 0.00000047683716
       objectReference: {fileID: 0}
     - target: {fileID: 3981520563916241129, guid: 043df508cb6fd8f41b36e71ac631da98, type: 3}
       propertyPath: m_LocalPosition.z

@@ -21,6 +21,10 @@ public class RepelEffect : BaseEffect
     {
         base.OnEffectApplied();
 
+        // anim
+        GameObject repelPrefab = Resources.Load<GameObject>("Prefabs/RepelEffect");
+        Object.Instantiate(repelPrefab, _statComponent.transform.position, Quaternion.identity);
+        
         Transform origin = _statComponent.transform;
         
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(origin.position, _repelRange);

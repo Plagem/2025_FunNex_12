@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
                 gm.AddComponent<GameManager>();
                 DontDestroyOnLoad(gm);
             }
+            _instance = gm.GetComponent<GameManager>();
         }
     }
 
@@ -39,12 +40,13 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TileBase[] TileList;
 
-    [SerializeField] private Canvas MainCanvas;
+    [SerializeField] public Canvas MainCanvas;
     
     private AugmentSelectUI _augmentSelectUI = null;
     private List<StageData> stages = new List<StageData>();
     private int currentStageIndex = 0;
 
+    private bool isSpawning = false;
     private GameObject Player;
     private int playerLives = 1; // 목숨 일단 한 개
 
@@ -56,9 +58,16 @@ public class GameManager : MonoBehaviour
         StartStage(currentStageIndex);
 
         // 5초마다 자동으로 다음 스테이지로 넘어가기 (테스트용)
-        InvokeRepeating(nameof(OnPlayerStageWin), 5f, 5f);
+        //InvokeRepeating(nameof(OnPlayerStageWin), 5f, 5f);
     }
 
+    private void Update()
+    {
+        if (!isSpawning && FindAnyObjectByType<EnemyBase>() == null)
+        {
+            OnPlayerStageWin();
+        }
+    }
 
     public void ExitGame()
     {
@@ -75,24 +84,51 @@ public class GameManager : MonoBehaviour
         // Stage 0
         StageData stage0 = new StageData
         {
-            playerPosition = new Vector2Int(0,0),
+            playerPosition = new Vector2Int(0, -4),
             tilesToPlace = new TilePlacement[]
             {
-            //new TilePlacement { position = new Vector2Int(0, 0), tileType = TileType.Bumper },
-            //new TilePlacement { position = new Vector2Int(1, 1), tileType = TileType.IceWall }
+                new TilePlacement { position = new Vector2Int(-9, 3), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(-8, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(-7, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(-6, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(-5, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(-4, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(-3, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(-2, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(-1, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(-0, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(1, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(2, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(3, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(4, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(5, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(6, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(7, 3), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(7, 4), tileType = TileType.IceWall },
+                new TilePlacement { position = new Vector2Int(8, 2), tileType = TileType.IceWall },
             },
             tilesToClear = new Vector2Int[]
             {
-            //new Vector2Int(2, 2),
-            //new Vector2Int(3, 2)
+                new Vector2Int(-9, 4),
+                new Vector2Int(-9, 2),
+                new Vector2Int(-9, -1),
+                new Vector2Int(-9, -2),
+                new Vector2Int(-9, -5),
+                new Vector2Int(-5, -5),
+                new Vector2Int(-4, -5),
+                new Vector2Int(3, -5),
+                new Vector2Int(4, -5),
+                new Vector2Int(8, -5),
+                new Vector2Int(8, -1),
+                new Vector2Int(8, 0),
+                new Vector2Int(8, 3),
+                new Vector2Int(8, 4)
             },
             monsterSpawnPositions = new MonsterPlacement[]
             {
-            //new MonsterPlacement {position = new Vector2Int(0, 0), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-            //new MonsterPlacement {position = new Vector2Int(1, 1), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
-            //new MonsterPlacement {position = new Vector2Int(2, 2), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
-            //new MonsterPlacement {position = new Vector2Int(3, 3), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
-            new MonsterPlacement {position = new Vector2Int(4, 4), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+            new MonsterPlacement {position = new Vector2Int(-4, -2), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+            new MonsterPlacement {position = new Vector2Int(0, 1), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+            new MonsterPlacement {position = new Vector2Int(4, -2), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
             }
         };
         stages.Add(stage0);
@@ -100,21 +136,28 @@ public class GameManager : MonoBehaviour
         // Stage 1
         StageData stage1 = new StageData
         {
-            playerPosition = new Vector2Int(4,4),
+            playerPosition = new Vector2Int(-7, -3),
             tilesToPlace = new TilePlacement[]
             {
-            //new TilePlacement { position = new Vector2Int(2, 0), tileType = TileType.IceFloor },
-            //new TilePlacement { position = new Vector2Int(2, 1), tileType = TileType.IceFloor},
-            //new TilePlacement { position = new Vector2Int(2, 2), tileType = TileType.IceFloor}
+
             },
             tilesToClear = new Vector2Int[]
             {
-            //new Vector2Int(0, 0)
+                new Vector2Int(-2, 2),
+                new Vector2Int(-1, 3),
+                new Vector2Int(-1, 2),
+                new Vector2Int(-1, 1),
+                new Vector2Int(0, 3),
+                new Vector2Int(0, 2),
+                new Vector2Int(0, 1),
+                new Vector2Int(1, 2),
             },
             monsterSpawnPositions = new MonsterPlacement[]
             {
-                //new MonsterPlacement {position = new Vector2Int(7, 7), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-                //new MonsterPlacement {position = new Vector2Int(8, 8), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(-5, 0), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(-4, -1), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(-3, -2), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(-3, 0), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
             }
         };
         stages.Add(stage1);
@@ -122,38 +165,240 @@ public class GameManager : MonoBehaviour
         // Stage 2
         StageData stage2 = new StageData
         {
-            playerPosition = new Vector2Int(0,2),
+            playerPosition = new Vector2Int(6, -3),
             tilesToPlace = new TilePlacement[]
             {
-            //new TilePlacement { position = new Vector2Int(3, 0), tileType = TileType.IceFloor},
-            //new TilePlacement { position = new Vector2Int(4, 0), tileType = TileType.IceFloor}
+                new TilePlacement { position = new Vector2Int(-3, 3), tileType = TileType.IceWall},
+                new TilePlacement { position = new Vector2Int(-3, 2), tileType = TileType.IceWall},
+                new TilePlacement { position = new Vector2Int(-2, 1), tileType = TileType.IceWall},
+                new TilePlacement { position = new Vector2Int(-1, -2), tileType = TileType.Bumper},
             },
             tilesToClear = new Vector2Int[]
             {
-            //new Vector2Int(1, 1),
-            //new Vector2Int(2, 2)
+               new Vector2Int(-2, 4),
+               new Vector2Int(-2, 3),
+               new Vector2Int(-1, 4),
+               new Vector2Int(-0, 4),
+               new Vector2Int(1, 4),
+               new Vector2Int(1, 3),
+               new Vector2Int(2, 4),
+               new Vector2Int(2, 3),
+               new Vector2Int(3, 4),
+               new Vector2Int(-3, -5),
+               new Vector2Int(-2, -5),
+               new Vector2Int(-2, -4),
+               new Vector2Int(-1, -5),
+               new Vector2Int(-1, -4),
+               new Vector2Int(0, -5),
+               new Vector2Int(0, -4),
+               new Vector2Int(1, -5),
             },
             monsterSpawnPositions = new MonsterPlacement[]
             {
-                //new MonsterPlacement {position = new Vector2Int(10, 5), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-                //new MonsterPlacement {position = new Vector2Int(10, 6), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-                //new MonsterPlacement {position = new Vector2Int(10, 7), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(-5, 0), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
+                new MonsterPlacement {position = new Vector2Int(-5, -1), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
+                new MonsterPlacement {position = new Vector2Int(-5, -2), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
+                new MonsterPlacement {position = new Vector2Int(3, -3), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(3, -1), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(4, 0), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(5, 1), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
             }
         };
         stages.Add(stage2);
+
+        // Stage 3
+        StageData stage3 = new StageData
+        {
+            playerPosition = new Vector2Int(-7, 3),
+            tilesToPlace = new TilePlacement[]
+            {
+                new TilePlacement { position = new Vector2Int(-3, 1), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(-2, 0), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(-1, 0), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(0, 0), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(1, 0), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(-3, -3), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(-2, -3), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(-1, -3), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(0, -3), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(1, -3), tileType = TileType.Bumper},
+                new TilePlacement { position = new Vector2Int(2, 1), tileType = TileType.IceWall},
+                new TilePlacement { position = new Vector2Int(2, -3), tileType = TileType.IceWall},
+                new TilePlacement { position = new Vector2Int(3, 2), tileType = TileType.IceWall},
+                new TilePlacement { position = new Vector2Int(3, 3), tileType = TileType.IceWall},
+                new TilePlacement { position = new Vector2Int(3, -4), tileType = TileType.IceWall},
+                new TilePlacement { position = new Vector2Int(-1, -2), tileType = TileType.IceFloor},
+            },
+            tilesToClear = new Vector2Int[]
+            {
+               new Vector2Int(-1, -2),
+               new Vector2Int(1, 1),
+               new Vector2Int(3, -4),
+            },
+            monsterSpawnPositions = new MonsterPlacement[]
+            {
+                new MonsterPlacement {position = new Vector2Int(5, 1), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(5, -3), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
+            }
+        };
+        stages.Add(stage3);
+        
+        // Stage 4
+        StageData stage4 = new StageData
+        {
+            playerPosition = new Vector2Int(-7,0),
+            tilesToPlace = new TilePlacement[]
+            {
+               new TilePlacement { position = new Vector2Int(-9, 3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-8, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-7, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-6, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-5, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-4, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-3, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-3, 3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-3, 2), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-2, 3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-2, 2), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-1, 2), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(0, 2), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(1, 3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(1, 2), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(2, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(2, 3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(2, 2), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(3, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(3, 3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(3, 2), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(4, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(5, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(6, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(7, 4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(7, 3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(8, 2), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-3, 1), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-2, 1), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-1, 1), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(0, 1), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(1, 1), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(2, 1), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(3, 1), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-2, 0), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-1, 0), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(0, 0), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(1, 0), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-3, -3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-2, -3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-1, -3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(0, -3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(1, -3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(2, -3), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-3, -4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-3, -5), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-2, -4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-2, -5), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-1, -4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(-1, -5), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(0, -4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(0, -5), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(1, -4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(1, -5), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(2, -4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(2, -5), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(3, -4), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(3, -5), tileType = TileType.IceFloor},
+               new TilePlacement { position = new Vector2Int(4, -5), tileType = TileType.IceFloor},
+            },
+            tilesToClear = new Vector2Int[]
+            {
+               new Vector2Int(-9, 3),
+               new Vector2Int(-8, 4),
+               new Vector2Int(-7, 4),
+               new Vector2Int(-6, 4),
+               new Vector2Int(-5, 4),
+               new Vector2Int(-4, 4),
+               new Vector2Int(-3, 4),
+               new Vector2Int(-3, 3),
+               new Vector2Int(-3, 2),
+               new Vector2Int(-2, 3),
+               new Vector2Int(-2, 2),
+               new Vector2Int(-1, 2),
+               new Vector2Int(0, 2),
+               new Vector2Int(1, 3),
+               new Vector2Int(1, 2),
+               new Vector2Int(2, 4),
+               new Vector2Int(2, 3),
+               new Vector2Int(2, 2),
+               new Vector2Int(3, 4),
+               new Vector2Int(3, 3),
+               new Vector2Int(3, 2),
+               new Vector2Int(4, 4),
+               new Vector2Int(5, 4),
+               new Vector2Int(6, 4),
+               new Vector2Int(7, 4),
+               new Vector2Int(7, 3),
+               new Vector2Int(8, 2),
+               new Vector2Int(-3, 1),
+               new Vector2Int(-2, 1),
+               new Vector2Int(-1, 1),
+               new Vector2Int(0, 1),
+               new Vector2Int(1, 1),
+               new Vector2Int(2, 1),
+               new Vector2Int(3, 1),
+               new Vector2Int(-2, 0),
+               new Vector2Int(-1, 0),
+               new Vector2Int(0, 0),
+               new Vector2Int(1, 0),
+               new Vector2Int(-3, -3),
+               new Vector2Int(-2, -3),
+               new Vector2Int(-1, -3),
+               new Vector2Int(0, -3),
+               new Vector2Int(1, -3),
+               new Vector2Int(2, -3),
+               new Vector2Int(-3, -4),
+               new Vector2Int(-3, -5),
+               new Vector2Int(-2, -4),
+               new Vector2Int(-2, -5),
+               new Vector2Int(-1, -4),
+               new Vector2Int(-1, -5),
+               new Vector2Int(0, -4),
+               new Vector2Int(0, -5),
+               new Vector2Int(1, -4),
+               new Vector2Int(1, -5),
+               new Vector2Int(2, -4),
+               new Vector2Int(2, -5),
+               new Vector2Int(3, -4),
+               new Vector2Int(3, -5),
+               new Vector2Int(4, -5),
+            },
+            monsterSpawnPositions = new MonsterPlacement[]
+            {
+                new MonsterPlacement {position = new Vector2Int(2, 1), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(2, -1), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(4, 2), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(4, 0), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(4, -2), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
+                new MonsterPlacement {position = new Vector2Int(0, 1), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
+                new MonsterPlacement {position = new Vector2Int(0, -1), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
+                new MonsterPlacement {position = new Vector2Int(0, -3), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
+                new MonsterPlacement {position = new Vector2Int(6, 1), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
+                new MonsterPlacement {position = new Vector2Int(6, -1), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
+            }
+        };
+        stages.Add(stage4);
     }
 
 
     public void StartStage(int stageIndex)
     {
-        Debug.Log("Kexi");
-        
+        isSpawning = true;
+
         if (!_augmentSelectUI)
         {
             _augmentSelectUI = Instantiate(AugmentSelectUIPrefab, MainCanvas.transform).GetComponent<AugmentSelectUI>();
         }
         _augmentSelectUI.ShowOption();
-        
+
         if (stageIndex < 0 || stageIndex >= stages.Count)
         {
             Debug.LogWarning("스테이지 인덱스 오류");
@@ -165,13 +410,13 @@ public class GameManager : MonoBehaviour
 
         TilemapManager tilemapManager = FindFirstObjectByType<TilemapManager>();
 
-        Player.transform.position = new Vector3((stage.playerPosition.x + 0.5f)*2.3717f, (stage.playerPosition.y + 0.5f)*2.3574f, -1f);
+        Player.transform.position = new Vector3((stage.playerPosition.x + 0.5f) * 2.3717f, (stage.playerPosition.y + 0.5f) * 2.3574f, -1f);
 
         // 타일 제거
         foreach (var pos in stage.tilesToClear)
         {
             tilemapManager.ClearTileAt(pos.x, pos.y);
-        }  
+        }
 
         // 타일 생성
         foreach (var placement in stage.tilesToPlace)
@@ -181,6 +426,8 @@ public class GameManager : MonoBehaviour
 
         // 몬스터 생성
         SpawnMonsters(stage.monsterSpawnPositions);
+
+        isSpawning = false;
     }
 
     private void SpawnMonsters(MonsterPlacement[] placements)
