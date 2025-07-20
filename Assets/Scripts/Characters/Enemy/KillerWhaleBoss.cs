@@ -310,7 +310,7 @@ public class KillerWhaleBoss : EnemyBase
                 Vector2 dir = (target.position - transform.position).normalized;
 
                 // 돌진 시작
-                PlayAnim("Spit");
+                PlayAnim("Dash");
                 SoundManager.Instance.Play(Define.SFX.Dash);
                 rb.linearVelocity = dir * dashForce;
 
