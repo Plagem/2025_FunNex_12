@@ -174,6 +174,7 @@ public class KillerWhaleBoss : EnemyBase
         PlayAnim("Spit");
         for (float angle = 180f; angle <= 360f; angle += localAngleInterval)
         {
+            SoundManager.Instance.Play(Define.SFX.Big_Fire);
             ShootAtAngle(angle);
             yield return new WaitForSeconds(localShootInterval);
         }
@@ -193,6 +194,8 @@ public class KillerWhaleBoss : EnemyBase
 
     private IEnumerator Pattern2()
     {
+        SoundManager.Instance.Play(Define.SFX.Boss_Aqua);
+        
         isShooting = true;
 
         int waveCount = 1;
@@ -308,6 +311,7 @@ public class KillerWhaleBoss : EnemyBase
 
                 // 돌진 시작
                 PlayAnim("Spit");
+                SoundManager.Instance.Play(Define.SFX.Dash);
                 rb.linearVelocity = dir * dashForce;
 
                 yield return new WaitForSeconds(dashDuration);
