@@ -48,27 +48,27 @@ public class CharacterFallCheck : MonoBehaviour
     {
         GameObject obj = parentCollider.gameObject;
 
-        // 애니메이션 (줄어들고 회전)
-        float duration = 1.5f;
+        
         float elapsed = 0f;
 
         Vector3 startScale = parentTransform.localScale;
         Quaternion startRot = parentTransform.rotation;
 
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-
-            parentTransform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
-            parentTransform.Rotate(0, 0, 720f * Time.deltaTime); // 시계방향 회전
-            yield return null;
-        }
-
-        // 낙사 처리
         if (obj.CompareTag("Player"))
         {
+            float duration = 3.0f;
             Debug.Log("플레이어 낙사 → 위치 초기화 + 체력 절반 깎기");
+
+            // 낙사 애니메이션
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+
+                parentTransform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
+                parentTransform.Rotate(0, 0, 720f * Time.deltaTime);
+                yield return null;
+            }
 
             // 렌더러 숨김
             foreach (var r in renderers)
@@ -77,22 +77,22 @@ public class CharacterFallCheck : MonoBehaviour
             // 위치 초기화
             parentTransform.position = new Vector3(0, 0, -1f);
 
+            // 속도 초기화
             Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
             if (rb != null)
                 rb.linearVelocity = Vector2.zero;
 
-            // 체력 절반 감소
+            // 체력 반감
             if (statComponent != null)
             {
                 float currentHP = statComponent.GetCurrentValue(StatType.CurrentHealth);
                 statComponent.ApplyDamage(currentHP * 0.5f);
             }
 
-            // 스케일 초기화
+            // 복원
             parentTransform.localScale = startScale;
             parentTransform.rotation = startRot;
 
-            // 렌더러 다시 보이기
             foreach (var r in renderers)
                 r.enabled = true;
 
@@ -100,16 +100,62 @@ public class CharacterFallCheck : MonoBehaviour
         }
         else
         {
+            float duration = 1.5f;
+            // 마지막 적 여부 판단
+            var allEnemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
+            int aliveCount = 0;
+            foreach (var e in allEnemies)
+            {
+                if (!e.isDead) aliveCount++;
+            }
+            bool isLastEnemy = aliveCount <= 1;
+
+            if (isLastEnemy)
+            {
+                Debug.Log("마지막 적 낙사 → 줌인 연출 실행");
+                var camManager = Camera.main.GetComponent<CameraManager>();
+                if (camManager != null)
+                    yield return StartCoroutine(camManager.FocusRoutine(parentTransform));
+            }
+
+            // Rigidbody 정지 + 물리 반응 차단
+            Rigidbody2D rb = parentCollider.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+                rb.bodyType = RigidbodyType2D.Kinematic;
+            }
+
+            if (obj.TryGetComponent<EnemyBase>(out var enemyBase))
+            {
+                enemyBase.isFalling = true;
+            }
+
+            // 낙사 애니메이션
+            elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+
+                parentTransform.localScale = Vector3.Lerp(startScale, Vector3.zero, t);
+                parentTransform.Rotate(0, 0, 720f * Time.deltaTime);
+                yield return null;
+            }
+
+
+            /*
+            // 제거
             if (obj.TryGetComponent<EnemyBase>(out var enemy))
-            {
                 enemy.Die();
-            }
             else
-            {
-                Destroy(obj);
-            }
+            */
+
+            Destroy(obj);
         }
     }
+
 
     private void ResetFallState()
     {

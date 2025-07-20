@@ -54,7 +54,7 @@ public class KaisaQEffect : BaseEffect
             GameObject proj = Object.Instantiate(_projectilePrefab, spawnPos, Quaternion.identity);
 
             HomingProjectile homing = proj.GetComponent<HomingProjectile>();
-            Transform target = (i < targets.Count) ? targets[i] : null;
+            Transform target = targets[i % targets.Count];
 
             PlayerController pc = _statComponent.GetComponent<PlayerController>();
             homing.Initialize(pc, target, dir);
@@ -68,7 +68,7 @@ public class KaisaQEffect : BaseEffect
 
         foreach (var hit in hits)
         {
-            if (hit.CompareTag("Enemy"))
+            if (hit.CompareTag("Enemy") || hit.CompareTag("Boss"))
             {
                 targetList.Add(hit.transform);
             }

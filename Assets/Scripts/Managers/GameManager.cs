@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
 
     private void InitializeStages()
     {
+
         // Stage 0
         StageData stage0 = new StageData
         {
@@ -144,6 +145,7 @@ public class GameManager : MonoBehaviour
             }
         };
         stages.Add(stage0);
+
 
         // Stage 1
         StageData stage1 = new StageData
@@ -550,8 +552,17 @@ public class GameManager : MonoBehaviour
         StageData stage = stages[stageIndex];
 
         TilemapManager tilemapManager = FindFirstObjectByType<TilemapManager>();
-
         Player.transform.position = new Vector3((stage.playerPosition.x + 0.5f) * 2.3717f, (stage.playerPosition.y + 0.5f) * 2.3574f, -1f);
+
+        CameraManager camManager = FindFirstObjectByType<CameraManager>();
+        if (camManager != null)
+        {
+            if (stageIndex == stages.Count - 1)
+            {
+                camManager.defaultSize = 14f;
+                Camera.main.orthographicSize = 14f;
+            }
+        }
 
         // 타일 제거
         foreach (var pos in stage.tilesToClear)
