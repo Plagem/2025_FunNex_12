@@ -35,7 +35,7 @@ public static class EffectFactory
                 statModify = new ModifyInfo
                 {
                     ModifyType = ModifyType.Add,
-                    Magnitude = statComp.GetCurrentValue(StatType.Weight) * 0.5f,
+                    Magnitude = statComp.GetBaseValue(StatType.Weight) * 0.5f,
                     TargetStat = StatType.Weight
                 };
                 effect = new StatPassive(statComp, statModify);
@@ -44,7 +44,7 @@ public static class EffectFactory
                 statModify = new ModifyInfo
                 {
                     ModifyType = ModifyType.Add,
-                    Magnitude = statComp.GetCurrentValue(StatType.MaxHealth) * 0.2f,
+                    Magnitude = statComp.GetBaseValue(StatType.MaxHealth) * 0.3f,
                     TargetStat = StatType.MaxHealth
                 };
                 effect = new StatPassive(statComp, statModify);
