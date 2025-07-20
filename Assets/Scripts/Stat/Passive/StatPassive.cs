@@ -19,7 +19,7 @@ public class StatPassive : BasePassive
             {
                 ModifyType = modifyInfo.ModifyType,
                 Magnitude = modifyInfo.Magnitude,
-                TargetStat = modifyInfo.TargetStat
+                TargetStat = StatType.CurrentHealth
             };
             ModifyInfos.Add(currentHealthModify);
         }
