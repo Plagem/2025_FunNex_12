@@ -50,20 +50,20 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public IEnumerator FocusRoutine(Transform enemy)
+    public IEnumerator FocusRoutine(Transform enemy, bool freezeAtEnd = false)
     {
         isFocusing = true;
 
         // 1. 카메라 흔들기
         CameraShake shake = GetComponent<CameraShake>();
         if (shake != null)
-            shake.Shake(0.15f, 0.4f);  // 강도, 지속시간은 조절 가능
+            shake.Shake(0.15f, 0.4f);  // 강도, 지속시간 조절 가능
 
         yield return new WaitForSecondsRealtime(0.15f);  // 흔들림 대기
 
         // 2. 시간 느리게
-        Time.timeScale = 0.2f;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;  // 물리 업데이트도 맞춰줌
+        Time.timeScale = 0.4f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
 
         // 3. 줌인 & 이동
         float t = 0f;
@@ -75,7 +75,7 @@ public class CameraManager : MonoBehaviour
 
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime / 0.5f;  // Time.timeScale 영향 안 받게
+            t += Time.unscaledDeltaTime / 0.5f;
             transform.position = Vector3.Lerp(startPos, targetPos, t);
             cam.orthographicSize = Mathf.Lerp(startSize, zoomedSize, t);
             yield return null;
@@ -84,25 +84,22 @@ public class CameraManager : MonoBehaviour
         // 4. 느린 상태 유지
         yield return new WaitForSecondsRealtime(focusDuration);
 
+        if (freezeAtEnd)
+        {
+            // ❗시간 완전히 정지하고 끝냄 (복구 없음)
+            Time.timeScale = 0f;
+            isFocusing = false;
+            yield break;
+        }
+
         // 5. 시간 복구
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
 
-        // 6. 줌아웃 & 복귀
-        t = 0f;
-        Vector3 backPos = defaultTarget.position;
-        backPos.z = startPos.z;
-
-        while (t < 1f)
-        {
-            t += Time.deltaTime / 0.5f;
-            transform.position = Vector3.Lerp(targetPos, backPos, t);
-            cam.orthographicSize = Mathf.Lerp(zoomedSize, defaultSize, t);
-            yield return null;
-        }
-
+        // 6. 줌아웃 제거 – LateUpdate에서 자연스럽게 따라감
         isFocusing = false;
     }
+
 
     public void ShowDragPreview(Vector3 dragOffset)
     {

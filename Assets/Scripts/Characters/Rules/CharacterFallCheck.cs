@@ -48,7 +48,7 @@ public class CharacterFallCheck : MonoBehaviour
     {
         GameObject obj = parentCollider.gameObject;
 
-        float duration = 1.5f;
+        
         float elapsed = 0f;
 
         Vector3 startScale = parentTransform.localScale;
@@ -56,6 +56,7 @@ public class CharacterFallCheck : MonoBehaviour
 
         if (obj.CompareTag("Player"))
         {
+            float duration = 3.0f;
             Debug.Log("플레이어 낙사 → 위치 초기화 + 체력 절반 깎기");
 
             // 낙사 애니메이션
@@ -99,6 +100,7 @@ public class CharacterFallCheck : MonoBehaviour
         }
         else
         {
+            float duration = 1.5f;
             // 마지막 적 여부 판단
             var allEnemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
             int aliveCount = 0;
@@ -143,11 +145,14 @@ public class CharacterFallCheck : MonoBehaviour
             }
 
 
+            /*
             // 제거
             if (obj.TryGetComponent<EnemyBase>(out var enemy))
                 enemy.Die();
             else
-                Destroy(obj);
+            */
+
+            Destroy(obj);
         }
     }
 
