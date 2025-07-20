@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - eStatType: 0
-    value: 150
+    value: 100
   - eStatType: 1
-    value: 150
+    value: 100
   - eStatType: 2
     value: 7
   - eStatType: 4

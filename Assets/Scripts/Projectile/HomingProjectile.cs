@@ -69,7 +69,7 @@ public class HomingProjectile : MonoBehaviour
             BaseStatComponent targetStat = _target.GetComponent<BaseStatComponent>();
             if (targetStat && ownerStat)
             {
-                targetStat.ApplyDamage(ownerStat.GetFinalDamage() * 0.2f);
+                targetStat.ApplyDamage(ownerStat.GetFinalDamage() * 0.3f);
             }
             Destroy(gameObject);
         }
