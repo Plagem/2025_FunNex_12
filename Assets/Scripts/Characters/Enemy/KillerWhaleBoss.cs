@@ -364,13 +364,14 @@ public class KillerWhaleBoss : EnemyBase
     private IEnumerator Pattern4()
     {
         isShooting = true;
-        transform.position = new Vector3(0f, 13.5f, -1f);
+        Show();
 
         if (!phase3)  // Phase 1,2 에서는 등장/퇴장 연출 있음
         {
+            transform.position = new Vector3(0f, 13.5f, -1f);
+
             PlayAnim("Rise");
             yield return new WaitForSeconds(0.5f);
-            Show();
 
             PlayAnim("Spit");
 
