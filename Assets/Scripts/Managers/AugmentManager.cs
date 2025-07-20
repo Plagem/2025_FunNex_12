@@ -35,7 +35,7 @@ public static class EffectFactory
                 statModify = new ModifyInfo
                 {
                     ModifyType = ModifyType.Add,
-                    Magnitude = statComp.GetBaseValue(StatType.Weight) * 0.15f,
+                    Magnitude = statComp.GetCurrentValue(StatType.Weight) * 0.5f,
                     TargetStat = StatType.Weight
                 };
                 effect = new StatPassive(statComp, statModify);
@@ -44,7 +44,7 @@ public static class EffectFactory
                 statModify = new ModifyInfo
                 {
                     ModifyType = ModifyType.Add,
-                    Magnitude = statComp.GetBaseValue(StatType.MaxHealth) * 0.1f,
+                    Magnitude = statComp.GetCurrentValue(StatType.MaxHealth) * 0.2f,
                     TargetStat = StatType.MaxHealth
                 };
                 effect = new StatPassive(statComp, statModify);
@@ -53,7 +53,7 @@ public static class EffectFactory
                 statModify = new ModifyInfo
                 {
                     ModifyType = ModifyType.Add,
-                    Magnitude = statComp.GetBaseValue(StatType.Size) * 0.1f,
+                    Magnitude = statComp.GetBaseValue(StatType.Size) * 0.3f,
                     TargetStat = StatType.Size
                 };
                 effect = new StatPassive(statComp, statModify);
@@ -62,7 +62,7 @@ public static class EffectFactory
                 statModify = new ModifyInfo
                 {
                     ModifyType = ModifyType.Add,
-                    Magnitude = statComp.GetBaseValue(StatType.InitialSpeed) * 0.1f,
+                    Magnitude = statComp.GetBaseValue(StatType.InitialSpeed) * 0.2f,
                     TargetStat = StatType.InitialSpeed
                 };
                 effect = new StatPassive(statComp, statModify);
@@ -71,7 +71,7 @@ public static class EffectFactory
                 statModify = new ModifyInfo
                 {
                     ModifyType = ModifyType.Add,
-                    Magnitude = statComp.GetBaseValue(StatType.AttackPower) * 0.1f,
+                    Magnitude = statComp.GetBaseValue(StatType.AttackPower) * 0.2f,
                     TargetStat = StatType.AttackPower
                 };
                 effect = new StatPassive(statComp, statModify);

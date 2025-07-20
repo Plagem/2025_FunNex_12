@@ -70,7 +70,6 @@ public class HomingProjectile : MonoBehaviour
             if (targetStat && ownerStat)
             {
                 targetStat.ApplyDamage(ownerStat.GetFinalDamage() * 0.2f);
-                targetStat.GetComponent<Rigidbody2D>().AddForce(transform.right * 5f, ForceMode2D.Impulse);
             }
             Destroy(gameObject);
         }

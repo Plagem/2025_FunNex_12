@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tl: {fileID: 4593574564650597148}
-  forceMultiplier: 5
+  forceMultiplier: 9
 --- !u!114 &5282238282687531153
 MonoBehaviour:
   m_ObjectHideFlags: 0

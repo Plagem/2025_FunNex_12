@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private int _attackCombo = 0;
 
     public TrajectoryLine tl;
-    public float forceMultiplier = 5f;
+    public float forceMultiplier = 10f;
 
     public BaseStatComponent GetStatComponent()
     {
@@ -70,7 +70,9 @@ public class PlayerController : MonoBehaviour
             Vector3 currentPoint = Camera.main.ScreenToWorldPoint(mouse);
             currentPoint.z = 0f;
             startMousePos.z = 0f;
-            tl.RenderLine(startMousePos, currentPoint);
+            Vector3 dir = (currentPoint - startMousePos).normalized;
+            float dist = Mathf.Clamp((currentPoint - startMousePos).magnitude, 0f, 5f);
+            tl.RenderLine(transform.position, transform.position + dir * dist);
 
             Vector3 dragOffset = startMousePos - currentPoint;
             cameraManager?.ShowDragPreview(dragOffset);
@@ -82,12 +84,12 @@ public class PlayerController : MonoBehaviour
             endMousePos = Camera.main.ScreenToWorldPoint(mouse);
             endMousePos.z = 0f;
 
-            Vector2 direction = (startMousePos - endMousePos);
-            float distance = direction.magnitude;
+            Vector2 direction = startMousePos - endMousePos;
+            float distance = Mathf.Clamp(direction.magnitude, 0.3f, 5f);
             direction.Normalize();
 
             rb.linearVelocity = Vector2.zero;
-            rb.AddForce(direction * distance * forceMultiplier * _statComponent.GetCurrentValue(StatType.Weight), ForceMode2D.Impulse);
+            rb.AddForce(direction * distance * forceMultiplier * _statComponent.GetCurrentValue(StatType.Weight) * _statComponent.GetCurrentValue(StatType.InitialSpeed), ForceMode2D.Impulse);
 
             float torque = distance * 0.1f * forceMultiplier;
             rb.AddTorque(torque, ForceMode2D.Impulse);
@@ -118,7 +120,7 @@ public class PlayerController : MonoBehaviour
                 float baseDamage = _statComponent.GetCurrentValue(StatType.AttackPower);
 
                 // 1. 속도 기반 배수 (speed: 1 → 0.5배, 10+ → 2배)
-                float speedMultiplier = Mathf.Lerp(0.5f, 2f, Mathf.InverseLerp(1f, 10f, speed));
+                float speedMultiplier = Mathf.Lerp(0.5f, 1.5f, Mathf.InverseLerp(1f, 10f, speed));
 
                 // 2. 질량 기반 배수 (mass: 1 → 1배, 5+ → 2배)
                 float mass = rb.mass;
