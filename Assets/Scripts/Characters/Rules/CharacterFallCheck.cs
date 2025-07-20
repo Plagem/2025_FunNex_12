@@ -56,6 +56,10 @@ public class CharacterFallCheck : MonoBehaviour
 
         if (obj.CompareTag("Player"))
         {
+            var playerController = obj.GetComponent<PlayerController>();
+            if (playerController != null)
+                playerController.isFalling = true;
+
             float duration = 3.0f;
             Debug.Log("플레이어 낙사 → 위치 초기화 + 체력 절반 깎기");
 
@@ -95,6 +99,9 @@ public class CharacterFallCheck : MonoBehaviour
 
             foreach (var r in renderers)
                 r.enabled = true;
+
+            if (playerController != null)
+                playerController.isFalling = false;
 
             ResetFallState();
         }
