@@ -245,9 +245,12 @@ public class KillerWhaleBoss : EnemyBase
         isShooting = false;
     }
 
-
+    public GameObject InfoBoxPrefab;
+    
     private IEnumerator SpawnUrchinsAlongWave(float x, int count)
     {
+        
+        
         float startY = 13.5f;
         float endY = -5f;
 
