@@ -2325,12 +2325,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea896598282b2f8499dbcf0ba3667c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  successImg: {fileID: 0}
+  failImg: {fileID: 0}
+  exitBtn: {fileID: 0}
   AugmentSelectUIPrefab: {fileID: 0}
   monsterPrefabList:
   - {fileID: 971129825145142368, guid: 16c24d6088bbf734991ef3288df8ec53, type: 3}
   TileList:
   - {fileID: 11400000, guid: 3c8e961afc13ae24e8fbc1dc42777f2f, type: 2}
   MainCanvas: {fileID: 1879427992}
+  BossHealthBar: {fileID: 0}
 --- !u!4 &701962538
 Transform:
   m_ObjectHideFlags: 0
