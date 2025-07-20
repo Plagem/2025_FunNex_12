@@ -92,7 +92,6 @@ public class GameManager : MonoBehaviour
 
     private void InitializeStages()
     {
-        /*
         // Stage 0
         StageData stage0 = new StageData
         {
@@ -399,7 +398,7 @@ public class GameManager : MonoBehaviour
             }
         };
         stages.Add(stage4);
-        */
+
         StageData finalStage = new StageData()
         {
             tilesToPlace = new TilePlacement[]

@@ -5,6 +5,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Sprite idleSprite;   // 원래 이미지
+    [SerializeField] private Sprite dashSprite;   // 이동 중 이미지
+
+    private SpriteRenderer spriteRenderer;
+
     public event Action OnPlayerStopped;
     public event Action<int> OnComboTriggered;
     public event Action OnAttackStarted;
@@ -37,6 +42,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tl = GetComponent<TrajectoryLine>();
         cameraManager = Camera.main.GetComponent<CameraManager>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -44,16 +51,24 @@ public class PlayerController : MonoBehaviour
         // 이동 중일 땐 멈췄는지만 체크하고, 아래 코드는 실행 안 함
         if (isMoving)
         {
+            if (spriteRenderer != null)
+                spriteRenderer.sprite = dashSprite;
+
             if (rb.linearVelocity.magnitude < 0.3f)
             {
                 rb.linearVelocity = Vector2.zero;
                 rb.angularVelocity = 0f;
                 isMoving = false;
+
+                if (spriteRenderer != null)
+                    spriteRenderer.sprite = idleSprite;
+
                 OnPlayerStopped?.Invoke();
                 _attackCombo = 0;
             }
             return;
         }
+
 
         // ↓ 발사 입력 처리 부분
         if (Input.GetMouseButtonDown(0))
@@ -97,6 +112,9 @@ public class PlayerController : MonoBehaviour
             tl.EndLine();
             isDragging = false;
             isMoving = true;
+
+            if (spriteRenderer != null)
+                spriteRenderer.sprite = dashSprite;
 
             cameraManager?.ResetToDefaultView();
             SoundManager.Instance.Play(Define.SFX.Dash);
