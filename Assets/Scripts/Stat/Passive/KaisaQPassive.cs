@@ -17,7 +17,7 @@ public class KaisaQPassive : BasePassive
     {
         KaisaQEffect kq = new KaisaQEffect(
             _playerController.transform,
-            4 * SkillLevel,
+            3 * SkillLevel,
             120f,
             0f,
             10f);

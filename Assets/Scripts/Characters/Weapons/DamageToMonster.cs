@@ -13,8 +13,10 @@ public class DamageToMonster : MonoBehaviour
     {
         if (other.CompareTag("Boss"))
         {
-            GameObject repelPrefab = Resources.Load<GameObject>("Prefabs/RepelEffect");
-            Instantiate(repelPrefab, transform.position, Quaternion.identity);
+            GameObject onePrefab = Resources.Load<GameObject>("Prefabs/ShellEffect");
+            Instantiate(onePrefab, transform.position, Quaternion.identity);
+            GameObject twoPrefab = Resources.Load<GameObject>("Prefabs/ShellBreakEffect");
+            Instantiate(twoPrefab, transform.position, Quaternion.identity);
             
             Debug.Log("보스와 충돌하여 데미지를 줌");
 

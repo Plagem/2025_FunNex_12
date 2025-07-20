@@ -649,6 +649,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator ShowInfoBox()
     {
+        Debug.Log("Dfhujwe");
         InfoBox.SetActive(true);
         
         yield return new WaitForSeconds(8.0f);

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6445697778310887504}
   - component: {fileID: 1573612142445838650}
   m_Layer: 0
-  m_Name: ShellEffect
+  m_Name: ShellBreakEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ Animator:
   m_GameObject: {fileID: 7983510437197777283}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a7992f67992743749b018349ae016dc5, type: 2}
+  m_Controller: {fileID: 9100000, guid: d7bf80dc6d1151b47b911f92f5698ce6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
