@@ -2,7 +2,12 @@
 
 public class DamageToMonster : MonoBehaviour
 {
-    public float damage = 50f;
+    public float damage = 150f;
+
+    private void Start()
+    {
+        Destroy(gameObject, 15f); // 15초 후 자동 삭제
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

@@ -7,6 +7,10 @@ public class KillerWhaleBoss : EnemyBase
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
 
+    [SerializeField] private GameObject[] summonedMonsterPrefabs;
+    [SerializeField] private int summonCount = 4;               // 한번에 소환할 수
+    [SerializeField] private float summonRadius = 5f;           // 소환 위치 범위
+
     [Header("Skill Settings")]
     public float projectileDamage = 10f;
     public float angleInterval = 20f;
@@ -46,24 +50,50 @@ public class KillerWhaleBoss : EnemyBase
     {
         while (true)
         {
-            if (!phase3) // Phase 1 또는 2
+            if (phase3) // Phase 3 이상
+            {
+                yield return Pattern3();
+                yield return new WaitForSeconds(skillDelay);
+
+                yield return Pattern4();  // phase3 내 조건은 Pattern4 내부에서 처리
+                yield return new WaitForSeconds(skillDelay);
+            }
+            else // Phase 1 또는 2
             {
                 yield return Pattern1();
                 yield return new WaitForSeconds(skillDelay);
 
                 yield return Pattern2();
                 yield return new WaitForSeconds(skillDelay);
-            }
-            else // Phase 3 이상
-            {
-                yield return Pattern3();
-                yield return new WaitForSeconds(skillDelay);
 
-                yield return Pattern4();
+                yield return Pattern4();  // phase1,2 조건은 Pattern4 내부에서 처리
                 yield return new WaitForSeconds(skillDelay);
             }
         }
     }
+
+
+    private void SummonAtAngle(float angle)
+    {
+        float rad = angle * Mathf.Deg2Rad;
+        Vector2 offset = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * summonRadius;
+        Vector3 spawnPos = firePoint.position + (Vector3)offset;
+
+        SummonMonsterAt(spawnPos);
+    }
+
+    private void SummonMonsterAt(Vector3 position)
+    {
+        if (summonedMonsterPrefabs == null || summonedMonsterPrefabs.Length == 0)
+        {
+            Debug.LogWarning("소환할 몬스터 프리팹이 없습니다.");
+            return;
+        }
+
+        GameObject prefabToSummon = summonedMonsterPrefabs[Random.Range(0, summonedMonsterPrefabs.Length)];
+        Instantiate(prefabToSummon, position, Quaternion.identity);
+    }
+
 
     public void CheckPhaseTransition(float currentHealth, float maxHealth)
     {
@@ -281,8 +311,6 @@ public class KillerWhaleBoss : EnemyBase
         isShooting = false;
     }
 
-
-
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -315,30 +343,70 @@ public class KillerWhaleBoss : EnemyBase
         }
     }
 
-
-
     private IEnumerator Pattern4()
     {
         isShooting = true;
+        transform.position = new Vector3(0f, 13.5f, -1f);
 
-        PlayAnim("Rise");
-        yield return new WaitForSeconds(0.5f);
-        Show();
-
-        PlayAnim("Spit");
-        for (float angle = 0; angle < 360f; angle += angleInterval / 2f)
+        if (!phase3)  // Phase 1,2 에서는 등장/퇴장 연출 있음
         {
-            ShootAtAngle(angle);
+            PlayAnim("Rise");
+            yield return new WaitForSeconds(0.5f);
+            Show();
+
+            PlayAnim("Spit");
+
+            yield return StartCoroutine(SummonEnemiesInWaves());
+
+            yield return new WaitForSeconds(1f);
+
+            PlayAnim("Dive");
+            yield return new WaitForSeconds(0.5f);
+            Hide();
         }
+        else  // Phase 3에서는 등장/퇴장 없이 바로 소환
+        {
+            PlayAnim("Spit");
 
-        yield return new WaitForSeconds(shootInterval * 2f);
+            yield return StartCoroutine(SummonEnemiesInWaves());
 
-        PlayAnim("Dive");
-        yield return new WaitForSeconds(0.5f);
-        Hide();
+            yield return new WaitForSeconds(1f);
+        }
 
         isShooting = false;
     }
+
+    private IEnumerator SummonEnemiesInWaves()
+    {
+        int maxExistingCount = 3;
+        if (phase2) maxExistingCount = 4;
+        if (phase3) maxExistingCount = 5;
+
+        int totalSummon = maxExistingCount; // 소환 시도 수도 제한
+        int summonPerWave = 2;
+        float waveDelay = 4f;
+
+        float startAngle = 200f;
+        float endAngle = 340f;
+
+        for (int i = 0; i < totalSummon; i++)
+        {
+            // 현재 존재하는 소환몹 수 확인
+            int currentSummons = GameObject.FindGameObjectsWithTag("Enemy").Length;
+            if (currentSummons >= maxExistingCount)
+            {
+                Debug.Log("현재 최대 몬스터 수 도달: 소환 스킵");
+                break;
+            }
+
+            float angle = Random.Range(startAngle, endAngle);
+            SummonAtAngle(angle);
+
+            if ((i + 1) % summonPerWave == 0 && (i + 1) < totalSummon)
+                yield return new WaitForSeconds(waveDelay);
+        }
+    }
+
 
 
     private void Show()
