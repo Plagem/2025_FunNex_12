@@ -11,6 +11,7 @@ public class Define
         BGM_Main,
         BGM_Story,
         BGM_Ingame,
+        BGM_Boss,
         MaxCount
     }
     public enum SFX

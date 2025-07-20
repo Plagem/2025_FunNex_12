@@ -425,8 +425,13 @@ public class GameManager : MonoBehaviour
         if (!_augmentSelectUI)
         {
             _augmentSelectUI = Instantiate(AugmentSelectUIPrefab, MainCanvas.transform).GetComponent<AugmentSelectUI>();
+            _augmentSelectUI.gameObject.SetActive(false);
         }
-        _augmentSelectUI.ShowOption();
+
+        if (stageIndex != 0)
+        {
+            _augmentSelectUI.ShowOption();
+        }
 
         if (stageIndex < 0 || stageIndex >= stages.Count)
         {
@@ -485,6 +490,7 @@ public class GameManager : MonoBehaviour
     
     private void StartBossCombat(GameObject boss)
     {
+        SoundManager.Instance.Play(Define.BGM.BGM_Boss);
         BossHealthBar.gameObject.SetActive(true);
         BossHealthBar.BossCombatStart();
     }
@@ -510,6 +516,7 @@ public class GameManager : MonoBehaviour
 
     public void OnGameWin()
     {
+        SoundManager.Instance.Play(Define.SFX.Success);
         Debug.Log("축하합니다! 게임을 클리어했습니다.");
         successImg.SetActive(true);
         exitBtn.SetActive(true);
