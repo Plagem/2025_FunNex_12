@@ -121,6 +121,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: {fileID: 2655275392523341077}
   target: {fileID: 0}
+  isDead: 0
+  isFalling: 0
   dashForce: 20
   dashInterval: 3
   dashDuration: 0.2

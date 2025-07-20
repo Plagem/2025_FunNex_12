@@ -52,8 +52,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: {fileID: 4610456678095549281}
   target: {fileID: 0}
+  isDead: 0
+  isFalling: 0
   projectilePrefab: {fileID: 3873077660511310936, guid: 0e71aadc67ffb7b4abc92481443ff45e, type: 3}
   firePoint: {fileID: 5960634795454048701}
+  summonedMonsterPrefabs:
+  - {fileID: 2464057774123735027, guid: f03afae008f9abb498dc75daafb946e6, type: 3}
+  - {fileID: 2464057774123735027, guid: f3fe2e4c9ad63c74a8459370806e5212, type: 3}
+  - {fileID: 2935456962863156603, guid: d1113ae706550b64897ebf338e1f9bef, type: 3}
+  summonCount: 4
+  summonRadius: 5
   projectileDamage: 10
   angleInterval: 20
   shootInterval: 0.7
