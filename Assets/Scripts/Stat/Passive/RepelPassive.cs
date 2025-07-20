@@ -14,7 +14,10 @@ public class RepelPassive : BasePassive
     {
         if (combo == 1)
         {
-            RepelEffect repelEffect = new RepelEffect(_playerController.GetStatComponent().GetCurrentValue(StatType.AttackPower), 3f, SkillLevel);
+            RepelEffect repelEffect = new RepelEffect(
+                _playerController.GetStatComponent().GetCurrentValue(StatType.AttackPower), 
+                (3 + SkillLevel), 
+                SkillLevel);
             _statComponent.ApplyEffect(repelEffect);
         }
     }
