@@ -230,6 +230,13 @@ public class BaseStatComponent : MonoBehaviour
             GetComponent<Rigidbody2D>().mass = data.CurrentValue;
         }
 
+        if (statType == StatType.Size)
+        {
+            float CurrentSize = GetCurrentValue(StatType.Size);
+            GetComponent<Transform>().localScale = new Vector3(CurrentSize, CurrentSize, CurrentSize);
+            Debug.Log($"Cur size : {CurrentSize}");
+        }
+
         if (statType == StatType.CurrentHealth && GetCurrentValue(StatType.CurrentHealth) <= 0)
         {
             if (CompareTag("Player"))

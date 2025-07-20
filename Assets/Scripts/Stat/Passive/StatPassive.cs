@@ -13,5 +13,16 @@ public class StatPassive : BasePassive
             TargetStat = modifyInfo.TargetStat
         };
         ModifyInfos.Add(tempModify);
+        if (modifyInfo.TargetStat == StatType.MaxHealth)
+        {
+            ModifyInfo currentHealthModify = new ModifyInfo
+            {
+                ModifyType = modifyInfo.ModifyType,
+                Magnitude = modifyInfo.Magnitude,
+                TargetStat = modifyInfo.TargetStat
+            };
+            ModifyInfos.Add(currentHealthModify);
+        }
+        
     }
 }
