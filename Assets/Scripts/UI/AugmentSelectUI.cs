@@ -45,6 +45,7 @@ public class AugmentSelectUI : MonoBehaviour
 
     private void AugmentSelected(AugmentType augmentType)
     {
+        SoundManager.Instance.Play(Define.SFX.Oct_Fire);
         Debug.Log("«ÿ¡¶");
         Time.timeScale = 1f;
 

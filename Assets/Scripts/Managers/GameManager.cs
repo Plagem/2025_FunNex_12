@@ -842,6 +842,7 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerLose()
     {
+        SoundManager.Instance.Play(Define.SFX.Stage_Failed);
         Debug.Log("패배!");
         failImg.SetActive(true);
         exitBtn.SetActive(true);
