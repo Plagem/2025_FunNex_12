@@ -26,6 +26,11 @@ public class DashEnemy : EnemyBase
     {
         if (target == null) return;
 
+        // 플레이어가 낙사 중이면 대시하지 않음
+        var player = target.GetComponent<PlayerController>();
+        if (player != null && player.isFalling)
+            return;
+
         dashDirection = (target.position - transform.position).normalized;
         rb.linearVelocity = dashDirection * dashForce;
         isDashing = true;
@@ -33,6 +38,7 @@ public class DashEnemy : EnemyBase
 
         Invoke(nameof(EndDash), dashDuration);
     }
+
 
     void EndDash()
     {

@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isDragging = false;
     private bool isMoving = false;
+    public bool isFalling = false;
     private CameraManager cameraManager;
 
     private BaseStatComponent _statComponent;

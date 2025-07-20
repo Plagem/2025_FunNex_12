@@ -54,15 +54,23 @@ public class EnemyShooter : EnemyBase
     {
         if (target == null) return;
 
+        // 플레이어가 낙사 중이면 추적 안 함
+        var player = target.GetComponent<PlayerController>();
+        if (player != null && player.isFalling)
+        {
+            SetWalking(false);
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         FaceTarget();
 
         Vector2 direction = (target.position - transform.position).normalized;
-
-        // 힘을 통해 이동
         rb.AddForce(direction * moveForce, ForceMode2D.Force);
 
         SetWalking(true);
     }
+
 
     IEnumerator ShootSequence()
     {

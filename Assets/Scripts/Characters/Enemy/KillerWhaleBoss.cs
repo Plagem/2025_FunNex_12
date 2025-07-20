@@ -269,6 +269,12 @@ public class KillerWhaleBoss : EnemyBase
     private bool isCharging = false;
     private bool hasHitPlayerThisCharge = false;
 
+    private bool PlayerIsFalling()
+    {
+        var player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
+        return player != null && player.isFalling;
+    }
+
     private IEnumerator Pattern3()
     {
         Show();
@@ -290,6 +296,15 @@ public class KillerWhaleBoss : EnemyBase
             if (target == null)
                 target = GameObject.FindGameObjectWithTag("Player")?.transform;
 
+            // 🔹 낙사 체크
+            if (PlayerIsFalling())
+            {
+                Debug.Log("플레이어 낙사 중 - 돌진 중단");
+                rb.linearVelocity = Vector2.zero;
+                isCharging = false;
+                break;
+            }
+
             if (target != null)
             {
                 Vector2 dir = (target.position - transform.position).normalized;
@@ -302,8 +317,6 @@ public class KillerWhaleBoss : EnemyBase
                 yield return new WaitForSeconds(dashDuration);
 
                 rb.linearVelocity = Vector2.zero;
-
-                // 대기
                 PlayAnim("Idle");
             }
 
@@ -314,6 +327,7 @@ public class KillerWhaleBoss : EnemyBase
         yield return new WaitForSeconds(5f);
         isShooting = false;
     }
+
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {

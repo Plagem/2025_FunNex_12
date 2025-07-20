@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     private void InitializeStages()
     {
+
         // Stage 0
         StageData stage0 = new StageData
         {
@@ -625,62 +626,6 @@ public class GameManager : MonoBehaviour
             }
         };
         stages.Add(stage6);
-
-
-
-        /*
-        StageData stage5 = new StageData
-        {
-            playerPosition = new Vector2Int(-6, -1),
-            tilesToPlace = new TilePlacement[]
-            {
-                new TilePlacement { position = new Vector2Int(-2, 5), tileType = TileType.Bumper},
-            },
-            tilesToClear = new Vector2Int[]
-            {
-                new Vector2Int(-2, 5),
-                new Vector2Int(-1, 5),
-                new Vector2Int(0, 5), 
-                new Vector2Int(1, 5), 
-                new Vector2Int(-9, -3),
-                new Vector2Int(-9, -4),
-                new Vector2Int(-8, -4),
-                new Vector2Int(-8, -5),
-                new Vector2Int(-7, -5),
-                new Vector2Int(-3, -5),
-                new Vector2Int(-2, -5),
-                new Vector2Int(1, -5),
-                new Vector2Int(2, -5),
-                new Vector2Int(7, -5),
-                new Vector2Int(8, -4),
-                new Vector2Int(8, -3),
-            },
-            monsterSpawnPositions = new MonsterPlacement[]
-            {
-                new MonsterPlacement {position = new Vector2Int(-6, 2), monster = monsterPrefabList[(int)enemyType.ShieldBreaker]},
-                new MonsterPlacement {position = new Vector2Int(-3, -1), monster = monsterPrefabList[(int)enemyType.ShieldBreaker]},
-
-                new MonsterPlacement {position = new Vector2Int(-6, 6), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-                new MonsterPlacement {position = new Vector2Int(-6, 7), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
-                new MonsterPlacement {position = new Vector2Int(-6, 8), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
-                
-                new MonsterPlacement {position = new Vector2Int(1, -1), monster = monsterPrefabList[(int)enemyType.DashEnemy_small]},
-                new MonsterPlacement {position = new Vector2Int(2, -1), monster = monsterPrefabList[(int)enemyType.DashEnemy_Big]},
-                new MonsterPlacement {position = new Vector2Int(3, -1), monster = monsterPrefabList[(int)enemyType.ShootEnemy]},
-            }
-        };
-
-        for (int i = 5; i <= 14; i++)
-        {
-            for (int j = -9; j <= 8; j++)
-            {
-                stage5.tilesToPlace.Append(new TilePlacement { position = new Vector2Int(-i, j), tileType = TileType.IceFloor});
-            }
-        }
-        stages.Add(stage5);
-        */
-
-
 
         StageData finalStage = new StageData()
         {
