@@ -229,6 +229,7 @@ public class KillerWhaleBoss : EnemyBase
             if (rb != null)
                 rb.linearVelocity = Vector2.down * waveSpeed;
 
+            StartCoroutine(GameManager.instance.ShowInfoBox());
             // 🟣 성게 뿌리기 (wave 지나간 위치에)
             StartCoroutine(SpawnUrchinsAlongWave(randomX, 1 + Random.Range(0, 2))); // 1 or 2개
 
@@ -244,13 +245,9 @@ public class KillerWhaleBoss : EnemyBase
         Hide();
         isShooting = false;
     }
-
-    public GameObject InfoBoxPrefab;
     
     private IEnumerator SpawnUrchinsAlongWave(float x, int count)
     {
-        
-        
         float startY = 13.5f;
         float endY = -5f;
 

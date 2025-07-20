@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
@@ -416,8 +417,18 @@ public class GameManager : MonoBehaviour
         };
         stages.Add(finalStage);
     }
+    
+    public GameObject InfoBox;
 
-
+    public IEnumerator ShowInfoBox()
+    {
+        InfoBox.SetActive(true);
+        
+        yield return new WaitForSeconds(8.0f);
+        
+        InfoBox.SetActive(false);
+    }
+    
     public void StartStage(int stageIndex)
     {
         isSpawning = true;

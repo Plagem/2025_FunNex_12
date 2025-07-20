@@ -73,6 +73,7 @@ MonoBehaviour:
   waveSpeed: 8
   urchinPrefab: {fileID: 3585996397089391815, guid: b9f823f05e14ce647b2daf1ed1680807, type: 3}
   urchinSpawnDelay: 0.5
+  InfoBoxPrefab: {fileID: 3430747168167157877, guid: 9a49ef4650bc5d646b5668fba9478ff4, type: 3}
 --- !u!114 &4610456678095549281
 MonoBehaviour:
   m_ObjectHideFlags: 0
