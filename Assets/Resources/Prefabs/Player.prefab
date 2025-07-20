@@ -107,6 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a43e347bd605eb847ad2f115e23d0bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idleSprite: {fileID: -2311659948842064771, guid: 42d80cbfe1207d443a0f1fd003cc3f22, type: 3}
+  dashSprite: {fileID: 1576138807904475161, guid: 934a99e16b555d64a9eb2701342be7fe, type: 3}
   tl: {fileID: 4593574564650597148}
   forceMultiplier: 9
 --- !u!114 &5282238282687531153
