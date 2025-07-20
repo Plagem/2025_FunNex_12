@@ -13,6 +13,9 @@ public class DamageToMonster : MonoBehaviour
     {
         if (other.CompareTag("Boss"))
         {
+            GameObject repelPrefab = Resources.Load<GameObject>("Prefabs/RepelEffect");
+            Instantiate(repelPrefab, transform.position, Quaternion.identity);
+            
             Debug.Log("보스와 충돌하여 데미지를 줌");
 
             BaseStatComponent bossStat = other.GetComponent<BaseStatComponent>();
